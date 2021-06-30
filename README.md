@@ -23,41 +23,19 @@ When updating, check the release notes to see if there are any changes you might
 to your `app` folder. The affected files can be copied or merged from
 `vendor/codeigniter4/framework/app`.
 
-## Setup
+# Prakerin
+OPEN SOURCE SISTEM INFORMASI PRAKERIN DENGAN FRAMEWORK CI 4 <br>
+SISTEM INI BELUM SELESAI, MASIH DALAM TAHAP DEVELOPMENT <br>
+LISENSI OPEN SOURCE JANGAN DIPERJUAL BELIKAN TANPA SEIZIN DEVELOPER <br>
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+# Terdiri dari 3 User diantaranya
+1. Guru Pembimbing
+2. Administrator
+3. Siswa
 
-## Important Change with index.php
+# Relational Database System
+![prakerin](https://user-images.githubusercontent.com/61740978/123885475-bff87980-d977-11eb-8187-53222b2e0d0e.png)
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
-
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
-
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use Github issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 7.3 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
-- xml (enabled by default - don't turn it off)
+# Tampilan Aplikasi
+![Capture](https://user-images.githubusercontent.com/61740978/123885730-3b5a2b00-d978-11eb-836c-3f5962ccf142.PNG)
+![Capture](https://user-images.githubusercontent.com/61740978/123885996-b91e3680-d978-11eb-99d7-56941d84e926.PNG)
