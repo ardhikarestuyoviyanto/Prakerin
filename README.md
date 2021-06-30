@@ -1,7 +1,7 @@
 # Prakerin
-OPEN SOURCE SISTEM INFORMASI PRAKERIN DENGAN FRAMEWORK CI 4 <br>
-SISTEM INI BELUM SELESAI, MASIH DALAM TAHAP DEVELOPMENT <br>
-LISENSI OPEN SOURCE JANGAN DIPERJUAL BELIKAN TANPA SEIZIN DEVELOPER <br>
+Sistem Informasi Prakerin <br>
+Sistem Ini Belum Selesai, Masih dalam tahap Devlopment <br>
+Lisensi Open Source Jangan diperjualbelikan tanpa seizin Developer <br>
 
 # Terdiri dari 3 User diantaranya
 1. Guru Pembimbing
