@@ -309,6 +309,87 @@
                 </ul>
             </li>
 
+            <?php if($sidebar == "Lap Data Siswa" || $sidebar == "Lap Data Pembimbing" || $sidebar == "Lap Data Penempatan" || $sidebar == "Lap Nilai Per Siswa" || $sidebar == "Lap Nilai Per Kelas"){ ?>
+            <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+            <?php }else{ ?>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+            <?php } ?>
+                <i class="nav-icon fas fa-file-export"></i>
+                <p>
+                Laporan
+                <i class="right fas fa-angle-left"></i>
+                </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Lap Data Siswa"){ ?>
+                        <a href="<?php echo base_url('admin/lapsiswa') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/lapsiswa') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Lap Data Siswa</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Lap Data Pembimbing"){ ?>
+                        <a href="<?php echo base_url('admin/kategoriagenda') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/kategoriagenda') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Lap Data Pembimbing</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Lap Data Penempatan"){ ?>
+                        <a href="<?php echo base_url('admin/kategoriagenda') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/kategoriagenda') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Lap Data Penempatan</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Lap Nilai Per Siswa"){ ?>
+                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Lap Nilai Per Siswa</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Lap Nilai Per Kelas"){ ?>
+                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Lap Nilai Per Kelas</p>
+                    </a>
+                    </li>
+                </ul>
+
+            </li>
+
             <li class="nav-item active">
                 <?php if($sidebar == "Chatting"){ ?>
                 <a href="<?= base_url('admin/chat'); ?>" class="nav-link active">

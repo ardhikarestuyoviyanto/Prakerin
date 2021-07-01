@@ -1630,13 +1630,92 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Chatting', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Chatting', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        $data = array(
-            'kontak' => $this->ModelsAdmin->getGuru()->getResult()
-        );
+        if(isset($_GET['guru'])){
+
+            $data = array(
+                'kontak' => $this->ModelsAdmin->getGuru()->getResult(),
+                'nama_guru' => $this->ModelsAdmin->getNamaGuru($_GET['guru'])
+            );
+
+        }else{
+
+            $data = array(
+                'kontak' => $this->ModelsAdmin->getGuru()->getResult()
+            );
+
+        }
 
         echo view('admin/chat/chat', $data);
 
     }
+
+    public function loadchat(){
+
+        echo json_encode($this->ModelsAdmin->getChat($this->input->getPost('id_pembimbing'))->getResult());
+    }
+
+    public function kirimchat(){
+
+        if(file_exists($_FILES['lampiran']['tmp_name'])){
+
+            $lamp = $this->input->getFile('lampiran');
+            $lamp->move('assets/chat');
+            $lampiran = $lamp->getName();
+
+        }else{
+
+            $lampiran = "kosong";
+
+        }
+
+        $data = array(
+            'isi' => $this->input->getPost('isi'),
+            'lampiran' => $lampiran,
+            'id_pembimbing' => $this->input->getPost('id_pembimbing'),
+            'tgl' => date('Y-m-d H:i:s'),
+            'pengirim' => "admin"
+        );
+
+        $this->ModelsAdmin->SimpanChat($data);
+
+        echo json_encode($this->ModelsAdmin->errors());
+
+    }
+
+    public function hapuschat(){
+        $this->ModelsAdmin->HapusChat($this->input->getPost('id_chat'));
+        
+        return redirect('admin/chat?guru='.$_GET['guru']);
+    }
+
+    //----------------------------------------------------------------------------------------------------------------
+
+    public function lapsiswa(){
+        
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Lap Data Siswa', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Data Siswa', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['kelas'])){
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswaBykelas($_GET['kelas'])->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswa()->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+            );
+    
+
+        }
+
+        echo view('admin/laporan/lapsiswa', $data);
+
+    }
+
 
 }
 

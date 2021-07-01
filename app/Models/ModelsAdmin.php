@@ -112,7 +112,7 @@ class ModelsAdmin extends Model{
 
     public function getSiswaBykelas($id_kelas){
         $build = $this->db->table('jurusan');
-        $build->select('nama_jurusan, nama_kelas, jurusan.id_jurusan, kelas.id_kelas, nama_siswa, nis, username, id_siswa');
+        $build->select('nama_jurusan, nama_kelas, jurusan.id_jurusan, kelas.id_kelas, nama_siswa, nis, username, id_siswa, jenis_kelamin');
         $build->join('kelas', 'kelas.id_jurusan = jurusan.id_jurusan');
         $build->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
         $build->where('kelas.id_kelas', $id_kelas);
@@ -230,6 +230,14 @@ class ModelsAdmin extends Model{
         $build->where('pembimbing.id_industri', $id_industri);
         $build->orderBy('id_pembimbing', "DESC");
         return $build->get();
+    }
+
+    public function getNamaGuru($id_pembimbing){
+        $build = $this->db->table('pembimbing');
+        $build->where('id_pembimbing', $id_pembimbing);
+        foreach ($build->get()->getResult() as $x):
+            return $x->nama_pembimbing;
+        endforeach;
     }
 
 
@@ -637,6 +645,28 @@ class ModelsAdmin extends Model{
         $build->where('id_agenda', $id_agenda);
         $build->delete();
     }
+
+    //-------------------------------------------------------------------------------
+
+    public function SimpanChat($data){
+        $build = $this->db->table('chat');
+        $build->insert($data);
+    }
+
+    public function HapusChat($id_chat){
+        $build = $this->db->table('chat');
+        $build->where('id_chat', $id_chat);
+        $build->delete();
+    }
+
+    public function getChat($id_pembimbing){
+        $build = $this->db->table('pembimbing');
+        $build->select('pembimbing.id_pembimbing, pembimbing.nama_pembimbing, chat.id_chat, chat.isi, chat.lampiran, chat.tgl, chat.pengirim');
+        $build->join('chat', 'pembimbing.id_pembimbing = chat.id_pembimbing');
+        $build->where('chat.id_pembimbing', $id_pembimbing);
+        $build->orderBy('chat.id_chat', 'DESC');
+        return $build->get();
+    }   
 
 }
 

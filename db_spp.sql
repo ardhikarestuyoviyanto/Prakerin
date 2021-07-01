@@ -133,14 +133,21 @@ CREATE TABLE `chat` (
   `isi` mediumtext DEFAULT NULL,
   `lampiran` varchar(225) DEFAULT NULL,
   `id_pembimbing` int(11) DEFAULT NULL,
-  `tujuan` enum('admin','pembimbing') DEFAULT NULL,
   `tgl` datetime DEFAULT NULL,
+  `pengirim` enum('admin','guru') DEFAULT NULL,
   PRIMARY KEY (`id_chat`),
   KEY `IdPembimbing` (`id_pembimbing`),
   CONSTRAINT `IdPembimbing` FOREIGN KEY (`id_pembimbing`) REFERENCES `pembimbing` (`id_pembimbing`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `chat` */
+
+insert  into `chat`(`id_chat`,`isi`,`lampiran`,`id_pembimbing`,`tgl`,`pengirim`) values 
+(8,'Hallo, Selamat Pagi','kosong',6,'2021-07-01 08:42:58','admin'),
+(9,'Ini Lampiran Fila','cv_with_photo_02.docx',6,'2021-07-01 08:43:15','admin'),
+(10,'Baik Pak Nanti Saya Kirim','kosong',6,'2021-07-01 09:09:07','guru'),
+(11,'Nilai untuk kelas bimbingan bapak mohon segera di input\r\nsudah deadline soalnya','kosong',6,'2021-07-01 09:11:59','admin'),
+(12,'Baik Pak <br>\r\nSedang saya kerjakan maksimal nanti malam','kosong',6,'2021-07-01 09:23:25','guru');
 
 /*Table structure for table `industri` */
 
