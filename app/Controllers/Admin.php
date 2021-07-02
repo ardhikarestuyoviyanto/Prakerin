@@ -1716,6 +1716,73 @@ class Admin extends BaseController{
 
     }
 
+    public function lappembimbing(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Lap Data Pembimbing', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Data Pembimbing', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        $data = array(
+            'pembimbing' => $this->ModelsAdmin->getGuru()->getResult()
+        );
+
+        echo view('admin/laporan/lappembimbing', $data);
+
+
+    }
+
+    public function lappenempatan(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Lap Data Penempatan', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Data Penempatan', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+
+            $data = array(
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'data' => $this->ModelsAdmin->FilterPenempatan($_GET['kelas'], $_GET['industri'])->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult()
+    
+            );
+
+        }
+
+        echo view('admin/laporan/lappenempatan', $data);
+
+    }
+
+    public function kartu(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Kartu Penempatan', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Kartu Penempatan', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['kelas'])){
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswaBykelas($_GET['kelas'])->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswa()->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+            );
+    
+
+        }
+
+        echo view('admin/laporan/lapkartu', $data);
+
+    }
+
 
 }
 

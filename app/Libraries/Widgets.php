@@ -15,6 +15,12 @@ class Widgets{
 
     }
 
+    public function getDataSekolah($params){
+
+        return view('admin/export/kop_surat', $params);
+
+    }
+
 }
 
 ?>

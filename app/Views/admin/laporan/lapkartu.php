@@ -5,11 +5,11 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Export Data Siswa</h1>
+        <h1 class="m-0">Export Kartu Penempatan</h1>
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">Export Data Siswa</li>
+            <li class="breadcrumb-item">Export Kartu Penempatan</li>
         </ol>
         </div>
     </div>
@@ -21,11 +21,11 @@
 
     <div class="card">
         <div class="card-header">
-            Export Data Siswa
+            Export Kartu Penempatan
         </div>
         <div class="card-header bg-gray-light">
             
-            <form action="<?= base_url('admin/lapsiswa'); ?>" method="get">
+            <form action="<?= base_url('admin/kartu'); ?>" method="get">
                 <div class="row">
                     <div class="col">
                         <select class="form-control form-control-sm" aria-label="Default select example" required name="kelas">
@@ -42,7 +42,7 @@
 
                     <div class="col">
                         <button type="submit" class="btn btn-success btn-sm">Filter</button>
-                        <a href="<?= base_url('admin/siswa'); ?>" type="button" class="btn btn-primary btn-sm" style="margin-left:5px;">Reset</a>
+                        <a href="<?= base_url('admin/kartu'); ?>" type="button" class="btn btn-primary btn-sm" style="margin-left:5px;">Reset</a>
                     </div>
                 </div>
             </form>
@@ -59,7 +59,7 @@
                         <th scope="col">Jenis Kelamin</th>
                         <th scope="col">Kelas</th>
                         <th scope="col">Jurusan</th>
-
+                        <th scope="col">Cetak Kartu</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,6 +71,7 @@
                         <td><?= $x->jenis_kelamin; ?></td>
                         <td><?= $x->nama_kelas; ?></td>
                         <td><?= $x->nama_jurusan; ?></td>
+                        <td><a href="#" type="button" class="btn btn-primary btn-sm">Cetak Kartu Penempatan</a></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -78,21 +79,6 @@
         </div>
 
         <div class="card-footer">
-            <form action="<?= base_url('export/export_lapsiswa'); ?>" method="GET" target="_blank">
-                <div class="row">
-                    <div class="col">
-                        <select class="form-control form-control-sm" aria-label="Default select example" required name="type">
-                            <option selected value="">- Pilih Type Export -</option>
-                            <option value="pdf">- PDF -</option>
-                            <option value="excel">- EXCEL -</option>
-                        </select>
-                    </div>
-                    <input type="hidden" name="kelas" value="<?= @$_GET['kelas'] ?>">
-                    <div class="col">
-                        <button type="submit" class="btn btn-success btn-sm">Export</button>
-                    </div>
-                </div>
-            </form>
         </div>
         <?php endif; ?>
     </div>
@@ -106,8 +92,6 @@ $('document').ready(function(){
 
     $('#DataTable').DataTable({
         "responsive":true,
-        "paginate": false,
-        "info": false
     });
 
 });

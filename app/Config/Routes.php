@@ -90,7 +90,12 @@ $routes->group('admin', function($routes){
 	$routes->get('editagenda/(::any)', 'Admin::editagenda', ['filter'=>'IsLogin']);
 
 	$routes->get('pindah', 'Admin::pindah', ['filter'=>'IsLogin']);
-
+	$routes->get('chat', 'Admin::chat', ['filter'=>'IsLogin']);
+	
+	$routes->get('lapsiswa', 'Admin::lapsiswa', ['filter'=>'IsLogin']);
+	$routes->get('lappembimbing', 'Admin::lappembimbing', ['filter'=>'IsLogin']);
+	$routes->get('lappenempatan', 'Admin::lappenempatan', ['filter'=>'IsLogin']);
+	$routes->get('kartu', 'Admin::kartu', ['filter'=>'IsLogin']);
 
 });
 
