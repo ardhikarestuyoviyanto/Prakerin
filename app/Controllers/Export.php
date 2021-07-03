@@ -83,6 +83,22 @@ class Export extends BaseController{
 
     }
 
+    public function export_kartu(){
+
+        if(!empty($this->input->uri->getSegment('3'))){
+
+            $data = array(
+                'data' => $this->ModelsAdmin->getKartuPenempatanPerSiswa($this->input->uri->getSegment('3'))->getResult(),
+                'data_siswa' => $this->ModelsAdmin->getSiswaByid($this->input->uri->getSegment('3'))->getResult()
+            );
+
+            echo view('admin/export/export_kartu', $data);
+
+        }
+
+
+    }
+
 }
 
 ?>

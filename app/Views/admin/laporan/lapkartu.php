@@ -71,7 +71,7 @@
                         <td><?= $x->jenis_kelamin; ?></td>
                         <td><?= $x->nama_kelas; ?></td>
                         <td><?= $x->nama_jurusan; ?></td>
-                        <td><a href="#" type="button" class="btn btn-primary btn-sm">Cetak Kartu Penempatan</a></td>
+                        <td><a target="__BLANK" data-toggle="tooltip" data-placement="top" title="Cetak Kartu Penempatan" href="<?= base_url('export/export_kartu/'.$x->id_siswa); ?>" type="button" class="btn btn-primary btn-sm">Cetak Kartu Penempatan</a></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -92,6 +92,10 @@ $('document').ready(function(){
 
     $('#DataTable').DataTable({
         "responsive":true,
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
     });
 
 });

@@ -666,7 +666,17 @@ class ModelsAdmin extends Model{
         $build->where('chat.id_pembimbing', $id_pembimbing);
         $build->orderBy('chat.id_chat', 'DESC');
         return $build->get();
-    }   
+    } 
+
+    //------------------------------ ------------------------
+
+    public function getKartuPenempatanPerSiswa($id_siswa){
+        $build = $this->db->table('penempatan');
+        $build->select('industri.nama_industri, industri.bidang_kerja, penempatan.tgl_request, penempatan.status, penempatan.surat');
+        $build->join('industri', 'industri.id_industri = penempatan.id_industri');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        return $build->get();
+    }
 
 }
 
