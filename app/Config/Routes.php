@@ -96,6 +96,9 @@ $routes->group('admin', function($routes){
 	$routes->get('lappembimbing', 'Admin::lappembimbing', ['filter'=>'IsLogin']);
 	$routes->get('lappenempatan', 'Admin::lappenempatan', ['filter'=>'IsLogin']);
 	$routes->get('kartu', 'Admin::kartu', ['filter'=>'IsLogin']);
+	$routes->get('nilaipersiswa', 'Admin::nilaipersiswa', ['filter'=>'IsLogin']);
+	$routes->get('nilaiperkelas', 'Admin::nilaiperkelas', ['filter'=>'IsLogin']);
+	$routes->get('perindustri', 'Admin::perindustri', ['filter'=>'IsLogin']);
 
 });
 

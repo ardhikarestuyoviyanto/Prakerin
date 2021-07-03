@@ -99,6 +99,74 @@ class Export extends BaseController{
 
     }
 
+    public function export_nilaipersiswa(){
+
+        if(!empty($this->input->uri->getSegment('3'))){
+
+            //uri (3) id_siswa
+            //uri (4) id_jurusan
+
+            $data = array(
+                'data_siswa' => $this->ModelsAdmin->getSiswaByid($this->input->uri->getSegment('3'))->getResult(),
+                'data_aspek' => $this->ModelsAdmin->getDataAspekByidJurusan($this->input->uri->getSegment('4'))->getResult(),
+                'data_jurnal' => $this->ModelsAdmin->getJurnalByIdSiswa($this->input->uri->getSegment('3'))->getResult(),
+
+                'id_siswa' => $this->input->uri->getSegment('3')
+            );
+
+            echo view('admin/export/export_nilaipersiswa', $data);
+
+        }
+
+    }
+
+    public function export_nilaiperkelas(){
+
+        if(isset($_GET['kelas']) &&isset($_GET['type'])){
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswaBykelas($_GET['kelas'])->getResult(),
+            );
+
+            if($_GET['type'] == "pdf"){
+
+                echo view('admin/export/export_nilaiperkelas_pdf', $data);
+
+            }else{
+
+                echo view('admin/export/export_nilaiperkelas_excel', $data);
+
+            }
+
+
+        }
+
+
+    }
+
+    public function export_perindustri(){
+
+        if(isset($_GET['kelas']) &&isset($_GET['type'])){
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswaBykelas($_GET['kelas'])->getResult(),
+            );
+
+            if($_GET['type'] == "pdf"){
+
+                echo view('admin/export/export_nilaiperkelas_pdf', $data);
+
+            }else{
+
+                echo view('admin/export/export_nilaiperkelas_excel', $data);
+
+            }
+
+
+        }
+
+    }
+
 }
 
 ?>

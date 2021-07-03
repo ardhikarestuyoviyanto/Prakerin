@@ -1783,6 +1783,83 @@ class Admin extends BaseController{
 
     }
 
+    public function nilaipersiswa(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Lap Nilai Per Siswa', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Nilai Per Siswa', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['kelas'])){
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswaBykelas($_GET['kelas'])->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+
+            );
+    
+
+        }
+
+        echo view('admin/laporan/lapnilaipersiswa', $data);
+
+    }
+
+    public function nilaiperkelas(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Lap Nilai Per Kelas', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Nilai Per Kelas', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['kelas'])){
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswaBykelas($_GET['kelas'])->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult()
+
+            );
+    
+
+        }
+
+        echo view('admin/laporan/lapnilaiperkelas', $data);
+
+    }
+
+    public function perindustri(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Penempatan Per Industri', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Penempatan Per Industri', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'siswa' => $this->ModelsAdmin->getSiswaByIndustri($_GET['industri'])->getResult(),
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult()
+            );
+    
+
+        }
+
+        echo view('admin/laporan/lapperindustri', $data);
+
+    }
+
 
 }
 

@@ -64,7 +64,7 @@
 
         <?php if(isset($_GET['industri']) && isset($_GET['kelas'])): ?>
             <div class="card-body">
-                <table class="table table-bordered" id="Permohonan">
+                <table class="table table-bordered table-hover" id="Permohonan">
                     <thead>
                         <tr>
                             <th scope="col">No</th>

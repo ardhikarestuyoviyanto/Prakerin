@@ -678,6 +678,71 @@ class ModelsAdmin extends Model{
         return $build->get();
     }
 
+    public function getNamaIndustriByIdSiswa($id_siswa){
+        $build = $this->db->table('penempatan');
+        $build->select('industri.nama_industri');
+        $build->join('industri', 'industri.id_industri = penempatan.id_industri');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        foreach ($build->get()->getResult() as $x):
+            return $x->nama_industri;
+        endforeach;
+    }
+
+    public function getJurnalByIdSiswa($id_siswa){
+        $build = $this->db->table('penempatan');
+        $build->select('jurnal.judul, jurnal.nilai, penempatan.id_siswa');
+        $build->join('jurnal', 'jurnal.id_penempatan = penempatan.id_penempatan');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        return $build->get();
+    }
+
+    public function getDetailNilaiAngkaByidSiswa($id_siswa, $id_aspek){
+        $build = $this->db->table('penempatan');
+        $build->select('nilai.nilai_angka');
+        $build->join('nilai', 'nilai.id_penempatan = penempatan.id_penempatan');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        $build->where('nilai.id_aspek', $id_aspek);
+        foreach ($build->get()->getResult() as $x):
+            return $x->nilai_angka;
+        endforeach;
+    }
+
+    public function getDetailNilaiHurufByidSiswa($id_siswa, $id_aspek){
+        $build = $this->db->table('penempatan');
+        $build->select('nilai.nilai_huruf');
+        $build->join('nilai', 'nilai.id_penempatan = penempatan.id_penempatan');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        $build->where('nilai.id_aspek', $id_aspek);
+        foreach ($build->get()->getResult() as $x):
+            return $x->nilai_huruf;
+        endforeach;
+    }
+
+    public function CekPenempatan($id_siswa){
+        $build = $this->db->table('penempatan');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        return $build->countAllResults();
+    }
+
+    public function getIdPenempatanByidSiswa($id_siswa){
+        $build = $this->db->table('penempatan');
+        $build->select('penempatan.id_penempatan');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        foreach ($build->get()->getResult() as $x):
+            return $x->id_penempatan;
+        endforeach;
+    }
+
+    public function getSiswaByIndustri($id_industri){
+        $build = $this->db->table('jurusan');
+        $build->select('siswa.nama_siswa, siswa.nis, siswa.jenis_kelamin, kelas.nama_kelas, jurusan.nama_jurusan');
+        $build->join('kelas', 'kelas.id_jurusan = jurusan.id_jurusan');
+        $build->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
+        $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
+        $build->where('penempatan.id_industri', $id_industri);
+        return $build->get();
+    }
+
 }
 
 

@@ -309,7 +309,7 @@
                 </ul>
             </li>
 
-            <?php if($sidebar == "Kartu Penempatan" || $sidebar == "Lap Data Siswa" || $sidebar == "Lap Data Pembimbing" || $sidebar == "Lap Data Penempatan" || $sidebar == "Lap Nilai Per Siswa" || $sidebar == "Lap Nilai Per Kelas"){ ?>
+            <?php if($sidebar == "Penempatan Per Industri" || $sidebar == "Kartu Penempatan" || $sidebar == "Lap Data Siswa" || $sidebar == "Lap Data Pembimbing" || $sidebar == "Lap Data Penempatan" || $sidebar == "Lap Nilai Per Siswa" || $sidebar == "Lap Nilai Per Kelas"){ ?>
             <li class="nav-item menu-open">
                 <a href="#" class="nav-link active">
             <?php }else{ ?>
@@ -364,6 +364,19 @@
 
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
+                    <?php if($sidebar == "Penempatan Per Industri"){ ?>
+                        <a href="<?php echo base_url('admin/perindustri') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/perindustri') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Penempatan Per Industri</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
                     <?php if($sidebar == "Kartu Penempatan"){ ?>
                         <a href="<?php echo base_url('admin/kartu') ?>" class="nav-link active">
                     <?php }else{ ?>
@@ -378,9 +391,9 @@
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                     <?php if($sidebar == "Lap Nilai Per Siswa"){ ?>
-                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link active">
+                        <a href="<?php echo base_url('admin/nilaipersiswa') ?>" class="nav-link active">
                     <?php }else{ ?>
-                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link">
+                        <a href="<?php echo base_url('admin/nilaipersiswa') ?>" class="nav-link">
                     <?php } ?>
                         <i class="far fa-circle nav-icon"></i>
                         <p>Lap Nilai Per Siswa</p>
@@ -391,9 +404,9 @@
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                     <?php if($sidebar == "Lap Nilai Per Kelas"){ ?>
-                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link active">
+                        <a href="<?php echo base_url('admin/nilaiperkelas') ?>" class="nav-link active">
                     <?php }else{ ?>
-                        <a href="<?php echo base_url('admin/agenda') ?>" class="nav-link">
+                        <a href="<?php echo base_url('admin/nilaiperkelas') ?>" class="nav-link">
                     <?php } ?>
                         <i class="far fa-circle nav-icon"></i>
                         <p>Lap Nilai Per Kelas</p>

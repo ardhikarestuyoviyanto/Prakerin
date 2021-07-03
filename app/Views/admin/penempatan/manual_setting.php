@@ -23,7 +23,7 @@
     
     <div class="row">
 
-        <div class="col">
+        <div class="col-12 col-md-8">
             <div class="card">
                 <div class="card-header">
                     Pilih Siswa
@@ -71,7 +71,7 @@
                         <?php $i=1; foreach ($data as $x): ?>
                         <tr>
                             <td><?php echo $i++; ?></td>
-                            <?php if($modell->getStatusPenempatanByIdIndustri($x->id_siswa, $industri) == 0){ ?>
+                            <?php if($modell->getStatusPenempatanByIdIndustri($x->id_siswa, $industri) == 0 && $modell->CekPenempatan($x->id_siswa) == 0){ ?>
                             <td><input name="id_siswa[]" class="child" type="checkbox" value="<?= $x->id_siswa; ?>"></td>
                             <?php }else{ ?>
                             <td></td>
@@ -80,7 +80,11 @@
                             <td><?php echo $x->nama_kelas." / ".$x->nama_jurusan; ?></td>
                             <td>
                                 <?php if($modell->getStatusPenempatanByIdIndustri($x->id_siswa, $industri) == 0){ ?>
+                                    <?php if($modell->CekPenempatan($x->id_siswa) > 0){ ?>
+                                    <span class="badge badge-warning">Terdaftar Di Industri Lain</span>
+                                    <?php }else{ ?>
                                     <span class="badge badge-danger">Belum Terdaftar</span>
+                                    <?php } ?>
                                 <?php }else{ ?>
                                     <span class="badge badge-success">Terdaftar</span>
                                 <?php } ?>
@@ -98,7 +102,7 @@
             </div>
         </div>
 
-        <div class="col">
+        <div class="col-6 col-md-4">
             <div class="card">
                 <div class="card-header">
                     Data Industri

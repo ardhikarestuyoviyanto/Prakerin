@@ -50,7 +50,7 @@
         </div>
         <?php if(isset($_GET['kelas'])): ?>
         <div class="card-body">
-            <table class="table table-bordered" id="DataTable">
+            <table class="table table-bordered table-hover" id="DataTable">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
