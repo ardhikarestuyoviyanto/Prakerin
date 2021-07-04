@@ -461,6 +461,31 @@ class ModelsAdmin extends Model{
         return $build->get();
     }
 
+    public function getAbsensiByIdPenempatan($id_penempatan, $value, $start, $finish){
+        $build = $this->db->table('absensi');
+        $build->select('absensi.status');
+        $build->where('absensi.id_penempatan', $id_penempatan);
+        $build->where('absensi.status', $value);
+        $build->where("absensi.tgl BETWEEN '$start' AND '$finish'");
+        return $build->countAllResults();
+    }
+
+    public function getTotalAbsensiByIdPenempatan($id_penempatan, $start, $finish){
+        $build = $this->db->table('absensi');
+        $build->select('absensi.status');
+        $build->where('absensi.id_penempatan', $id_penempatan);
+        $build->where("absensi.tgl BETWEEN '$start' AND '$finish'");
+        return $build->countAllResults();
+    }
+
+    public function getAbsensiPerSiswaRekap($id_penempatan, $start, $finish){
+        $build = $this->db->table('absensi');
+        $build->where('absensi.id_penempatan', $id_penempatan);
+        $build->where("absensi.tgl BETWEEN '$start' AND '$finish'");
+        $build->orderBy('absensi.tgl', "DESC");
+        return $build->get();
+    }
+
     //----------------------------------------------------------------
 
     public function getTotalJurnalByIdPenempatan($id_penempatan){
@@ -479,6 +504,27 @@ class ModelsAdmin extends Model{
         $build = $this->db->table('jurnal');
         $build->where('jurnal.id_jurnal', $id_jurnal);
         $build->update($data);
+    }
+
+    public function getTotalStatusJurnalPending($id_penempatan){
+        $build = $this->db->table('jurnal');
+        $build->where('jurnal.id_penempatan', $id_penempatan);
+        $build->where('jurnal.status', 'P');
+        return $build->countAllResults();
+    }
+
+    public function getTotalStatusJurnalApproval($id_penempatan){
+        $build = $this->db->table('jurnal');
+        $build->where('jurnal.id_penempatan', $id_penempatan);
+        $build->where('jurnal.status', 'Y');
+        return $build->countAllResults();
+    }
+
+    public function getTotalStatusJurnalUnapproval($id_penempatan){
+        $build = $this->db->table('jurnal');
+        $build->where('jurnal.id_penempatan', $id_penempatan);
+        $build->where('jurnal.status', 'N');
+        return $build->countAllResults();
     }
 
     //-----------------------------------------------------------------------
@@ -741,6 +787,14 @@ class ModelsAdmin extends Model{
         $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
         $build->where('penempatan.id_industri', $id_industri);
         return $build->get();
+    }
+
+    public function getNamaIndustriByIdIndustri($id_industri){
+        $build = $this->db->table('industri');
+        $build->where('industri.id_industri', $id_industri);
+        foreach ($build->get()->getResult() as $x):
+            return $x->nama_industri;
+        endforeach;
     }
 
 }

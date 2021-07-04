@@ -75,8 +75,9 @@
                     <th scope="col">No</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
+                    <th scope="col">Approval Jurnal</th>
+                    <th scope="col">Unapproval Jurnal</th>
                     <th scope="col">Total Jurnal</th>
-                    <th scope="col">Rata - rata Jurnal</th>
                     <th scope="col">Rata - rata Nilai</th>
                     <th scope="col">Aksi</th>
                 </tr>
@@ -87,8 +88,9 @@
                     <th scope="row"><?= $i++; ?></th>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
-                    <td><?= $modell->getTotalJurnalByIdPenempatan($x->id_penempatan); ?></td>
-                    <td><?= number_format($modell->getRataRataNilaiJurnal($x->id_penempatan), 1); ?></td>
+                    <td class="text-bold text-success"><?= $modell->getTotalStatusJurnalApproval($x->id_penempatan); ?></td>
+                    <td class="text-bold text-danger"><?= $modell->getTotalStatusJurnalUnapproval($x->id_penempatan); ?></td>
+                    <td class="text-bold"><?= $modell->getTotalJurnalByIdPenempatan($x->id_penempatan); ?></td>
                     <td><?= number_format($modell->getRataRataNilai($x->id_penempatan), 1); ?></td>
                     <td><a href="<?= base_url('admin/inputnilai/'.$x->id_penempatan.'/'.$modell->getIdJurusanByIdkelas($_GET['kelas']).'/'.$_GET['industri'].'/'.$_GET['kelas']) ?>" ><span class="badge badge-primary">Input Nilai</span></a></td>
                 </tr>

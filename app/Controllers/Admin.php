@@ -1162,6 +1162,33 @@ class Admin extends BaseController{
 
     }
 
+    public function rekappresensi(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Rekap Presensi', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Rekap Presensi', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+
+            $data = array(
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'], $_GET['kelas'])->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+            );
+    
+        }
+
+
+        echo view('admin/monitoring/rekappresensi', $data);
+
+    }
+
     //--------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1191,21 +1218,21 @@ class Admin extends BaseController{
 
     }
 
-    public function InputNilaiJurnal(){
+    public function UpdateStatusJurnal(){
         
-        if(empty($_POST['nilai'])){
+        if(empty($_POST['status'])){
 
-            echo json_encode('Ups; Kolom Nilai Masih Kosong');
+            echo json_encode('Ups; Kolom Status Masih Kosong');
 
         }else{
 
             $data = array(
-                'nilai' => $this->input->getPost('nilai')
+                'status' => $this->input->getPost('status')
             );
     
             $this->ModelsAdmin->inputnilaiJurnal($this->input->getPost('id'), $data);
     
-            echo json_encode('Input Nilai Berhasil');
+            echo json_encode('Status Jurnal Berhasil Diupdate');
 
         }
 

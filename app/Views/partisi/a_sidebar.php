@@ -200,7 +200,7 @@
             </li>
 
 
-            <?php if($sidebar == "Absensi" || $sidebar == "Jurnal" || $sidebar == "Penilaian" || $sidebar == "Aspek"){ ?>
+            <?php if($sidebar == "Absensi" || $sidebar == "Jurnal" || $sidebar == "Penilaian" || $sidebar == "Aspek" || $sidebar == "Rekap Presensi"){ ?>
             <li class="nav-item menu-open">
                 <a href="#" class="nav-link active">
             <?php }else{ ?>
@@ -235,7 +235,20 @@
                         <a href="<?php echo base_url('admin/absensi') ?>" class="nav-link">
                     <?php } ?>
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Rekap Absensi</p>
+                        <p>Input Presensi</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Rekap Presensi"){ ?>
+                        <a href="<?php echo base_url('admin/rekappresensi') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/rekappresensi') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Rekap Presensi</p>
                     </a>
                     </li>
                 </ul>
@@ -248,7 +261,7 @@
                         <a href="<?php echo base_url('admin/jurnal') ?>" class="nav-link">
                     <?php } ?>
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Rekap Nilai Jurnal</p>
+                        <p>Rekap Jurnal</p>
                     </a>
                     </li>
                 </ul>

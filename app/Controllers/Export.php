@@ -146,22 +146,13 @@ class Export extends BaseController{
 
     public function export_perindustri(){
 
-        if(isset($_GET['kelas']) &&isset($_GET['type'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'siswa' => $this->ModelsAdmin->getSiswaBykelas($_GET['kelas'])->getResult(),
+                'siswa' => $this->ModelsAdmin->getSiswaByIndustri($_GET['industri'])->getResult(),
             );
 
-            if($_GET['type'] == "pdf"){
-
-                echo view('admin/export/export_nilaiperkelas_pdf', $data);
-
-            }else{
-
-                echo view('admin/export/export_nilaiperkelas_excel', $data);
-
-            }
-
+            echo view('admin/export/export_perindustri', $data);
 
         }
 

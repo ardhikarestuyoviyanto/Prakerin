@@ -6,12 +6,12 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Edit Absensi Per Siswa</h1>
+        <h1 class="m-0">Edit Presensi Per Siswa</h1>
         </div>
         <div class="col-sm-6">
         <?php foreach($data_siswa as $x): ?>
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="<?= base_url('admin/absensi'); ?>">Absensi</a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url('admin/absensi'); ?>">Presensi</a></li>
             <li class="breadcrumb-item"><?= $x->nama_siswa; ?></li>
         </ol>
         </div>
@@ -23,7 +23,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                Edit Absensi Per Siswa
+                Edit Presensi Per Siswa
             </div>  
 
             <div class="card-header bg-gray-light">

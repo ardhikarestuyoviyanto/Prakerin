@@ -42,14 +42,14 @@
 
     <tr>
         <th scope="col" style="text-align: center; vertical-align: middle;">Nilai Angka</th>
-        <th scope="col" style="text-align: center; vertical-align: middle;">Nilai Huruf</th>
+        <th scope="col" style="text-align: center; vertical-align: middle;">Keterangan</th>
     </tr>
     <?php $i=1; $total_nilai = 0; foreach($data_aspek as $x): ?>
     <tr>
         <td  style="text-align: center; vertical-align: middle;"><?= $i++; ?></td>
         <td><?= $x->nama_aspek; ?></td>
         <td  style="text-align: center; vertical-align: middle;"><?= $modell->getDetailNilaiAngkaByidSiswa($id_siswa, $x->id_aspek); ?></td>
-        <td  style="text-align: center; vertical-align: middle;"><?= strtoupper($modell->getDetailNilaiHurufByidSiswa($id_siswa, $x->id_aspek)); ?></td>
+        <td  style="text-align: center; vertical-align: middle;"><?= ucfirst($modell->getDetailNilaiHurufByidSiswa($id_siswa, $x->id_aspek)); ?></td>
     </tr>
     <?php $total_nilai = $total_nilai + $modell->getDetailNilaiAngkaByidSiswa($id_siswa, $x->id_aspek);  endforeach; ?>
     <tr class="text-bold">
@@ -65,31 +65,26 @@
     </tr>
 </table>
 <br>
-<h5 class="mb-4 text-bold">B. Nilai Jurnal</h5>
-<table class="table table-bordered table-striped">
+<h5 class="mb-4 text-bold">B. Keterangan</h5>
+<table>
+
     <tr>
-        <th scope="col" style="text-align: center; vertical-align: middle;">No</th>
-        <th>Judul Jurnal</th>
-        <th scope="col" style="text-align: center; vertical-align: middle;">Nilai</th>
+        <td scope="col" style=" width:100px;">0 - 59</td>
+        <td scope="col" style=" width:0px;">Kurang</td>
+    </tr>
+    <tr>
+        <td scope="col" style=" width:100px;">60 - 74</td>
+        <td scope="col" style=" width:0px;">Cukup</td>
+    </tr>
+    <tr>
+        <td scope="col" style=" width:100px;">75 - 89</td>
+        <td scope="col" style=" width:0px;">Baik</td>
+    </tr>
+    <tr>
+        <td scope="col" style=" width:100px;">90 - 100</td>
+        <td scope="col" style=" width:0px;">Baik Sekali</td>
     </tr>
 
-    <?php $i=1; $total_nilai = 0; foreach($data_jurnal as $x): ?>
-    <tr>
-        <td style="text-align: center; vertical-align: middle;"><?= $i++; ?></td>
-        <td><?= $x->judul; ?></td>
-        <td scope="col" style="text-align: center; vertical-align: middle;"><?= $x->nilai; ?></td>
-    </tr>
-    <?php $total_nilai = $total_nilai + $x->nilai; endforeach; ?>
-    <tr class="text-bold">
-        <td colspan="2" style="text-align: right; vertical-align: middle;">
-            Rata - rata
-        </td>
-        <td style="text-align: center; vertical-align: middle;">
-            <?php if(!empty($data_jurnal)): ?>
-            <?= number_format($total_nilai/ count($data_jurnal), 1) ?>
-            <?php endif; ?>
-        </td>
-    </tr>
 </table>
 
 <br><br>

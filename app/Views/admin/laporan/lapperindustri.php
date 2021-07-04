@@ -78,20 +78,9 @@
         </div>
 
         <div class="card-footer">
-            <form action="<?= base_url('export/export_lapsiswa'); ?>" method="GET" target="_blank">
-                <div class="row">
-                    <div class="col">
-                        <select class="form-control form-control-sm" aria-label="Default select example" required name="type">
-                            <option selected value="">- Pilih Type Export -</option>
-                            <option value="pdf">- PDF -</option>
-                            <option value="excel">- EXCEL -</option>
-                        </select>
-                    </div>
-                    <input type="hidden" name="kelas" value="<?= @$_GET['kelas'] ?>">
-                    <div class="col">
-                        <button type="submit" class="btn btn-success btn-sm">Export</button>
-                    </div>
-                </div>
+            <form action="<?= base_url('export/export_perindustri'); ?>" method="GET" target="_blank">
+                <input type="hidden" name="industri" value="<?= @$_GET['industri'] ?>">
+                <button type="submit" class="btn btn-success btn-sm">Export</button>
             </form>
         </div>
         <?php endif; ?>

@@ -77,7 +77,8 @@ $routes->group('admin', function($routes){
 	$routes->get('absensi', 'Admin::absensi', ['filter'=>'IsLogin']);
 	$routes->get('jurnal', 'Admin::jurnal', ['filter'=>'IsLogin']);
 	$routes->get('penilaian', 'Admin::penilaian', ['filter'=>'IsLogin']);
-	
+	$routes->get('rekappresensi', 'Admin::rekappresensi', ['filter'=>'IsLogin']);
+
 	$routes->get('editabsen/(::any)', 'Admin::editabsen', ['filter'=>'IsLogin']);
 
 	$routes->get('aspek', 'Admin::aspek', ['filter'=>'IsLogin']);
@@ -99,6 +100,7 @@ $routes->group('admin', function($routes){
 	$routes->get('nilaipersiswa', 'Admin::nilaipersiswa', ['filter'=>'IsLogin']);
 	$routes->get('nilaiperkelas', 'Admin::nilaiperkelas', ['filter'=>'IsLogin']);
 	$routes->get('perindustri', 'Admin::perindustri', ['filter'=>'IsLogin']);
+
 
 });
 

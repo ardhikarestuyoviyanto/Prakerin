@@ -6,11 +6,11 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Rekap Absensi</h1>
+        <h1 class="m-0">Input Presensi</h1>
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">Rekap Absensi</li>
+            <li class="breadcrumb-item">Input Presensi</li>
         </ol>
         </div>
     </div>
@@ -21,7 +21,7 @@
     <div class="container-fluid">
     <div class="card">
     <div class="card-header">
-        Rekap Absensi
+        Input Persensi
     </div>
 
     <div class="card-header bg-gray-light">

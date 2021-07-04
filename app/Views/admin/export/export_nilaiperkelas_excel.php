@@ -14,7 +14,8 @@ header("Content-Disposition: attachment; filename=Data Nilai.xls");
             <th scope="col">Nama Siswa</th>
             <th scope="col">Industri</th>
             <th scope="col">Total Jurnal</th>
-            <th scope="col">Rata - Rata Jurnal</th>
+            <th scope="col">Approval Jurnal</th>
+            <th scope="col">Unapproval Jurnal</th>
             <th scope="col">Rata - rata Nilai</th>
         </tr>
     </thead>
@@ -26,8 +27,9 @@ header("Content-Disposition: attachment; filename=Data Nilai.xls");
             <td><?= $x->nama_siswa; ?></td>
             <td><?= $modell->getNamaIndustriByIdSiswa($x->id_siswa); ?></td>
             <td><?= count($modell->getJurnalByIdSiswa($x->id_siswa)->getResult()); ?></td>
-            <td><?= number_format($modell->getRataRataNilaiJurnal($modell->getIdPenempatanByidSiswa($x->id_siswa)), 1); ?></td>
-            <td><?= number_format($modell->getRataRataNilai($x->id_siswa), 1); ?></td>
+            <td><?= $modell->getTotalStatusJurnalApproval($modell->getIdPenempatanByidSiswa($x->id_siswa));?></td>
+            <td><?= $modell->getTotalStatusJurnalUnapproval($modell->getIdPenempatanByidSiswa($x->id_siswa));?></td>
+            <td><?= number_format($modell->getRataRataNilai($modell->getIdPenempatanByidSiswa($x->id_siswa)), 1); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -65,23 +65,24 @@
                 <?php if(empty($data_aspek)){ ?> <p>Aspek Penilaian Belum Dibuat, Silahkan buat aspek penilaian dahulu di menu Aspek Penilaian. </p> <?php } ?>
 
                 <form id="SimpanNilai" method="post">
-                <input type="hidden" name="id_penempatan" value="<?= $id_penempatan; ?>">    
+                <input type="hidden" name="id_penempatan" value="<?= $id_penempatan; ?>">   
+                <input type="hidden" id="totalaspek" value="<?= count($data_aspek); ?>"> 
                 <?php $i=1; foreach($data_aspek as $x): ?>
                 
-                <label for="nama_kelas"><?= $i++; ?>. <?= $x->nama_aspek; ?></label>
+                <label for="nama_kelas"><?= $i; ?>. <?= $x->nama_aspek; ?></label>
                 
                 <input type="hidden" name="id_aspek[]" value="<?= $x->id_aspek; ?>">
                 
                 <div class="mb-3 row">
                     <div class="col-sm-6">
-                        <input type="number" class="form-control" name="nilai_angka[]" placeholder="Nilai Angka" required value="<?= $modell->getNilaiAngkaByIdPenempatanAndIdAspek($id_penempatan, $x->id_aspek); ?>">
+                        <input type="number" class="form-control" name="nilai_angka[]" id="<?= "nilaiangka".$i; ?>" placeholder="Nilai Angka" required value="<?= $modell->getNilaiAngkaByIdPenempatanAndIdAspek($id_penempatan, $x->id_aspek); ?>">
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" name="nilai_huruf[]" placeholder="Nilai Huruf (A - E)" required value="<?= $modell->getNilaiHurufByIdPenempatanAndIdAspek($id_penempatan, $x->id_aspek); ?>">
+                        <input type="text" class="form-control" name="nilai_huruf[]" id="<?= "nilaihuruf".$i; ?>" readonly placeholder="Keterangan Nilai (Tergenarate Otomatis)" required value="<?= $modell->getNilaiHurufByIdPenempatanAndIdAspek($id_penempatan, $x->id_aspek); ?>">
                     </div>
                 </div>
 
-                <?php endforeach; ?>
+                <?php $i++; endforeach; ?>
             
             </div>
 
@@ -104,7 +105,7 @@
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Rekap Absensi</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Rekap Presensi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -168,6 +169,37 @@
 <script>
 $('document').ready(function(){
     $('#loading').hide();
+
+    var totalAspek = $('#totalaspek').val();
+
+    for (let i = 0; i <= totalAspek; i++){
+
+        $('#nilaiangka'+i).on('change', function(){
+            var val = $(this).val();
+
+            if(val >= 0 && val <= 59){
+
+                $('#nilaihuruf'+i).val("Kurang");
+
+            }else if(val >= 60 && val <= 74){
+
+                $('#nilaihuruf'+i).val("Cukup");
+
+            }else if(val >= 75 && val <= 89){
+
+                $('#nilaihuruf'+i).val("Baik");
+
+            }else if(val >= 90 && val <=100){
+
+                $('#nilaihuruf'+i).val("Baik Sekali");
+
+            }
+
+        });
+
+    }
+
+
 
     $('#SimpanNilai').submit(function(e){
         e.preventDefault();

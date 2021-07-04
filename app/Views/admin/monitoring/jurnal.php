@@ -73,6 +73,9 @@
                     <th scope="col">#</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
+                    <th scope="col">Pending</th>
+                    <th scope="col">Unapproval</th>
+                    <th scope="col">Approval</th>
                     <th scope="col">Total Jurnal</th>
                 </tr>
             </thead>
@@ -83,7 +86,10 @@
                     <td  data-toggle="collapse" id="table1" data-target=".table<?php echo $i; ?>"><a type="button" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></a></td>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
-                    <td>
+                    <td class="text-primary text-bold"><?= $modell->getTotalStatusJurnalPending($x->id_penempatan); ?></td>
+                    <td class="text-red text-bold"><?= $modell->getTotalStatusJurnalUnapproval($x->id_penempatan); ?></td>
+                    <td class="text-success text-bold"><?= $modell->getTotalStatusJurnalApproval($x->id_penempatan); ?></td>
+                    <td class="text-bold">
                         <?= $modell->getTotalJurnalByIdPenempatan($x->id_penempatan); ?>
                     </td>
                 </tr>
@@ -95,10 +101,11 @@
                             <thead>
                             <tr>
                                 <th>No</th>
+                                <th>#</th>
                                 <th>Judul</th>
                                 <th>Keterangan</th>
                                 <th>Tgl Kumpul</th>
-                                <th>Nilai</th>
+                                <th>Status Approval</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
@@ -106,14 +113,19 @@
                                 <?php $k=1; foreach($modell->getJurnalByIdPenempatan($x->id_penempatan)->getResult() as $y): ?>
                                 <tr>
                                     <td><?= $k++; ?></td>
+                                    <td><a target="__BLANK" href="<?= base_url('assets/jurnal/'.$y->file); ?>"><i class="fas fa-file-download"></i></a></td>
                                     <td><?= $y->judul; ?></td>
                                     <td><?= $y->keterangan; ?></td>
                                     <td><?= date('d-m-y  /  H:i:s', strtotime($y->tgl_kumpul)); ?></td>
                                     <td>
-                                        <input type="number" name="nilai" id="nilai" class="form-control nilai" placeholder="Silahkan Isi Nilai" required value="<?= $y->nilai; ?>">
+                                        <select class="form-control form-control-sm status" aria-label="Default select example" required name="status">
+                                            <option value="">- Pilih Status Approval -</option>
+                                            <option value="Y" <?php if($y->status == "Y"): ?> selected <?php endif; ?>>- Approval -</option>
+                                            <option value="N" <?php if($y->status == "N"): ?> selected <?php endif; ?> >- Unapproval -</option>
+                                        </select>
                                     </td>
                                     <td>
-                                        <a href="#" data-id="<?= $y->id_jurnal; ?>" class="savenilai"><span class="badge badge-primary">Input Nilai</span></a>
+                                        <a href="#" data-id="<?= $y->id_jurnal; ?>" class="savestatus"><span class="badge badge-primary">Update Status</span></a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -142,20 +154,20 @@ $('document').ready(function(){
     //get nilai on change ketika user meng-inputkan nilai
     //lalu di append kan nilai tersebut atribut data-nilai pada link
 
-    $('.nilai').on('change', function(){
+    $('.status').on('change', function(){
         var value = $(this).val();
-        $('.savenilai').attr('data-nilai', value);
+        $('.savestatus').attr('data-status', value);
     });
 
-    $('.savenilai').click(function(e){
+    $('.savestatus').click(function(e){
         e.preventDefault();
 
-        var nilai = $(this).data('nilai');
+        var status = $(this).data('status');
         var id = $(this).data('id');
 
         $.ajax({
-            url: '<?= base_url('admin/InputNilaiJurnal'); ?>',
-            data: {'id':id, 'nilai':nilai},
+            url: '<?= base_url('admin/UpdateStatusJurnal'); ?>',
+            data: {'id':id, 'status':status},
             type: 'POST',
             success: function(data){
                 swal(data);
