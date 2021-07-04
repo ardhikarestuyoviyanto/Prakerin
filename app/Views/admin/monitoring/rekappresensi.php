@@ -101,7 +101,7 @@
                     <th scope="row"><?= $i; ?></th>
                     <td  data-toggle="collapse" id="table1" data-target=".table<?php echo $i; ?>">
                         <a type="button" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></a>
-                        <a href="#" type="button" class="btn btn-success btn-xs"><i class="fas fa-file-download"></i></a>
+                        <a target="__BLANK" href="<?= base_url('export/export_presensipersiswa?id_penempatan='.$x->id_penempatan.'&id_siswa='.$x->id_siswa.'&start='.$_GET['start'].'&finish='.$_GET['finish']) ?>" type="button" class="btn btn-success btn-xs"><i class="fas fa-file-download"></i></a>
                     </td>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
@@ -164,13 +164,13 @@
     </div>
 
     <div class="card-footer">
-        <form action="#" method="GET">
+        <form action="<?= base_url('export/export_presensiperkelas'); ?>" method="GET" target="_blank">
             <input type="hidden" name="start" value="<?= $_GET['start']; ?>">
             <input type="hidden" name="finish" value="<?= $_GET['finish'] ?>">
             <input type="hidden" name="industri" value="<?= $_GET['industri'] ?>">
             <input type="hidden" name="kelas" value="<?= $_GET['kelas'];?>">
 
-            <button type="submit" class="btn btn-primary btn-sm">Cetak Rekapitulasi</button>
+            <button type="submit" class="btn btn-primary btn-sm">Cetak Rekapitulasi Per Kelas</button>
         </form>
     </div>
     <?php endif; ?>

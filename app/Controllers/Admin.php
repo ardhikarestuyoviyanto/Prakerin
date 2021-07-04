@@ -1887,6 +1887,54 @@ class Admin extends BaseController{
 
     }
 
+    //----------------------------------------------------------------
+
+    public function badansurat(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Badan Surat', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Badan Surat', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        $data = array(
+            'data_surat' => $this->ModelsApp->getApp()->getResult()
+        );
+
+        echo view('admin/surat/badansurat', $data);
+    
+    }
+
+    public function updatebadansurat(){
+        $data = array(
+            'badansurat' => $this->input->getPost('badansurat')
+        );
+
+        $this->ModelsAdmin->UpdateInstansi($data);
+
+        echo json_encode('Data Berhasil diperbaharui');
+    }
+
+    public function cetaksurat(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Cetak Surat', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Cetak Surat', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'data' => $this->ModelsAdmin->getSiswaByIndustri($_GET['industri'])->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult()
+            );
+
+        }
+        
+        echo view('admin/surat/cetaksurat', $data);
+
+    }
 
 }
 

@@ -429,6 +429,48 @@
 
             </li>
 
+
+            <?php if($sidebar == "Badan Surat" || $sidebar == "Cetak Surat"){ ?>
+            <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+            <?php }else{ ?>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+            <?php } ?>
+                <i class="nav-icon fas fa-file-signature"></i>
+                <p>
+                Surat Pengantar
+                <i class="right fas fa-angle-left"></i>
+                </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Badan Surat"){ ?>
+                        <a href="<?php echo base_url('admin/badansurat') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/badansurat') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Badan Surat</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Cetak Surat"){ ?>
+                        <a href="<?php echo base_url('admin/cetaksurat') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/cetaksurat') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Cetak Surat</p>
+                    </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="nav-item active">
                 <?php if($sidebar == "Chatting"){ ?>
                 <a href="<?= base_url('admin/chat'); ?>" class="nav-link active">

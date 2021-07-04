@@ -101,6 +101,9 @@ $routes->group('admin', function($routes){
 	$routes->get('nilaiperkelas', 'Admin::nilaiperkelas', ['filter'=>'IsLogin']);
 	$routes->get('perindustri', 'Admin::perindustri', ['filter'=>'IsLogin']);
 
+	$routes->get('badansurat', 'Admin::badansurat', ['filter'=>'IsLogin']);
+	$routes->get('cetaksurat', 'Admin::cetaksurat', ['filter'=>'IsLogin']);
+
 
 });
 

@@ -158,6 +158,34 @@ class Export extends BaseController{
 
     }
 
+    public function export_presensipersiswa(){
+
+        if(isset($_GET['start']) && isset($_GET['finish'])){
+
+            $data = array(
+                'data_siswa' => $this->ModelsAdmin->getSiswaByid($_GET['id_siswa'])->getResult(),
+            );
+
+            echo view('admin/export/export_presensipersiswa', $data);
+
+        }
+
+    }
+
+    public function export_presensiperkelas(){
+
+        if(isset($_GET['start']) && isset($_GET['finish'])){
+
+            $data = array(
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'], $_GET['kelas'])->getResult()
+            );
+
+            echo view('admin/export/export_presensiperkelas', $data);
+
+        }
+
+    }
+
 }
 
 ?>

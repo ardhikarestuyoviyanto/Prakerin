@@ -405,7 +405,7 @@ class ModelsAdmin extends Model{
 
     public function getPenempatanJoinSiswa($id_industri, $id_kelas){
         $build = $this->db->table('siswa');
-        $build->select('siswa.nis, siswa.nama_siswa, siswa.id_kelas, penempatan.id_penempatan, penempatan.id_industri');
+        $build->select('siswa.nis, siswa.nama_siswa, siswa.id_siswa, siswa.id_kelas, penempatan.id_penempatan, penempatan.id_industri');
         $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
         $build->where('siswa.id_kelas', $id_kelas);
         $build->where('penempatan.id_industri', $id_industri);
@@ -795,6 +795,13 @@ class ModelsAdmin extends Model{
         foreach ($build->get()->getResult() as $x):
             return $x->nama_industri;
         endforeach;
+    }
+
+    //--------------------------------------------------------------
+
+    public function UpdateInstansi($data){
+        $build = $this->db->table('instansi');
+        $build->update($data);
     }
 
 }
