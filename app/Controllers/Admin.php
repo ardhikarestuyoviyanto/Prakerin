@@ -401,7 +401,8 @@ class Admin extends BaseController{
                 'bidang_kerja' => $this->input->getPost('bidang_kerja'),
                 'telp' => $this->input->getPost('telp'),
                 'email' => $this->input->getPost('email'),
-                'syarat' => $this->input->getPost('syarat')
+                'syarat' => $this->input->getPost('syarat'),
+                'slug' => url_title($this->input->getPost('nama_industri'), '-', TRUE),
             
             );
 
@@ -463,7 +464,8 @@ class Admin extends BaseController{
             'bidang_kerja' => $this->input->getPost('bidang_kerja'),
             'telp' => $this->input->getPost('telp'),
             'email' => $this->input->getPost('email'),
-            'syarat' => $this->input->getPost('syarat')
+            'syarat' => $this->input->getPost('syarat'),
+            'slug' => url_title($this->input->getPost('nama_industri'), '-', TRUE)
         
         );
 
