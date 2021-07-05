@@ -7,10 +7,10 @@
 <div class="sidebar">
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
     <div class="image">
-        <img src="<?= base_url('dist/img/user2-160x160.jpg') ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="<?= base_url('dist/img/unnamed.png') ?>" class="img-circle elevation-2" alt="User Image">
     </div>
     <div class="info">
-        <a href="#" class="d-block">Ardhika Restu Yoviyanto</a>
+        <a href="#" class="d-block">Hai, Admin</a>
     </div>
     </div>
 
@@ -471,6 +471,47 @@
                 </ul>
             </li>
 
+            <?php if($sidebar == "Banner" || $sidebar == "Aplikasi"){ ?>
+            <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+            <?php }else{ ?>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+            <?php } ?>
+                <i class="nav-icon fas fa-cog"></i>                
+                <p>
+                Pengaturan
+                <i class="right fas fa-angle-left"></i>
+                </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Banner"){ ?>
+                        <a href="<?php echo base_url('admin/banner') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/banner') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Banner</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Aplikasi"){ ?>
+                        <a href="<?php echo base_url('admin/aplikasi') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/aplikasi') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Aplikasi</p>
+                    </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="nav-item active">
                 <?php if($sidebar == "Chatting"){ ?>
                 <a href="<?= base_url('admin/chat'); ?>" class="nav-link active">
@@ -480,6 +521,15 @@
                 <i class="nav-icon fas fa-envelope"></i>
                     <p>
                         Chatting
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <a href="<?= base_url('auth/isLogout'); ?>"class="nav-link">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Keluar
                     </p>
                 </a>
             </li>

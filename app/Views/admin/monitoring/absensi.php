@@ -95,7 +95,7 @@
                     <?php }else{echo "<td></td>";} ?>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
-                    <td>
+                    <td> 
                         <?php 
                             if(empty($modell->getStatusAbsensi($x->id_penempatan, $_GET['tgl']))){
                                 

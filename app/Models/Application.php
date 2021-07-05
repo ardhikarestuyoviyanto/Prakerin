@@ -10,5 +10,16 @@ class Application extends Model{
         return $build->get();
     }
 
+    public function getBanner(){
+        $build = $this->db->table('banner');
+        return $build->get();
+    }
+
+    public function editBanner($id, $data){
+        $build = $this->db->table('banner');
+        $build->where('id', $id);
+        $build->update($data);
+    }
+
 }
 ?>

@@ -40,17 +40,18 @@
 
     <table width="100%">
         <tbody>
+            <?php if(isset($_GET['surat'])){}else{ ?>
             <td align="left"></td>
             <td align="left">
-                Jumapolo, <?= date("d F Y", strtotime(date('Y-m-d')));  ?>	
+                Binjani, <?= date("d F Y", strtotime(date('Y-m-d')));  ?>	
                 <br>Penerima,<br><br><br><br>
                 <b><u> </u><br>-</b>
             </td>
-
+            <?php } ?>
 
             <td align="right"></td>
             <td align="right">
-                Jumapolo, <?= date("d F Y", strtotime(date('Y-m-d')));  ?>	
+                Binjani, <?= date("d F Y", strtotime(date('Y-m-d')));  ?>	
                 <br>Kepala Sekolah,<br><br><br><br>
                 <b><u><?= $x->kepala_sekolah; ?> </u><br>-</b>
             </td>

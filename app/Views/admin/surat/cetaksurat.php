@@ -76,8 +76,9 @@
             </div>
 
             <div class="card-footer">
-                <form action="#" method="get" target="_blank">
+                <form action="<?= base_url('export/export_suratpengantar'); ?>" method="get" target="_blank">
                     <input type="hidden" name="industri" value="<?= $_GET['industri'] ?>">
+                    <input type="hidden" name="surat" value="yes">
                     <button type="submit" class="btn btn-primary btn-sm">Cetak Surat Pengantar</button>
                 </form>
             </div>

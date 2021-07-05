@@ -46,6 +46,8 @@ $routes->group('admin', function($routes){
 	$routes->get('tambahjurusan', 'Admin::tambahjurusan', ['filter'=>'IsLogin']);
 	$routes->get('editjurusan/(::any)', 'Admin::editjurusan', ['filter'=>'IsLogin']);
 
+	$routes->get('editadmin/(::any)', 'Admin::editadmin', ['filter'=>'IsLogin']);
+
 	$routes->get('kelas', 'Admin::kelas', ['filter'=>'IsLogin']);
 	$routes->get('tambahkelas', 'Admin::tambahkelas', ['filter'=>'IsLogin']);
 	$routes->get('editkelas', 'Admin::editkelas', ['filter'=>'IsLogin']);
@@ -103,6 +105,9 @@ $routes->group('admin', function($routes){
 
 	$routes->get('badansurat', 'Admin::badansurat', ['filter'=>'IsLogin']);
 	$routes->get('cetaksurat', 'Admin::cetaksurat', ['filter'=>'IsLogin']);
+
+	$routes->get('banner', 'Admin::banner', ['filter'=>'IsLogin']);
+	$routes->get('aplikasi', 'Admin::aplikasi', ['filter'=>'IsLogin']);
 
 
 });

@@ -42,10 +42,8 @@
                         <td><?= $x->username; ?></td>
                         <td><?= $x->nama; ?></td>
                         <td>
-                            <center>
-                                <a onclick="return confirm('Yakin Mau Menghapus Data Ini ? ')" href="<?= base_url('admin/hapusadmin_action/'.$x->id); ?>"><span class="badge badge-danger"><i class="fas fa-trash"></i></span></a> 
-                                <a href="<?= base_url('admin/editadmin/'.$x->id); ?>"><span class="badge badge-primary"><i class="fas fa-edit"></i></span></a>
-                            </center>
+                            <a onclick="return confirm('Yakin Mau Menghapus Data Ini ? ')" href="<?= base_url('admin/hapusadmin_action/'.$x->id); ?>"><span class="badge badge-danger"><i class="fas fa-trash"></i></span></a> 
+                            <a href="<?= base_url('admin/editadmin/'.$x->id); ?>"><span class="badge badge-primary"><i class="fas fa-edit"></i></span></a>
                         </td>
 
                     </tr>

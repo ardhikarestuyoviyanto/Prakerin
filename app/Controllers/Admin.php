@@ -24,7 +24,11 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Homepage', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Homepage', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        echo view('admin/home/home');
+        $data = array(
+            'data' => $this->ModelsApp->getApp()->getResult()
+        );
+
+        echo view('admin/home/home', $data);
 
     }
 
@@ -544,7 +548,7 @@ class Admin extends BaseController{
 
     public function editadmin_action(){
 
-        if(empty($_POST['password'])){
+        if(!empty($_POST['password'])){
 
             $data = array(
                 'password' => password_hash($this->input->getPost('password'), PASSWORD_DEFAULT)
@@ -1933,6 +1937,96 @@ class Admin extends BaseController{
         }
         
         echo view('admin/surat/cetaksurat', $data);
+
+    }
+
+    //----------------------------------------------------------------
+
+    public function banner(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Banner', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Banner', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        $data = array(
+            'logo' => $this->ModelsApp->getApp()->getResult(),
+            'banner' => $this->ModelsApp->getBanner()->getResult()
+        );
+
+        echo view('admin/setting/banner', $data);   
+
+    }
+
+    public function editbanner(){
+        if(file_exists($_FILES['banner']['tmp_name'])):
+            $file = $this->input->getFile('banner');
+            $file->move('assets/banner');
+            $data = array(
+                'judul' => $this->input->getPost('judul'),
+                'file' => $file->getName()
+            );
+        else:
+            $data = array(
+                'judul' => $this->input->getPost('judul')
+            );
+        endif;
+
+        $this->ModelsApp->editBanner($this->input->getPost('id'), $data);
+        echo json_encode('Banner Terupdate');
+    }
+
+    public function editlogo(){
+
+        if(file_exists($_FILES['file']['tmp_name'])):
+            $file = $this->input->getFile('file');
+            $file->move('dist/img');
+
+            if($this->input->getPost('typelogo') == "Logo Kiri"):
+
+                $data = array(
+                    'logo_kiri' => $file->getName()
+                );
+
+            else:
+
+                $data = array(
+                    'logo_kanan' => $file->getName()
+                );
+
+            endif;
+
+            $this->ModelsAdmin->UpdateInstansi($data);
+
+            echo json_encode('Logo Terupdate');
+
+        endif;
+    }
+
+    public function aplikasi(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Setting Aplikasi', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Aplikasi', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        $data = array(
+            'data' => $this->ModelsApp->getApp()->getResult()
+        );
+
+        echo view('admin/setting/aplikasi', $data);   
+
+    }
+
+    public function aplikasi_edit(){
+
+        $data = array(
+            'nama_instansi' => $this->input->getPost('nama_instansi'),
+            'nama_app' => $this->input->getPost('nama_app'),
+            'kepala_sekolah' => $this->input->getPost('kepala_sekolah'),
+            'email' => $this->input->getPost('email'),
+            'notelp' => $this->input->getPost('notelp')
+        );
+
+        $this->ModelsAdmin->UpdateInstansi($data);
+
+        echo json_encode('Data Berhasil diedit');
 
     }
 

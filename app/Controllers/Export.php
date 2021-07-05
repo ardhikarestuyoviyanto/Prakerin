@@ -186,6 +186,24 @@ class Export extends BaseController{
 
     }
 
+    public function export_suratpengantar(){
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'data' => $this->ModelsAdmin->getSiswaByIndustri($_GET['industri'])->getResult(),
+                'data_industri' => $this->ModelsAdmin->getIndustriByid($_GET['industri'])->getResult(),
+                'surat' => $this->ModelsApp->getApp()->getResult()
+            );
+
+            echo view('admin/export/export_suratpengantar', $data);
+
+        }
+
+
+
+    }
+
 }
 
 ?>
