@@ -62,6 +62,55 @@ class Auth extends BaseController{
 
     }
 
+    //------------------------------
+
+    public function guru(){
+
+        return view('login/guru');
+
+    }
+
+    public function ActionLoginGuru(){
+
+        $realcaptcha = $this->request->getPost('number_1') + $this->request->getPost('number_2');
+
+        if($this->request->getPost('captcha') == $realcaptcha){
+
+            foreach ($this->models->getGuru($this->request->getPost('username'))->getResult() as $x):
+
+                if(password_verify($this->request->getPost('password'), $x->password)):
+
+                    $data = array(
+                        'username' => $x->username,
+                        'nama' => $x->nama_pembimbing,
+                        'isLogin' => true,
+                        'id_pembimbing' => $x->id_pembimbing
+                    );
+
+                    $this->session->set($data);
+
+                    return redirect('guru/home');
+                    
+                    break;
+                    
+                endif;
+            
+            endforeach;
+
+            $this->session->setFlashdata('error', "Username Atau Password Salah");
+
+            return redirect('auth/guru');
+
+        }else{
+
+			$this->session->setFlashdata('error', "Captcha Salah");
+
+            return redirect('auth/guru');
+
+        }
+
+    }
+
     public function isLogout(){
 
         $sessionData = ['username', 'nama', 'isLogin'];

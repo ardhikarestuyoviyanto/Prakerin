@@ -37,6 +37,7 @@ $routes->get('/', 'Home::index');
 $routes->group('auth', function($routes){
 	$routes->get('admin', 'Auth::admin');
 	$routes->get('siswa', 'Auth::siswa');
+	$routes->get('guru', 'Auth::guru');
 });
 
 $routes->group('admin', function($routes){
@@ -109,7 +110,16 @@ $routes->group('admin', function($routes){
 	$routes->get('banner', 'Admin::banner', ['filter'=>'IsLogin']);
 	$routes->get('aplikasi', 'Admin::aplikasi', ['filter'=>'IsLogin']);
 
+});
 
+$routes->group('guru', function($routes){
+	$routes->get('home', 'Guru::home', ['filter'=>'IsLogin']);
+	$routes->get('bimbingan', 'Guru::bimbingan', ['filter'=>'IsLogin']);
+	$routes->get('industri', 'Guru::industri', ['filter'=>'IsLogin']);
+
+	$routes->get('approvalpresensi', 'Guru::approvalpresensi', ['filter'=>'IsLogin']);
+	$routes->get('rekappresensi', 'Guru::rekappresensi', ['filter'=>'IsLogin']);
+	$routes->get('editpresensi/(::any)', 'Guru::editpresensi', ['filter'=>'IsLogin']);
 });
 
 /*

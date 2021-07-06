@@ -15,6 +15,12 @@ class Widgets{
 
     }
 
+    public function getSidebarGuru($params){
+
+        return view('partisi/g_sidebar', $params);
+
+    }
+
     public function getDataSekolah($params){
 
         return view('admin/export/kop_surat', $params);

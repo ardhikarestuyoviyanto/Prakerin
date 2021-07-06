@@ -13,5 +13,13 @@ class ManagementUsers extends Model{
     
     }
 
+    public function getGuru($username){
+
+        $build = $this->db->table('pembimbing');
+        $build->where('username', $username);
+        return $build->get();
+
+    }
+
 }
 ?>
