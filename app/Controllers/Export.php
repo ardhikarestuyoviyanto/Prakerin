@@ -2,18 +2,21 @@
 namespace App\Controllers;
 use App\Models\ModelsAdmin;
 use App\Models\Application;
+use App\Models\ModelsGuru;
 
 class Export extends BaseController{
 
     private $ModelsAdmin;
     private $input;
     private $ModelsApp;
+    private $ModelsGuru;
 
     public function __construct(){
 
         $this->input = service('request');
         $this->ModelsAdmin = new ModelsAdmin();
         $this->ModelsApp = new Application();
+        $this->ModelsGuru = new ModelsGuru();
 
         view_cell('App\Libraries\Widgets::getDataSekolah', ['data_sekolah'=>$this->ModelsApp->getApp()->getResult()]);
     }
@@ -201,6 +204,20 @@ class Export extends BaseController{
         }
 
 
+
+    }
+
+    public function export_presensiperindustri(){
+
+        if(isset($_GET['start']) && isset($_GET['finish'])){
+
+            $data = array(
+                'data' => $this->ModelsGuru->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
+            );
+
+            echo view('admin/export/export_presensiperindustri', $data);
+
+        }
 
     }
 

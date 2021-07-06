@@ -99,5 +99,31 @@ class Guru extends BaseController{
 
     }
 
+    public function rekappresensi(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Rekap Presensi', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarGuru', ['sidebar'=>'Rekap Presensi']);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'data' => $this->ModelsGuru->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult()
+            );
+    
+        }
+
+
+        echo view('guru/presensi/rekappresensi', $data);
+
+    }
+
+
 }
 ?>
