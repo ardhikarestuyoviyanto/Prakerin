@@ -113,6 +113,59 @@
             </li>
 
             <li class="nav-item active">
+                <?php if($sidebar == "Approval Jurnal"){ ?>
+                <a href="<?= base_url('guru/jurnal'); ?>" class="nav-link active">
+                <?php }else{ ?>
+                <a href="<?= base_url('guru/jurnal'); ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-journal-whills"></i>
+                    <p>
+                        Approval Jurnal
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <?php if($sidebar == "Penilaian"){ ?>
+                <a href="<?= base_url('guru/penilaian'); ?>" class="nav-link active">
+                <?php }else{ ?>
+                <a href="<?= base_url('guru/penilaian'); ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-chart-line"></i>
+                    <p>
+                        Penilaian
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <?php if($sidebar == "Chat"){ ?>
+                <a href="<?= base_url('guru/chat'); ?>" class="nav-link active">
+                <?php }else{ ?>
+                <a href="<?= base_url('guru/chat'); ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-envelope"></i>
+                    <p>
+                        Chatting
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <?php if($sidebar == "Setting"){ ?>
+                <a href="<?= base_url('guru/setting'); ?>" class="nav-link active">
+                <?php }else{ ?>
+                <a href="<?= base_url('guru/setting'); ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-cog"></i>
+                    <p>
+                        Setting
+                    </p>
+                </a>
+            </li>
+
+
+            <li class="nav-item active">
                 <a href="<?= base_url('auth/isLogout'); ?>"class="nav-link">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>

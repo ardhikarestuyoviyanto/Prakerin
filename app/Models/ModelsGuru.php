@@ -32,5 +32,13 @@ class ModelsGuru extends Model{
         
     }
 
+    public function getIdJurusanByPembimbing($id_pembimbing){
+        $build = $this->db->table('pembimbing');
+        $build->select('pembimbing.id_jurusan');
+        foreach ($build->get()->getResult() as $x):
+            return $x->id_jurusan;
+        endforeach;
+    }
+
 }
 ?>

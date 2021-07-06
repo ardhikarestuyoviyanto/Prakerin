@@ -120,6 +120,13 @@ $routes->group('guru', function($routes){
 	$routes->get('approvalpresensi', 'Guru::approvalpresensi', ['filter'=>'IsLogin']);
 	$routes->get('rekappresensi', 'Guru::rekappresensi', ['filter'=>'IsLogin']);
 	$routes->get('editpresensi/(::any)', 'Guru::editpresensi', ['filter'=>'IsLogin']);
+
+	$routes->get('jurnal', 'Guru::jurnal', ['filter'=>'IsLogin']);
+	$routes->get('penilaian', 'Guru::penilaian', ['filter'=>'IsLogin']);
+	$routes->get('chat', 'Guru::chat', ['filter'=>'IsLogin']);
+
+	$routes->get('setting', 'Guru::setting', ['filter'=>'IsLogin']);
+
 });
 
 /*

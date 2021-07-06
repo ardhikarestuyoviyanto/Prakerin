@@ -804,6 +804,26 @@ class ModelsAdmin extends Model{
         $build->update($data);
     }
 
+    //------------------------------------------------
+
+    public function getIdKelasByIdsiswa($id_siswa){
+        $build = $this->db->table('siswa');
+        $build->select('siswa.id_kelas');
+        $build->where('siswa.id_siswa', $id_siswa);
+        foreach ($build->get()->getResult() as $x):
+            return $x->id_kelas;
+        endforeach;
+    }
+
+    public function getIdIndustriByidPembimbing($id_pembimbing){
+        $build = $this->db->table('pembimbing');
+        $build->select('pembimbing.id_industri');
+        $build->where('pembimbing.id_pembimbing', $id_pembimbing);
+        foreach ($build->get()->getResult() as $x):
+            return $x->id_industri;
+        endforeach;
+    }
+
 }
 
 

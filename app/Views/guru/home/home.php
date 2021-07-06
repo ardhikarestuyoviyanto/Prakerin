@@ -22,7 +22,53 @@
     <div class="card card-info">
     <div class="card-header" id="ucapan">
     </div>
+    <?php foreach ($data as $x): ?>
+    <div class="card-body">
+        <div class="row">
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="fas fa-school"></i></span>
 
+            <div class="info-box-content">
+                <span class="info-box-text">Nama Sekolah</span>
+                <span class="info-box-number"><?php echo $x->nama_instansi; ?></span>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+            <span class="info-box-icon bg-success"><i class="fas fa-user-tie"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Kepala Sekolah</span>
+                <span class="info-box-number"><?php echo $x->kepala_sekolah; ?></span>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+            <span class="info-box-icon bg-primary"><i class="fas fa-users"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Siswa Dibimbing</span>
+                <span class="info-box-number"><?php echo count($siswa); ?></span>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+            <span class="info-box-icon bg-danger"><i class="fas fa-industry"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Nama Industri</span>
+                <span class="info-box-number"><?= $modell->getNamaIndustriByIdIndustri($modell->getIdIndustriByidPembimbing($_SESSION['id_pembimbing'])); ?></span>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    <?php endforeach; ?>
     <div class="card-footer">
         <div class="alert alert-light" role="alert">
             Ini adalah halaman Dashboard yang digunakan untuk mengelola Data Prakerin, Silahkan digunakan dengan baik dan sampaikan jika ada keluhan dalam masalah penggunaan aplikasi. Terima kasih atas kepercayaan anda!
