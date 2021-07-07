@@ -43,11 +43,11 @@ $routes->group('auth', function($routes){
 $routes->group('admin', function($routes){
 	$routes->get('home', 'Admin::home', ['filter'=>'IsLogin']);
 
-	$routes->get('jurusan', 'Admin::jurusan', ['filter'=>'IsLogin']);
+	$routes->get('jurusan', 'Admin:jurusan', ['filter'=>'IsLogin']);
 	$routes->get('tambahjurusan', 'Admin::tambahjurusan', ['filter'=>'IsLogin']);
-	$routes->get('editjurusan/(::any)', 'Admin::editjurusan', ['filter'=>'IsLogin']);
+	$routes->get('editjurusan/(:any)', 'Admin::editjurusan', ['filter'=>'IsLogin']);
 
-	$routes->get('editadmin/(::any)', 'Admin::editadmin', ['filter'=>'IsLogin']);
+	$routes->get('editadmin/(:any)', 'Admin::editadmin', ['filter'=>'IsLogin']);
 
 	$routes->get('kelas', 'Admin::kelas', ['filter'=>'IsLogin']);
 	$routes->get('tambahkelas', 'Admin::tambahkelas', ['filter'=>'IsLogin']);
@@ -55,11 +55,11 @@ $routes->group('admin', function($routes){
 
 	$routes->get('siswa', 'Admin::siswa', ['filter'=>'IsLogin']);
 	$routes->get('tambahsiswa', 'Admin::tambahsiswa', ['filter'=>'IsLogin']);
-	$routes->get('editsiswa/(::any)', 'Admin::editsiswa', ['filter'=>'IsLogin']);
+	$routes->get('editsiswa/(:any)', 'Admin::editsiswa', ['filter'=>'IsLogin']);
 
 	$routes->get('industri', 'Admin::industri', ['filter'=>'IsLogin']);
 	$routes->get('tambahindustri', 'Admin::tambahindustri', ['filter'=>'IsLogin']);
-	$routes->get('editindustri/(::any)', 'Admin::editindustri', ['filter'=>'IsLogin']);
+	$routes->get('editindustri/(:any)', 'Admin::editindustri', ['filter'=>'IsLogin']);
 
 	$routes->get('showadmin', 'Admin::showadmin', ['filter'=>'IsLogin']);
 	$routes->get('tambahadmin', 'Admin::tambahadmin', ['filter'=>'IsLogin']);
@@ -67,13 +67,13 @@ $routes->group('admin', function($routes){
 
 	$routes->get('pembimbing', 'Admin::pembimbing', ['filter'=>'IsLogin']);
 	$routes->get('tambahpembimbing', 'Admin::tambahpembimbing', ['filter'=>'IsLogin']);
-	$routes->get('editpembimbing/(::any)', 'Admin::editpembimbing', ['filter'=>'IsLogin']);
+	$routes->get('editpembimbing/(:any)', 'Admin::editpembimbing', ['filter'=>'IsLogin']);
 
 	$routes->get('penmanual', 'Admin::penmanual', ['filter'=>'IsLogin']);
-	$routes->get('setmanual/(::any)', 'Admin::setmanual', ['filter'=>'IsLogin']);
+	$routes->get('setmanual/(:any)', 'Admin::setmanual', ['filter'=>'IsLogin']);
 
 	$routes->get('penmohon', 'Admin::penmohon', ['filter'=>'IsLogin']);
-	$routes->get('detmohon/(::any)', 'Admin::detmohon', ['filter'=>'IsLogin']);
+	$routes->get('detmohon/(:any)', 'Admin::detmohon', ['filter'=>'IsLogin']);
 
 	$routes->get('pendata', 'Admin::pendata', ['filter'=>'IsLogin']);
 
@@ -82,16 +82,16 @@ $routes->group('admin', function($routes){
 	$routes->get('penilaian', 'Admin::penilaian', ['filter'=>'IsLogin']);
 	$routes->get('rekappresensi', 'Admin::rekappresensi', ['filter'=>'IsLogin']);
 
-	$routes->get('editabsen/(::any)', 'Admin::editabsen', ['filter'=>'IsLogin']);
+	$routes->get('editabsen/(:any)', 'Admin::editabsen', ['filter'=>'IsLogin']);
 
 	$routes->get('aspek', 'Admin::aspek', ['filter'=>'IsLogin']);
 
-	$routes->get('inputnilai/(::any)', 'Admin::inputnilai', ['filter'=>'IsLogin']);
+	$routes->get('inputnilai/(:any)', 'Admin::inputnilai', ['filter'=>'IsLogin']);
 
 	$routes->get('kategoriagenda', 'Admin::kategoriagenda', ['filter'=>'IsLogin']);
 	$routes->get('agenda', 'Admin::agenda', ['filter'=>'IsLogin']);
 	$routes->get('tambahagenda', 'Admin::tambahagenda', ['filter'=>'IsLogin']);
-	$routes->get('editagenda/(::any)', 'Admin::editagenda', ['filter'=>'IsLogin']);
+	$routes->get('editagenda/(:any)', 'Admin::editagenda', ['filter'=>'IsLogin']);
 
 	$routes->get('pindah', 'Admin::pindah', ['filter'=>'IsLogin']);
 	$routes->get('chat', 'Admin::chat', ['filter'=>'IsLogin']);
@@ -119,7 +119,7 @@ $routes->group('guru', function($routes){
 
 	$routes->get('approvalpresensi', 'Guru::approvalpresensi', ['filter'=>'IsLogin']);
 	$routes->get('rekappresensi', 'Guru::rekappresensi', ['filter'=>'IsLogin']);
-	$routes->get('editpresensi/(::any)', 'Guru::editpresensi', ['filter'=>'IsLogin']);
+	$routes->get('editpresensi/(:any)', 'Guru::editpresensi', ['filter'=>'IsLogin']);
 
 	$routes->get('jurnal', 'Guru::jurnal', ['filter'=>'IsLogin']);
 	$routes->get('penilaian', 'Guru::penilaian', ['filter'=>'IsLogin']);
@@ -128,6 +128,16 @@ $routes->group('guru', function($routes){
 	$routes->get('setting', 'Guru::setting', ['filter'=>'IsLogin']);
 
 });
+
+$routes->group('/', function($routes){
+	$routes->get('agenda', 'Home::agenda');
+	$routes->get('agenda/kategori/(:any)', 'Home::kategoriagenda');
+	$routes->get('industri', 'Home::industri');
+
+	$routes->get('(:any)', 'Home::bacaagenda');
+});
+
+
 
 /*
  * --------------------------------------------------------------------

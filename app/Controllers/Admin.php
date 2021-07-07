@@ -2023,7 +2023,8 @@ class Admin extends BaseController{
             'nama_app' => $this->input->getPost('nama_app'),
             'kepala_sekolah' => $this->input->getPost('kepala_sekolah'),
             'email' => $this->input->getPost('email'),
-            'notelp' => $this->input->getPost('notelp')
+            'notelp' => $this->input->getPost('notelp'),
+            'disqus' => $this->input->getPost('disqus'),
         );
 
         $this->ModelsAdmin->UpdateInstansi($data);

@@ -63,6 +63,15 @@
                 </div>
             </div>
 
+            
+            <div class="mb-3 row">
+                <label for="nama_kelas" class="col-sm-2 col-form-label">Script Disqus</label>
+                <div class="col-sm-10">
+                    <textarea name="disqus" id="" cols="30" rows="10" class="form-control" required><?= $j->disqus; ?></textarea>
+                    <small><a target="__BLANK" href="https://disqus.com/">Info Lebih lanjut mengenai disqus</a></small>
+                </div>
+            </div>
+
             <?php endforeach; ?>
             </div>
             <div class="card-footer">

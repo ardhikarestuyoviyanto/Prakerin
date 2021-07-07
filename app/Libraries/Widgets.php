@@ -27,6 +27,30 @@ class Widgets{
 
     }
 
+    public function footer_home($params){
+
+        return view('landingpage/partisi/footer', $params);
+
+    }
+
+    public function navbar_home($params){
+
+        return view('landingpage/partisi/navbar', $params);
+
+    }
+
+    public function head_home($params){
+
+        return view('landingpage/partisi/head', $params);
+
+    }
+
+    public function js_home($params){
+
+        return view('landingpage/partisi/js', $params);
+
+    }
+
 }
 
 ?>

@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="<?= base_url('admin/agenda'); ?>">Edit Agenda</a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url('admin/agenda'); ?>">Data Agenda</a></li>
             <li class="breadcrumb-item">Edit Agenda</li>
         </ol>
         </div>
