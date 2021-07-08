@@ -133,8 +133,8 @@ $routes->group('/', function($routes){
 	$routes->get('agenda', 'Home::agenda');
 	$routes->get('agenda/kategori/(:any)', 'Home::kategoriagenda');
 	$routes->get('industri', 'Home::industri');
-
-	$routes->get('(:any)', 'Home::bacaagenda');
+	$routes->get('industri/(:any)', 'Home::detailindustri');
+	$routes->get('agenda/(:any)', 'Home::bacaagenda');
 });
 
 

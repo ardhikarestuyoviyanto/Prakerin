@@ -59,7 +59,7 @@
                     <div class="card h-100 border-0">
                         <img class="card-img-top" style="width:100%; height: 160px !important;" src="<?= base_url('assets/agenda/'.$x->gambar); ?>" alt="Card image cap">
                         <div class="card-body"> 
-                            <a href="<?= base_url($x->slug); ?>" id="populer" style="text-decoration: none;"><h5 class="card-text mb-2"><?= $x->judul; ?></h5></a>
+                            <a href="<?= base_url('agenda/'.$x->slug); ?>" id="populer" style="text-decoration: none;"><h5 class="card-text mb-2"><?= $x->judul; ?></h5></a>
                             <small class="text-muted" style="font-size:12px;">
                                 <i class="fas fa-calendar-week"></i> <?= date('d-M-Y', strtotime($x->tgl)); ?>
                                 <i class="fas fa-bolt"></i> dilihat <?= $x->dilihat; ?>

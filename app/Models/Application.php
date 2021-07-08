@@ -111,5 +111,39 @@ class Application extends Model{
         return $build->get();
     }
 
+    public function getIndustriBySlug($slug){
+        $build = $this->db->table('industri');
+        $build->select('*');
+        $build->where('slug', $slug);
+        return $build->get();
+    }
+
+    public function getNamaIndustriBySlug($slug){
+        $build = $this->db->table('industri');
+        $build->select('*');
+        $build->where('slug', $slug);
+        foreach ($build->get()->getResult() as $x):
+            return $x->nama_industri;
+        endforeach;
+    }
+
+    public function getIdIndustriByslug($slug){
+        $build = $this->db->table('industri');
+        $build->where('slug', $slug);
+        foreach ($build->get()->getResult() as $x):
+            return $x->id_industri;
+        endforeach;
+    }
+
+    public function getSiswaTerdaftarIndustriByIdindustri($id_industri){
+        $build = $this->db->table('kelas');
+        $build->select('siswa.nama_siswa, kelas.nama_kelas, penempatan.status');
+        $build->join('siswa', 'kelas.id_kelas = siswa.id_kelas');
+        $build->join('penempatan', 'siswa.id_siswa = penempatan.id_siswa');
+        $build->where('penempatan.id_industri', $id_industri);
+        return $build;
+
+    }
+
 }
 ?>

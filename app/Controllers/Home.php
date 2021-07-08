@@ -6,6 +6,7 @@ use App\Models\Application;
 use App\Models\ModelsAdmin;
 use App\Models\Agenda;
 use App\Models\Industri;
+use Hermawan\DataTables\DataTable;
 
 class Home extends BaseController{
 	
@@ -90,12 +91,12 @@ class Home extends BaseController{
 
 	public function bacaagenda(){
 
-		view_cell('App\Libraries\Widgets::head_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>$this->ModelsApp->getJudulAgendaByslug($this->input->uri->getSegment('1')), 'agenda' => $this->ModelsApp->getAgendaByslug(urldecode($this->input->uri->getSegment('1')))->getResult()]);
+		view_cell('App\Libraries\Widgets::head_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>$this->ModelsApp->getJudulAgendaByslug($this->input->uri->getSegment('2')), 'agenda' => $this->ModelsApp->getAgendaByslug(urldecode($this->input->uri->getSegment('2')))->getResult()]);
 		view_cell('App\Libraries\Widgets::navbar_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'navbar'=>"Agenda"]);
 
 		$data = array(
-			'agenda' => $this->ModelsApp->getAgendaByslug(urldecode($this->input->uri->getSegment('1')))->getResult(),
-			'map' => $this->ModelsApp->getJudulAgendaByslug($this->input->uri->getSegment('1')), 
+			'agenda' => $this->ModelsApp->getAgendaByslug(urldecode($this->input->uri->getSegment('2')))->getResult(),
+			'map' => $this->ModelsApp->getJudulAgendaByslug($this->input->uri->getSegment('2')), 
 			'agendapopuler' => $this->ModelsApp->getAgendaLimit(5)->getResult(),
 			'kategori' => $this->ModelsAdmin->getKategoriAgenda()->getResult(),
 
@@ -134,6 +135,27 @@ class Home extends BaseController{
 
 		return view('landingpage/industri', $data);
 
+	}
+
+	public function detailindustri(){
+
+		view_cell('App\Libraries\Widgets::head_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>"Industri"]);
+		view_cell('App\Libraries\Widgets::navbar_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'navbar'=>"Industri"]);
+
+		$data = array(
+			'map' => $this->ModelsApp->getNamaIndustriBySlug($this->input->uri->getSegment('2')),
+			'industri' => $this->ModelsApp->getIndustriBySlug($this->input->uri->getSegment('2'))->getResult(),
+			'industripopuler' => $this->ModelsApp->getIndustriPopuler(6)->getResult(),
+			'slug' => $this->input->uri->getSegment('2')
+		);
+
+		return view('landingpage/bacaindustri', $data);
+
+	}
+
+	public function getDataTablePendaftar(){
+		$builder = $this->ModelsApp->getSiswaTerdaftarIndustriByIdindustri($this->ModelsApp->getIdIndustriByslug($this->input->getPost('slug')));
+		return DataTable::of($builder)->addNumbering()->toJson();
 	}
 
 }

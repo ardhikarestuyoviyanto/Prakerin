@@ -43,7 +43,7 @@
                             <img class="card-img-top" style="width:100%; height: 160px !important;" src="<?= base_url('assets/industri/'.$x->foto); ?>" alt="Card image cap">
                             <div class="card-body"> 
                                 <small><span class="badge badge-primary badge-pill mb-3"><i class="far fa-circle"></i> <?= $x->bidang_kerja; ?></span></small><br>
-                                <a href="<?= base_url(); ?>" id="populer" style="text-decoration: none;"><h5 class="card-text mb-2"><?= $x->nama_industri; ?></h5></a>
+                                <a href="<?= base_url('industri/'.$x->slug); ?>" id="populer" style="text-decoration: none;"><h5 class="card-text mb-2"><?= $x->nama_industri; ?></h5></a>
                                 <small class="text-muted" style="font-size:12px;">
                                     <i class="fas fa-user-check"></i> <?= $modell->getTotalKuotaPenempatanByIndustri($x->id_industri) ?> siswa &nbsp;
                                     <i class="fas fa-bolt"></i> sisa kuota <?= $sisa; ?>
@@ -77,7 +77,7 @@
                             <div class="col">
                             <small><span class="badge badge-primary badge-pill"><i class="far fa-circle"></i> <?= $x->bidang_kerja; ?></span></small><br>
                                 <p>
-                                    <a id="populer" href="<?= base_url(); ?>" style="text-decoration: none;" ><?= $x->nama_industri; ?></a><br>
+                                    <a id="populer" href="<?= base_url('industri/'.$x->slug); ?>" style="text-decoration: none;" ><?= $x->nama_industri; ?></a><br>
                                     <small style="font-size: 11px;" class="text-muted"> 
                                         <i class="fas fa-user-check"></i> <?= $modell->getTotalKuotaPenempatanByIndustri($x->id_industri) ?> siswa &nbsp;
                                         <i class="fas fa-bolt"></i> sisa kuota <?= $sisa; ?>
