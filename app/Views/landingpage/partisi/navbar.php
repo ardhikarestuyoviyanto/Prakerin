@@ -22,8 +22,16 @@
                 <?php else : ?>
                 <li class="nav-item"><a class="nav-link" href="<?= base_url('industri'); ?>">Industri</a></li>
                 <?php endif; ?>
-                <li class="nav-item"><a class="nav-link" href="#!">Monitoring</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Login</a></li>
+                <?php if($navbar == "Monitoring"): ?>
+                <li class="nav-item"><a class="nav-link active" href="<?= base_url('monitoring'); ?>">Monitoring</a></li>
+                <?php else : ?>
+                <li class="nav-item"><a class="nav-link" href="<?= base_url('monitoring'); ?>">Monitoring</a></li>
+                <?php endif; ?>
+                <?php if($navbar == "Login"): ?>
+                <li class="nav-item"><a class="nav-link active" href="<?= base_url('login'); ?>">Login</a></li>
+                <?php else: ?>
+                <li class="nav-item"><a class="nav-link" href="<?= base_url('login'); ?>">Login</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>

@@ -135,6 +135,8 @@ $routes->group('/', function($routes){
 	$routes->get('industri', 'Home::industri');
 	$routes->get('industri/(:any)', 'Home::detailindustri');
 	$routes->get('agenda/(:any)', 'Home::bacaagenda');
+	$routes->get('monitoring', 'Home::monitoring');
+	$routes->get('login', 'Home::login');
 });
 
 

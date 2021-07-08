@@ -158,4 +158,32 @@ class Home extends BaseController{
 		return DataTable::of($builder)->addNumbering()->toJson();
 	}
 
+	//--------------------------------------------------------------
+
+	public function monitoring(){
+		view_cell('App\Libraries\Widgets::head_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>"Monitoring"]);
+		view_cell('App\Libraries\Widgets::navbar_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'navbar'=>"Monitoring"]);
+
+		$data = array(
+			'absensi' => $this->ModelsApp->getTopSiswaAbsensiTerbaik(10)->getResult(),
+			'jurnal' => $this->ModelsApp->getTopSiswaJurnalTerbaik(10)->getResult(),
+			'industri' => $this->ModelsIndustri->paginate(8, 'industri'),
+			'pager' => $this->ModelsIndustri->pager
+		);
+
+		return view('landingpage/monitoring', $data);
+
+	}
+
+	//--------------------------------------------------------------
+
+	public function login(){
+		view_cell('App\Libraries\Widgets::head_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>"Login"]);
+		view_cell('App\Libraries\Widgets::navbar_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'navbar'=>"Login"]);
+		view_cell('App\Libraries\Widgets::footer_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'location'=>"Login"]);
+
+		return view('landingpage/login');
+
+	}
+
 }

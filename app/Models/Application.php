@@ -145,5 +145,51 @@ class Application extends Model{
 
     }
 
+    //----------------------------------------------------------------
+
+    public function getTopSiswaAbsensiTerbaik($limit){
+        $build = $this->db->table('kelas');
+        $build->select('siswa.nama_siswa, kelas.nama_kelas, COUNT(absensi.id_absen) AS total_absensi');
+        $build->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
+        $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
+        $build->join('absensi', 'absensi.id_penempatan = penempatan.id_penempatan');
+        $build->where('absensi.status', 'hadir');
+        $build->limit($limit);
+        $build->orderBy('total_absensi', "DESC");
+        $build->groupBy('absensi.id_penempatan');
+        return $build->get();
+    }
+
+    public function getTopSiswaJurnalTerbaik($limit){
+        $build = $this->db->table('kelas');
+        $build->select('siswa.nama_siswa, kelas.nama_kelas, COUNT(jurnal.id_jurnal) AS total_jurnal');
+        $build->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
+        $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
+        $build->join('jurnal', 'jurnal.id_penempatan = penempatan.id_penempatan');
+        $build->where('jurnal.status', "Y");
+        $build->limit($limit);
+        $build->orderBy('total_jurnal', "DESC");
+        $build->groupBy('jurnal.id_penempatan');
+        return $build->get();
+    }   
+
+    public function getTotalAbsensiByIdIndustri($id_industri){
+        $build = $this->db->table('penempatan');
+        $build->select('abseni.id_absen');
+        $build->join('absensi', 'absensi.id_penempatan = penempatan.id_penempatan');
+        $build->where('penempatan.id_industri', $id_industri);
+        $build->where('absensi.status', "hadir");
+        return $build->countAllResults();
+    }
+
+    public function getTotalJurnalByIdIndustri($id_industri){
+        $build = $this->db->table('penempatan');
+        $build->select('jurnal.id_jurnal');
+        $build->join('jurnal', 'jurnal.id_penempatan = penempatan.id_penempatan');
+        $build->where('penempatan.id_industri', $id_industri);
+        $build->where('jurnal.status', 'Y');
+        return $build->countAllResults();
+    }
+
 }
 ?>
