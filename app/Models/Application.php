@@ -92,6 +92,23 @@ class Application extends Model{
         endforeach;
     }
 
+    public function CounterAgenda($slug){
+        $build = $this->db->table('agenda');
+        $build->select('agenda.dilihat');
+        $build->where('agenda.slug', $slug);
+        foreach ($build->get()->getResult() as $x):
+            $total_dilihat = $x->dilihat;
+        endforeach;
+
+        $data = array(
+            'dilihat' => $total_dilihat + 1
+        );
+
+        $build = $this->db->table('agenda');
+        $build->where('agenda.slug', $slug);
+        $build->update($data);
+    }
+
     //------------------------------
 
     public function getIndustriPopuler($limit){
@@ -190,6 +207,32 @@ class Application extends Model{
         $build->where('jurnal.status', 'Y');
         return $build->countAllResults();
     }
+
+
+    //--------------------------------------------------------------
+
+    public function FilterPenempatan($id_siswa){
+        $build = $this->db->table('industri');
+        $build->select('industri.nama_industri, industri.id_industri, penempatan.id_penempatan, penempatan.status, penempatan.surat, siswa.nis, siswa.nama_siswa, kelas.nama_kelas, kelas.id_kelas, penempatan.id_penempatan');
+        $build->join('penempatan', 'penempatan.id_industri = industri.id_industri');
+        $build->join('siswa', 'siswa.id_siswa = penempatan.id_siswa');
+        $build->join('kelas', 'kelas.id_kelas = siswa.id_kelas');
+        $build->where('siswa.id_siswa', $id_siswa);
+        $build->orderBy('penempatan.id_penempatan', "DESC");
+        return $build->get();
+    }
+
+    public function TambahJurnal($data){
+        $build = $this->db->table('jurnal');
+        $build->insert($data);
+    }
+
+    public function Hapusjurnal($id_jurnal){
+        $build = $this->db->table('jurnal');
+        $build->where('jurnal.id_jurnal', $id_jurnal);
+        $build->delete();
+    }
+
 
 }
 ?>

@@ -99,7 +99,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-eye toggle-password"></i></span>
                             </div>
-                            <input type="password" id="password" class="form-control" placeholder="Kosongkan jika tidak perlu diubah">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Kosongkan jika tidak perlu diubah">
                             <br>
                         </div>
                     </div>

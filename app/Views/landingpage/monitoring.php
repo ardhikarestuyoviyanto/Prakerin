@@ -49,7 +49,7 @@
 
         <div class="card mt-4">
             <div class="card-header bg-info text-white">
-                Lokasi Prakerin Paling Aktif
+                Keaktifan Lokasi Prakerin
             </div>
             <div class="card-body">
                 <ul class="list-group">

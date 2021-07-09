@@ -260,7 +260,6 @@ class Admin extends BaseController{
             'nis' => $this->input->getPost('nis'),
             'alamat' => $this->input->getPost('alamat'),
             'username' => $this->input->getPost('username'),
-            'password' => password_hash($this->input->getPost('password'), PASSWORD_DEFAULT),
             'jenis_kelamin' => $this->input->getPost('jenis_kelamin')
         );
 

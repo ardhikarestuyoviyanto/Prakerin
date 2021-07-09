@@ -9,6 +9,33 @@
     #populer{
         color: #3e3f42;
     }
+    .blink {
+
+    animation: blink-animation 1s steps(5, start) infinite;
+
+        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+
+    }
+
+    @keyframes blink-animation {
+
+        to {
+
+        visibility: hidden;
+
+        }
+
+    }
+
+    @-webkit-keyframes blink-animation {
+
+    to {
+
+        visibility: hidden;
+
+    }
+
+}
     </style>
     <?= $this->include('landingpage/partisi/navbar.php'); ?>
         <div class="container px-4 px-lg-5" style="margin-bottom: 60px;">
@@ -45,12 +72,12 @@
                 <div class="col-lg-5">
                     <h1 class="font-weight-light">Sistem Informasi Prakerin</h1>
                     <p>Selamat Datang di <?= $data_app[0]['nama_app']; ?>, <?= $data_app[0]['nama_instansi']; ?> Sistem Indormasi yang digunakan untuk mengelola Praktik kerja Industri, mulai dari Persiapan, Pelaksanaan, Penilaian, dan Evaluasi. Silahkan dipergunakan dengan baik</p>
-                    <a class="btn btn-primary" href="#!">Login</a>
+                    <a class="btn btn-primary" href="<?= base_url('login'); ?>">Login</a>
                 </div>
             </div>
             <!-- Call to Action-->
             <div class="card text-white bg-secondary my-5 py-4 text-center">
-                <div class="card-body"><p class="text-white m-0"><b>Agenda dan Berita mengenai Kegiatan Prakerin Terbaru</b></p></div>
+                <div class="card-body"><p class="text-white m-0 blink"><b>Agenda dan Berita mengenai Kegiatan Prakerin Terbaru</b></p></div>
             </div>
             <!-- Content Row-->
             <div class="row gx-4 gx-lg-5">

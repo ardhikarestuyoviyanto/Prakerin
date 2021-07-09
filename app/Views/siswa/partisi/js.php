@@ -2,7 +2,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url('assets/js/scripts.js'); ?>"></script>
-<?php foreach($app as $x): echo $x->disqus; endforeach;?>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" ></script>
 <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js" ></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

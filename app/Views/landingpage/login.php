@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <?= $this->include('landingpage/partisi/head.php'); ?>
-    <style>
-        .card {
-            margin: 0 auto; /* Added */
-            float: none; /* Added */
-            margin-bottom: 10px; /* Added */
-        }
-    </style>
+    <link rel="stylesheet" href="<?= base_url('assets/css/login.css'); ?>">
     <body>
     <?= $this->include('landingpage/partisi/navbar.php'); ?>
     <?php use App\Models\Application; $modell = new Application; ?>
@@ -22,12 +16,14 @@
             </nav>
 
             <div class="container">
-                <div class="card mt-5" style="width: 25rem;">
+            <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card card-signin my-5">
                     <div class="card-header text-center bg-white">
                         <h2 class="font-weight-light">Login Siswa</h2>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="Login">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="Username" name="username" required>
                             <div class="input-group-append">
@@ -62,24 +58,68 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-3" style="float:right">Login</button>
+                            <button type="submit" class="btn btn-primary mt-3 submit" style="float:right">Login</button>
+                            <button class="btn btn-primary mt-3 loading" type="button" disabled style="float:right;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
                         </form>
                     </div>
-                    <div class="card-footer text-center">
+                    <div class="card-footer text-center bg-white">
                         <small>
                             <a href="<?= base_url('auth/guru'); ?>" class="card-link">Login Pembimbing</a>
                         </small>
                     </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
 
         </div>
         <?= $this->include('landingpage/partisi/footer.php'); ?>
         <?= $this->include('landingpage/partisi/js.php'); ?>
         <script>
+            $('.loading').hide();
+
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
+            });
+
+            $(document).ready(function () {
+                $('#Login').submit(function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url : '<?= base_url('auth/ActionLoginSiswa') ?>',
+                        type : 'POST',
+                        data : $(this).serialize(),
+                        beforeSend : function(){
+                            $('.loading').show();
+                            $('.submit').hide();
+                        },
+                        complete : function () {
+                            $('.loading').hide();
+                            $('.submit').show();
+                        },
+                        success : function (response) {
+                            
+                            if(response == 1){
+
+                                window.location.href = '<?= base_url('siswa/beranda'); ?>'
+
+                            }else{
+
+                                swal(response);
+
+                            }
+
+                        },
+                        error : function (err) {
+                            alert('SERVER ERROR '.err);
+                        }
+                        
+                    });
+                });
             });
         </script>
     </body> 

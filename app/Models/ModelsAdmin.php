@@ -414,6 +414,17 @@ class ModelsAdmin extends Model{
         
     }
 
+    public function getPenempatanByidSiswa($id_siswa){
+        $build = $this->db->table('siswa');
+        $build->select('siswa.nis, siswa.nama_siswa, siswa.id_siswa, siswa.id_kelas, penempatan.id_penempatan, penempatan.id_industri');
+        $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
+        $build->where('siswa.id_siswa', $id_siswa);
+        $build->where('penempatan.status', 'diterima');
+        $build->orderBy('siswa.nis', "ASC");
+        return $build->get();
+        
+    }
+
     public function getStatusAbsensi($id_penempatan, $tgl){
         $build = $this->db->table('absensi');
         $build->where('absensi.tgl', $tgl);
@@ -461,6 +472,16 @@ class ModelsAdmin extends Model{
         return $build->get();
     }
 
+    public function getAbsensiPerSiswaByidIndustriAndIdPenempatan($id_siswa, $id_industri){
+        $build = $this->db->table('penempatan');
+        $build->select('penempatan.id_penempatan, absensi.id_absen, absensi.tgl, absensi.status');
+        $build->join('absensi', 'absensi.id_penempatan = penempatan.id_penempatan');
+        $build->where('penempatan.id_siswa', $id_siswa);
+        $build->where('penempatan.id_industri', $id_industri);
+        $build->orderBy('absensi.tgl', "DESC");
+        return $build->get();
+    }
+
     public function getAbsensiByIdPenempatan($id_penempatan, $value, $start, $finish){
         $build = $this->db->table('absensi');
         $build->select('absensi.status');
@@ -498,6 +519,20 @@ class ModelsAdmin extends Model{
         $build = $this->db->table('jurnal');
         $build->where('jurnal.id_penempatan', $id_penempatan);
         return $build->get(); 
+    }
+
+    public function getJurnalByIdPenempatanAndDate($id_penempatan){
+        $build = $this->db->table('jurnal');
+        $build->where('jurnal.id_penempatan', $id_penempatan);
+        foreach ($build->get()->getResult() as $x):
+
+            if(date('Y-m-d', strtotime($x->tgl_kumpul)) == date('Y-m-d')){
+
+                return 1;
+            
+            }
+
+        endforeach;
     }
 
     public function inputnilaiJurnal($id_jurnal, $data){
@@ -736,7 +771,7 @@ class ModelsAdmin extends Model{
 
     public function getJurnalByIdSiswa($id_siswa){
         $build = $this->db->table('penempatan');
-        $build->select('jurnal.judul, jurnal.nilai, penempatan.id_siswa');
+        $build->select('jurnal.judul, jurnal.nilai, penempatan.id_siswa, jurnal.status');
         $build->join('jurnal', 'jurnal.id_penempatan = penempatan.id_penempatan');
         $build->where('penempatan.id_siswa', $id_siswa);
         return $build->get();
@@ -821,6 +856,15 @@ class ModelsAdmin extends Model{
         $build->where('pembimbing.id_pembimbing', $id_pembimbing);
         foreach ($build->get()->getResult() as $x):
             return $x->id_industri;
+        endforeach;
+    }
+
+    public function getAlasanPenolakan($id_penempatan){
+        $build = $this->db->table('tolak_penempatan');
+        $build->select('alasan');
+        $build->where('id_penempatan', $id_penempatan);
+        foreach ($build->get()->getResult() as $x):
+            return $x->alasan;
         endforeach;
     }
 

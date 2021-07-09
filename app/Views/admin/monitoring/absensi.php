@@ -132,7 +132,7 @@
                     <option value="hadir">- HADIR -</option>
                     <option value="sakit">- SAKIT - </option>
                     <option value="ijin">- IJIN -</option>
-                    <option value="alpa">- ALFA - </option>
+                    <option value="alfa">- ALFA - </option>
                 </select>
             </div>
 

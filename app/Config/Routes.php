@@ -139,6 +139,20 @@ $routes->group('/', function($routes){
 	$routes->get('login', 'Home::login');
 });
 
+$routes->group('siswa', function($routes){
+	$routes->get('beranda', 'Siswa::beranda', ['filter'=>'IsLogin']);
+	$routes->get('getAbsensiPerSiswa', 'Siswa::getAbsensiPerSiswa', ['filter'=>'IsLogin']);
+	$routes->get('getJurnalPerSiswa', 'Siswa::getJurnalPerSiswa', ['filter'=>'IsLogin']);
+	$routes->get('penempatan', 'Siswa::penempatan', ['filter'=>'IsLogin']);
+	$routes->get('tambahpenempatan', 'Siswa::tambahpenempatan_action', ['filter'=>'IsLogin']);
+	$routes->get('updatesiswa', 'Siswa::updatesiswa', ['filter'=>'IsLogin']);
+
+	$routes->get('presensi', 'Siswa::presensi', ['filter'=>'IsLogin']);
+	$routes->get('rekapabsensi', 'Siswa::rekapabsensi', ['filter'=>'IsLogin']);
+	$routes->get('jurnal', 'Siswa::jurnal', ['filter'=>'IsLogin']);
+	$routes->get('tambahjurnal_action', 'Siswa::tambahjurnal_action', ['filter'=>'IsLogin']);
+	$routes->get('hapusjurnal_action', 'Siswa::hapusjurnal_action', ['filter'=>'IsLogin']);
+});
 
 
 /*

@@ -51,7 +51,7 @@ class Home extends BaseController{
 			$data = array(
 				'kategori' => $this->ModelsAdmin->getKategoriAgenda()->getResult(),
 				'agenda' => $this->ModelsApp->FilterAgenda(urldecode($_GET['cari']))->getResult(),
-				'agendapopuler' => $this->ModelsApp->getAgendaLimit(5)->getResult(),
+				'agendapopuler' => $this->ModelsApp->getAgendaPopuler(5)->getResult(),
 				'map' => urldecode($_GET['cari']),
 				'pager' => null
 			);
@@ -61,7 +61,7 @@ class Home extends BaseController{
 			$data = array(
 				'kategori' => $this->ModelsAdmin->getKategoriAgenda()->getResult(),
 				'agenda' => $this->ModelsAgenda->paginate(8, 'agenda'),
-				'agendapopuler' => $this->ModelsApp->getAgendaLimit(5)->getResult(),
+				'agendapopuler' => $this->ModelsApp->getAgendaPopuler(5)->getResult(),
 				'map' => null,
 				'pager' => $this->ModelsAgenda->pager
 			);
@@ -80,7 +80,7 @@ class Home extends BaseController{
 		$data = array(
 			'kategori' => $this->ModelsAdmin->getKategoriAgenda()->getResult(),
 			'agenda' => $this->ModelsApp->getAgendaByNamaKategori(urldecode($this->input->uri->getSegment('3')))->getResult(),
-			'agendapopuler' => $this->ModelsApp->getAgendaLimit(5)->getResult(),
+			'agendapopuler' => $this->ModelsApp->getAgendaPopuler(5)->getResult(),
 			'map' => urldecode($this->input->uri->getSegment('3')),
 			'pager' => null
 		);
@@ -90,17 +90,21 @@ class Home extends BaseController{
 	}
 
 	public function bacaagenda(){
+		
+		$this->ModelsApp->CounterAgenda(urldecode($this->input->uri->getSegment('2')));
 
 		view_cell('App\Libraries\Widgets::head_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>$this->ModelsApp->getJudulAgendaByslug($this->input->uri->getSegment('2')), 'agenda' => $this->ModelsApp->getAgendaByslug(urldecode($this->input->uri->getSegment('2')))->getResult()]);
 		view_cell('App\Libraries\Widgets::navbar_home', ['app'=>$this->ModelsApp->getApp()->getResult(), 'navbar'=>"Agenda"]);
+		
 
 		$data = array(
 			'agenda' => $this->ModelsApp->getAgendaByslug(urldecode($this->input->uri->getSegment('2')))->getResult(),
 			'map' => $this->ModelsApp->getJudulAgendaByslug($this->input->uri->getSegment('2')), 
-			'agendapopuler' => $this->ModelsApp->getAgendaLimit(5)->getResult(),
+			'agendapopuler' => $this->ModelsApp->getAgendaPopuler(5)->getResult(),
 			'kategori' => $this->ModelsAdmin->getKategoriAgenda()->getResult(),
 
 		);
+
 
 		return view('landingpage/bacaagenda', $data);
 

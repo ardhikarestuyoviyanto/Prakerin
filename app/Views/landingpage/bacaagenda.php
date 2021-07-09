@@ -55,11 +55,11 @@
                 </div>
                 <?php endif; ?>
 
-                <div class="row row-cols-auto mt-5 justify-content-end mb-5">
-                    <div class="col"><h4>Share</h4> </div>
-                    <div class="col"><a target="__BLANLK" href="https://www.facebook.com/sharer.php?s=100&amp;p[title]=<?= $x->judul; ?>&amp;p[summary]=<?= substr(strip_tags($x->isi),0,100) ;?>&amp;p[url]=<?= base_url('agenda/'.$x->slug); ?>&amp;&p[images][0]=<?= base_url('assets/agenda/'.$x->gambar);?>"><img src="https://image.flaticon.com/icons/png/512/124/124010.png" width="30px" alt=""></a></div>
-                    <div class="col"><a target="__BLANK" href="https://wa.me/?text=<?= base_url('agenda/'.$x->slug); ?>"><img src="https://www.apkmirror.com/wp-content/uploads/2020/01/5e278ba9f3021.png" width="30px" alt=""></a></div>
-                    <div class="col"><a target="__BLANK" href="https://www.linkedin.com/shareArticle?mini=true&url=<?= base_url('agenda/'.$x->slug); ?>&title=<?= $x->slug; ?>"><img src="https://image.flaticon.com/icons/png/512/174/174857.png" width="30px" alt=""></a></a></div>
+                <div class="row row-cols-auto mt-5 mb-5 justify-content-end">
+                    <div><h4>Share</h4> </div>
+                    <div><a target="__BLANLK" href="https://www.facebook.com/sharer.php?s=100&amp;p[title]=<?= $x->judul; ?>&amp;p[summary]=<?= substr(strip_tags($x->isi),0,100) ;?>&amp;p[url]=<?= base_url('agenda/'.$x->slug); ?>&amp;&p[images][0]=<?= base_url('assets/agenda/'.$x->gambar);?>"><img src="https://image.flaticon.com/icons/png/512/124/124010.png" width="30px" alt=""></a></div>
+                    <div><a target="__BLANK" href="https://wa.me/?text=<?= base_url('agenda/'.$x->slug); ?>"><img src="https://www.apkmirror.com/wp-content/uploads/2020/01/5e278ba9f3021.png" width="30px" alt=""></a></div>
+                    <div><a target="__BLANK" href="https://www.linkedin.com/shareArticle?mini=true&url=<?= base_url('agenda/'.$x->slug); ?>&title=<?= $x->slug; ?>"><img src="https://image.flaticon.com/icons/png/512/174/174857.png" width="30px" alt=""></a></a></div>
                 </div>
 
                 <div id="disqus_thread"></div>

@@ -21,5 +21,13 @@ class ManagementUsers extends Model{
 
     }
 
+    public function getSiswa($username){
+
+        $build = $this->db->table('siswa');
+        $build->where('username', $username);
+        return $build->get();
+
+    }
+
 }
 ?>
