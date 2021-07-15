@@ -6,11 +6,11 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Rekap Jurnal</h1>
+        <h1 class="m-0">Laporan Akhir</h1>
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">Rekap Jurnal</li>
+            <li class="breadcrumb-item">Laporan Akhir</li>
         </ol>
         </div>
     </div>
@@ -21,7 +21,7 @@
     <div class="container-fluid">
     <div class="card">
     <div class="card-header">
-        Rekap Jurnal
+        Laporan Akhir
     </div>
 
     <div class="card-header bg-gray-light">
@@ -49,17 +49,18 @@
     
     <?php if(isset($_GET['industri'])): ?>
     <div class="card-body">
-        <table class="table table-bordered">
+    <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">#</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
+                    <th scope="col">Kelas</th>
                     <th scope="col">Pending</th>
                     <th scope="col">Unapproval</th>
                     <th scope="col">Approval</th>
-                    <th scope="col">Total Jurnal</th>
+                    <th scope="col">Total Laporan</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,6 +70,7 @@
                     <td  data-toggle="collapse" id="table1" data-target=".table<?php echo $i; ?>"><a type="button" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></a></td>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
+                    <td><?= $modell->getNamaKelas($x->id_kelas); ?></td>
                     <td class="text-primary text-bold"><?= $modell->getTotalStatusJurnalPending($x->id_penempatan); ?></td>
                     <td class="text-red text-bold"><?= $modell->getTotalStatusJurnalUnapproval($x->id_penempatan); ?></td>
                     <td class="text-success text-bold"><?= $modell->getTotalStatusJurnalApproval($x->id_penempatan); ?></td>
@@ -83,20 +85,23 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>No</th>
-                                <th>#</th>
-                                <th>Judul</th>
-                                <th>Keterangan</th>
-                                <th>Tgl Kumpul</th>
-                                <th>Status Approval</th>
-                                <th>Aksi</th>
+                                <th scope="col">No</th>
+                                <th scope="col">#</th>
+                                <th scope="col">Judul</th>
+                                <th scope="col">Keterangan</th>
+                                <th scope="col">Tgl Kumpul</th>
+                                <th scope="col">Status Approval</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                             </thead>
                             <tbody>
                                 <?php $k=1; foreach($modell->getJurnalByIdPenempatan($x->id_penempatan)->getResult() as $y): ?>
                                 <tr>
-                                    <td><?= $k++; ?></td>
-                                    <td><a target="__BLANK" href="<?= base_url('assets/jurnal/'.$y->file); ?>"><i class="fas fa-file-download"></i></a></td>
+                                    <th scope="row"><?= $k++; ?></th>
+                                    <td  data-toggle="collapse" id="table2" data-target=".table2<?php echo $k; ?>">
+                                        <a target="__BLANK" class="btn btn-success btn-xs text-white" type="button" href="<?= base_url('assets/jurnal/'.$y->file); ?>"><i class="fas fa-file-download"></i></a>&#160;
+                                        <a href="#" class="btn btn-secondary btn-xs text-white" type="button"><i class="fas fa-plus"></i></a>
+                                    </td>
                                     <td><?= $y->judul; ?></td>
                                     <td><?= $y->keterangan; ?></td>
                                     <td><?= date('d-m-y  /  H:i:s', strtotime($y->tgl_kumpul)); ?></td>
@@ -111,6 +116,16 @@
                                         <a href="#" data-id="<?= $y->id_jurnal; ?>" class="savestatus"><span class="badge badge-primary">Update Status</span></a>
                                     </td>
                                 </tr>
+                                
+                                <tr class="collapse table2<?php echo $k; ?>">
+                                    <td colspan="999">
+                                        <div>
+                                        <?php if(empty($y->catatan)){echo "Belum ada Catatan"; }else{echo "<b>Catatan : </b>".$y->catatan;} ?>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -145,19 +160,26 @@ $('document').ready(function(){
     $('.savestatus').click(function(e){
         e.preventDefault();
 
-        var status = $(this).data('status');
-        var id = $(this).data('id');
+        swal("Tambahkan Catatan Untuk Siswa:", {
+            content:"input"
+        })
+        .then((value)=>{
 
-        $.ajax({
-            url: '<?= base_url('admin/UpdateStatusJurnal'); ?>',
-            data: {'id':id, 'status':status},
-            type: 'POST',
-            success: function(data){
-                swal(data);
-            },
-            error: function(error){
-                alert('Server Error');
-            }
+            var status = $(this).data('status');
+            var id = $(this).data('id');
+
+            $.ajax({
+                url: '<?= base_url('admin/UpdateStatusJurnal'); ?>',
+                data: {'id':id, 'status':status, 'catatan':value},
+                type: 'POST',
+                success: function(data){
+                    swal(data);
+                },
+                error: function(error){
+                    alert('Server Error');
+                }
+            });
+
         });
 
     });

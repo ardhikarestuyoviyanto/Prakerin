@@ -60,7 +60,7 @@
             <span class="info-box-icon bg-danger"><i class="fas fa-user"></i></span>
 
             <div class="info-box-content">
-                <span class="info-box-text">Pembimbing Aktif</span>
+                <span class="info-box-text">Total Pembimbing</span>
                 <span class="info-box-number"><?php echo count($modell->getGuru()->getResult()); ?></span>
             </div>
             </div>
@@ -69,26 +69,48 @@
 
 
         <div class="row justify-content-center">
-        <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-            <span class="info-box-icon bg-primary"><i class="fas fa-industry"></i></span>
 
-            <div class="info-box-content">
-                <span class="info-box-text">Total Industri</span>
-                <span class="info-box-number"><?php echo count($modell->getIndustri()->getResult()); ?></span>
-            </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-            <span class="info-box-icon bg-secondary"><i class="fas fa-calendar-week"></i></span>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                <span class="info-box-icon bg-primary"><i class="fas fa-user-ninja"></i></span>
 
-            <div class="info-box-content">
-                <span class="info-box-text">Total Agenda</span>
-                <span class="info-box-number"><?php echo count($modell->getAgenda()->getResult()); ?></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Pembimbing Industri</span>
+                    <span class="info-box-number"><?php echo $modell->getGuruByType('I'); ?></span>
+                </div>
+                </div>
             </div>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                <span class="info-box-icon bg-warning"><i class="fas fa-user-tie"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Pembimbing Sekolah</span>
+                    <span class="info-box-number"><?php echo $modell->getGuruByType('S');; ?></span>
+                </div>
+                </div>
             </div>
-        </div>
+
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                <span class="info-box-icon bg-primary"><i class="fas fa-industry"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Industri</span>
+                    <span class="info-box-number"><?php echo count($modell->getIndustri()->getResult()); ?></span>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                <span class="info-box-icon bg-secondary"><i class="fas fa-calendar-week"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Agenda</span>
+                    <span class="info-box-number"><?php echo count($modell->getAgenda()->getResult()); ?></span>
+                </div>
+                </div>
+            </div>
         </div>
 
     </div>

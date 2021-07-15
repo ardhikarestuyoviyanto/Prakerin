@@ -67,6 +67,26 @@
         </div>
         </div>
 
+        <div class="row justify-content-center">
+
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                <span class="info-box-icon bg-primary"><i class="fas fa-user-ninja"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Anda Berstatus Sebagai</span>
+                    <span class="info-box-number">
+                        <?php if($status == "S"): ?>
+                            Pembimbing Sekolah
+                        <?php else: ?>
+                            Pembimbing Industri
+                        <?php endif; ?>
+                    </span>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <?php endforeach; ?>
     <div class="card-footer">

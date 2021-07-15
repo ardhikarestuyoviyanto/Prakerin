@@ -64,40 +64,40 @@
     <?php if(isset($_GET['industri'])): ?>
     <div class="card-body">
         <h6 class="text-bold mt-3 mb-3">Tanggal : <?= date('d M Y', strtotime($_GET['start']))." - ".date('d M Y', strtotime($_GET['finish'])); ?> </h6>
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="DataTable">
             <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col" style="width:90px;">#</th>
+                    <th scope="col" width="10">#</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
+                    <th scope="col">Kelas</th>
                     <th scope="col" >Hadir</th>
                     <th scope="col">Sakit</th>
                     <th scope="col">Izin</th>
                     <th scope="col">Alfa</th>
                     <th scope="col">Total Rekap</th>
+                    <th scope="col" class="none">Rekap Detail :</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i=1; foreach ($data as $x): ?>
                 <tr>
                     <th scope="row"><?= $i; ?></th>
-                    <td  data-toggle="collapse" id="table1" data-target=".table<?php echo $i; ?>">
-                        <a type="button" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></a>
+                    <td>
                         <a target="__BLANK" href="<?= base_url('export/export_presensipersiswa?id_penempatan='.$x->id_penempatan.'&id_siswa='.$x->id_siswa.'&start='.$_GET['start'].'&finish='.$_GET['finish']) ?>" type="button" class="btn btn-success btn-xs"><i class="fas fa-file-download"></i></a>
                     </td>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
+                    <td><?= $modell->getNamaKelas($x->id_kelas); ?></td>
                     <td class="text-bold text-success"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "hadir", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold text-primary"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "sakit", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold text-info"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "izin", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold text-danger"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "alfa", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold"><?= $modell->getTotalAbsensiByIdPenempatan($x->id_penempatan, $_GET['start'], $_GET['finish']); ?></td>
-                </tr>
-                <tr class="collapse table<?php echo $i; ?>">
-                    <td colspan="999">
-                        <div>
-                        <table class="table table-striped">
+                    <td>
+                    <br>
+                    <table class="table-bordered">
                             <thead>
                             <tr>
                                 <th>No</th>
@@ -138,7 +138,7 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
-                        </div>
+
                     </td>
                 </tr>
                 <?php $i++; endforeach; ?>
@@ -165,7 +165,9 @@
 
 <script>
 $('document').ready(function(){
-
+    $('#DataTable').DataTable({
+        responsive: true,
+    })
 
 });
 </script>

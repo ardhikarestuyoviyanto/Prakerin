@@ -41,22 +41,6 @@
                     </select>
                 </div>
             </div>
-
-            <div class="mb-3 row">
-                <label for="nama_kelas" class="col-sm-2 col-form-label">Nama Kelas</label>
-                <div class="col-sm-10">
-                    <select class="form-control" aria-label="Default select example" required name="kelas">
-                        <option selected value="">- Kelas / Jurusan -</option>
-                        <?php foreach ($kelas as $x): ?>
-                        <?php if($x->id_kelas == @$_GET['kelas']){ ?>
-                        <option value="<?= $x->id_kelas; ?>" selected><?= $x->nama_kelas." / ".$x->nama_jurusan; ?></option>
-                        <?php }else{ ?>
-                        <option value="<?= $x->id_kelas; ?>"><?=  $x->nama_kelas." / ".$x->nama_jurusan;?></option>
-                        <?php } ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
     
     </div>
         <div class="card-header bg-light" >
@@ -64,20 +48,19 @@
         </div>
     </form>
     
-    <?php if(isset($_GET['kelas']) && isset($_GET['industri'])): ?>
+    <?php if(isset($_GET['industri'])): ?>
     <div class="card-body">
-    <div class="alert alert-light" role="alert">
-        Ada <b><?= $modell->getTotalAspekByJurusan($modell->getIdJurusanByIdkelas($_GET['kelas']))?> Aspek </b> Yang Perlu Dinilai Pada Jurusan Ini.
-    </div>
-        <table class="table table-bordered" id="Table">
+        <table class="table table-bordered" id="DataTable">
             <thead>
                 <tr>
-                    <th scope="col">No</th>
+                    <th scope="col" width="10">No</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
-                    <th scope="col">Approval Jurnal</th>
-                    <th scope="col">Unapproval Jurnal</th>
-                    <th scope="col">Total Jurnal</th>
+                    <th scope="col">Kelas</th>
+                    <th scope="col" class="none">Approval Laporan</th>
+                    <th scope="col" class="none">Unapproval Laporan</th>
+                    <th scope="col" class="none">Total Laporan</th>
+                    <th scope="col">Aspek Perlu Dinilai</th>
                     <th scope="col">Rata - rata Nilai</th>
                     <th scope="col">Aksi</th>
                 </tr>
@@ -88,11 +71,13 @@
                     <th scope="row"><?= $i++; ?></th>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
+                    <td><?= $modell->getNamaKelas($x->id_kelas); ?></td>
                     <td class="text-bold text-success"><?= $modell->getTotalStatusJurnalApproval($x->id_penempatan); ?></td>
                     <td class="text-bold text-danger"><?= $modell->getTotalStatusJurnalUnapproval($x->id_penempatan); ?></td>
                     <td class="text-bold"><?= $modell->getTotalJurnalByIdPenempatan($x->id_penempatan); ?></td>
+                    <td class="text-bold"><?= $modell->getTotalAspekByJurusan($x->id_jurusan); ?></td>
                     <td><?= number_format($modell->getRataRataNilai($x->id_penempatan), 1); ?></td>
-                    <td><a href="<?= base_url('admin/inputnilai/'.$x->id_penempatan.'/'.$modell->getIdJurusanByIdkelas($_GET['kelas']).'/'.$_GET['industri'].'/'.$_GET['kelas']) ?>" ><span class="badge badge-primary">Input Nilai</span></a></td>
+                    <td><a href="<?= base_url('admin/inputnilai/'.$x->id_penempatan.'/'.$x->id_jurusan.'/'.$_GET['industri'].'/'.$x->id_kelas) ?>" ><span class="badge badge-primary">Input Nilai</span></a></td>
                 </tr>
 
                 <?php endforeach; ?>
@@ -112,7 +97,9 @@
 
 <script>
 $('document').ready(function(){
-
+    $('#DataTable').DataTable({
+        responsive: true
+    });
 
 });
 </script>

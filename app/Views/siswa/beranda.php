@@ -72,6 +72,41 @@
 
             </div>
 
+                <div class="row justify-content-center d-flex">
+
+                    <div class="col">
+                        
+                        <div class="card bg-dark mb-3 text-white">
+                            <div class="card-header">
+                                Pembimbing Industri
+                            </div>
+                            <div class="card-body">
+                            <?php foreach($total_pembimbingindustri as $x): ?>
+                            <?= $x->nama_pembimbing. "(".$x->nohp.")<br>"; ?>
+                            <?php endforeach; ?>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col">
+                        
+                        <div class="card bg-light mb-3 text-black">
+                            <div class="card-header">
+                                Pembimbing Sekolah
+                            </div>
+                            <div class="card-body">
+                            <?php foreach($total_pembimbingsekolah  as $x): ?>
+                            <?= $x->nama_pembimbing." (".$x->nohp.")<br>"; ?>
+                            <?php endforeach; ?>                          
+                          </div>
+                        </div>
+                        
+                    </div>
+
+
+                </div>
+
             <div class="card mb-3">
                 <div class="card-header">
                     Profil Saya
@@ -97,14 +132,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required value="<?= $x->username; ?>">
+                                <input type="text" class="form-control" readonly id="username" name="username" required value="<?= $x->username; ?>">
                             </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Kosongkan jika tidak dirubah">
-                            </div>
-                            <input type="hidden" name="id" value="<?= $id_siswa; ?>">
-                            <button type="submit" class="btn btn-primary">Update</button>
                         </form>
                     <?php endforeach; ?>
                 </div>
@@ -169,7 +198,7 @@
                     success: function(res){
                         var data = JSON.parse(res);
 
-                        const ArrKehadian = [0, 0, 0, 0];
+                        const ArrKehadian = [0, 0, 0, 0, 0];
 
                         for (let i = 0; i < data.length; i++) {
 
@@ -189,6 +218,10 @@
 
                                 ArrKehadian[3] = ArrKehadian[3] + 1;
 
+                            }else if(data[i].status == "pending"){
+
+                                ArrKehadian[4] = ArrKehadian[4] + 1;
+
                             }
 
                         }
@@ -199,7 +232,8 @@
                                 'Hadir',
                                 'Sakit',
                                 'Izin',
-                                'Alfa'
+                                'Alfa',
+                                'Pending'
                             ],
                             datasets: [{
                                 label: 'My First Dataset',
@@ -208,7 +242,8 @@
                                 'rgb(43, 181, 105)',
                                 'rgb(43, 119, 181)',
                                 'rgb(230, 197, 16)',
-                                'rgb(186, 37, 37)'
+                                'rgb(186, 37, 37)',
+                                'rgb(255, 153, 102)',
                                 ],
                                 hoverOffset: 2
                             }]

@@ -19,6 +19,12 @@
     <link rel="stylesheet" href="<?php echo base_url('plugins/select2/css/select2.min.css') ?>">
     <link rel="stylesheet" href="<?php echo base_url('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') ?>">
     <?= $this->include('partisi/js') ?>
+    <style>
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
 
@@ -38,7 +44,7 @@
 
     <?= $this->renderSection('content'); ?>
 
-    <table width="100%">
+    <table width="90%" class="center">
         <tbody>
             <?php if(isset($_GET['surat'])){}else{ ?>
             <td align="left"></td>

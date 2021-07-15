@@ -60,7 +60,6 @@
                             </div>
                             <button type="submit" class="btn btn-primary mt-3 submit" style="float:right">Login</button>
                             <button class="btn btn-primary mt-3 loading" type="button" disabled style="float:right;">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 Loading...
                             </button>
                         </form>

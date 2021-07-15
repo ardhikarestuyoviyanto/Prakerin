@@ -4,15 +4,15 @@
 <?php $modell = new ModelsAdmin(); ?>
 <hr>
 <h3 class="text-center text-bold">Laporan Nilai</h3>
-<h3 class="text-center text-bold">Kelas <?= $modell->getNamaKelas($_GET['kelas']); ?></h3>
-<br>
+<h3 class="text-center text-bold">Industri <?= $modell->getNamaIndustriByIdIndustri($_GET['industri']); ?></h3>
+<br><br>
 <table class="table table-bordered table-striped" id="DataSiswa">
     <thead>
         <tr>
             <th scope="col">No</th>
             <th scope="col">NIS</th>
             <th scope="col">Nama Siswa</th>
-            <th scope="col">Industri</th>
+            <th scope="col">Kelas</th>
             <th scope="col">Total Laporan</th>
             <th scope="col">Approval Laporan</th>
             <th scope="col">Unapproval Laporan</th>
@@ -25,7 +25,7 @@
             <td><?= $i++; ?></td>
             <td><?= $x->nis; ?></td>
             <td><?= $x->nama_siswa; ?></td>
-            <td><?= $modell->getNamaIndustriByIdSiswa($x->id_siswa); ?></td>
+            <td><?= $x->nama_kelas; ?></td>
             <td><?= count($modell->getJurnalByIdSiswa($x->id_siswa)->getResult()); ?></td>
             <td><?= $modell->getTotalStatusJurnalApproval($modell->getIdPenempatanByidSiswa($x->id_siswa));?></td>
             <td><?= $modell->getTotalStatusJurnalUnapproval($modell->getIdPenempatanByidSiswa($x->id_siswa));?></td>

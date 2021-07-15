@@ -147,15 +147,52 @@ class Export extends BaseController{
 
     }
 
-    public function export_perindustri(){
+    public function export_nilaiperindustri(){
 
-        if(isset($_GET['industri'])){
+        if(isset($_GET['industri']) &&isset($_GET['type'])){
 
             $data = array(
                 'siswa' => $this->ModelsAdmin->getSiswaByIndustri($_GET['industri'])->getResult(),
             );
 
+            if($_GET['type'] == "pdf"){
+
+                echo view('admin/export/export_nilaiperindustri_pdf', $data);
+
+            }else{
+
+                echo view('admin/export/export_nilaiperindustri_excel', $data);
+
+            }
+
+
+        }
+
+    }
+
+    public function export_perindustri(){
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'data' => $this->ModelsAdmin->FilterPenempatan($_GET['industri'])->getResult(),
+            );
+
             echo view('admin/export/export_perindustri', $data);
+
+        }
+
+    }
+
+    public function exportpenempatan_perkelas(){
+
+        if(isset($_GET['kelas'])){
+
+            $data = array(
+                'data' => $this->ModelsAdmin->FilterPenempatanByKelas($_GET['kelas'])->getResult(),
+            );
+
+            echo view('admin/export/exportpenempatan_perkelas', $data);
 
         }
 
@@ -175,12 +212,12 @@ class Export extends BaseController{
 
     }
 
-    public function export_presensiperkelas(){
+    public function export_presensi(){
 
         if(isset($_GET['start']) && isset($_GET['finish'])){
 
             $data = array(
-                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'], $_GET['kelas'])->getResult()
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult()
             );
 
             echo view('admin/export/export_presensiperkelas', $data);

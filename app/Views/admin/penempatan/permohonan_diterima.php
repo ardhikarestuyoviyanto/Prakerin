@@ -46,19 +46,6 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="col-3">
-                        <select class="form-control form-control-sm" aria-label="Default select example" required name="kelas">
-                            <option selected value="">- Kelas / Jurusan -</option>
-                            <?php foreach ($kelas as $x): ?>
-                            <?php if($x->id_kelas == @$_GET['kelas']){ ?>
-                            <option value="<?= $x->id_kelas; ?>" selected><?= $x->nama_kelas." / ".$x->nama_jurusan; ?></option>
-                            <?php }else{ ?>
-                            <option value="<?= $x->id_kelas; ?>"><?=  $x->nama_kelas." / ".$x->nama_jurusan;?></option>
-                            <?php } ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
                     <div class="col">
                         <button type="submit" class="btn btn-success btn-sm">Filter</button>
                         <a href="<?= base_url('admin/penmohon?type=diterima'); ?>" type="button" class="btn btn-primary btn-sm" style="margin-left:5px;">Reset</a>

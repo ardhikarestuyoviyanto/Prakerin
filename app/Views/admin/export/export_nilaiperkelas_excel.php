@@ -13,9 +13,9 @@ header("Content-Disposition: attachment; filename=Data Nilai.xls");
             <th scope="col">NIS</th>
             <th scope="col">Nama Siswa</th>
             <th scope="col">Industri</th>
-            <th scope="col">Total Jurnal</th>
-            <th scope="col">Approval Jurnal</th>
-            <th scope="col">Unapproval Jurnal</th>
+            <th scope="col">Total Laporan</th>
+            <th scope="col">Approval Laporan</th>
+            <th scope="col">Unapproval Laporan</th>
             <th scope="col">Rata - rata Nilai</th>
         </tr>
     </thead>

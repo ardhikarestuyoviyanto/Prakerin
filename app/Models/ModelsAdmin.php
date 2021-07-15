@@ -187,18 +187,16 @@ class ModelsAdmin extends Model{
 
     public function getGuru(){
         $build = $this->db->table('industri');
-        $build->select('id_pembimbing, nama_industri, nama_jurusan, nama_pembimbing, nip');
+        $build->select('id_pembimbing, nama_industri,nama_pembimbing, nip, pembimbing.nohp, pembimbing.type');
         $build->join('pembimbing', 'pembimbing.id_industri = industri.id_industri');
-        $build->join('jurusan', 'jurusan.id_jurusan = pembimbing.id_jurusan');
         $build->orderBy('id_pembimbing', "DESC");
         return $build->get();
     }
 
     public function getGuruByid($id){
         $build = $this->db->table('industri');
-        $build->select('id_pembimbing, nama_industri, nama_jurusan, nama_pembimbing, nip, pembimbing.id_jurusan, pembimbing.id_industri, username');
+        $build->select('id_pembimbing, nama_industri, nama_pembimbing, nip, pembimbing.id_industri, username, pembimbing.nohp, pembimbing.type');
         $build->join('pembimbing', 'pembimbing.id_industri = industri.id_industri');
-        $build->join('jurusan', 'jurusan.id_jurusan = pembimbing.id_jurusan');
         $build->where('id_pembimbing', $id);
         $build->orderBy('id_pembimbing', "DESC");
         return $build->get();
@@ -221,12 +219,10 @@ class ModelsAdmin extends Model{
         $build->update($data);
     }
 
-    public function FilterDataGuru($id_jurusan, $id_industri){
+    public function FilterDataGuru($id_industri){
         $build = $this->db->table('industri');
-        $build->select('id_pembimbing, nama_industri, nama_jurusan, nama_pembimbing, nip');
+        $build->select('id_pembimbing, nama_industri, nama_pembimbing, nip, pembimbing.nohp, pembimbing.type');
         $build->join('pembimbing', 'pembimbing.id_industri = industri.id_industri');
-        $build->join('jurusan', 'jurusan.id_jurusan = pembimbing.id_jurusan');
-        $build->where('pembimbing.id_jurusan', $id_jurusan);
         $build->where('pembimbing.id_industri', $id_industri);
         $build->orderBy('id_pembimbing', "DESC");
         return $build->get();
@@ -240,6 +236,11 @@ class ModelsAdmin extends Model{
         endforeach;
     }
 
+    public function getGuruByType($type){
+        $build = $this->db->table('pembimbing');
+        $build->where('type', $type);
+        return $build->countAllResults();
+    }
 
     //--------------------------------------------------------------------
     public function getguruByidIndustri($id_industri){
@@ -296,7 +297,7 @@ class ModelsAdmin extends Model{
         return $build->get();
     }
 
-    public function FilterPermohonanSiswaDiterima($id_industri, $id_kelas){
+    public function FilterPermohonanSiswaDiterima($id_industri){
         $build = $this->db->table('industri');
         $build->select('industri.nama_industri, penempatan.tgl_request, penempatan.id_penempatan, penempatan.status, penempatan.surat, siswa.nis, siswa.nama_siswa, kelas.nama_kelas, jurusan.nama_jurusan');
         $build->join('penempatan', 'industri.id_industri = penempatan.id_industri');
@@ -306,7 +307,6 @@ class ModelsAdmin extends Model{
         $build->where('penempatan.status', "diterima");
         $build->where('penempatan.surat !=', "kosong");
         $build->where('industri.id_industri', $id_industri);
-        $build->where('kelas.id_kelas', $id_kelas);
         $build->orderBy('penempatan.id_penempatan', "DESC");
         return $build->get();
     }
@@ -323,7 +323,7 @@ class ModelsAdmin extends Model{
         return $build->get();
     }
 
-    public function FilterPermohonanSiswaDitolak($id_industri, $id_kelas){
+    public function FilterPermohonanSiswaDitolak($id_industri){
         $build = $this->db->table('industri');
         $build->select('industri.nama_industri, penempatan.tgl_request, penempatan.id_penempatan, penempatan.status, penempatan.surat, siswa.nis, siswa.nama_siswa, kelas.nama_kelas, jurusan.nama_jurusan');
         $build->join('penempatan', 'industri.id_industri = penempatan.id_industri');
@@ -332,7 +332,6 @@ class ModelsAdmin extends Model{
         $build->join('jurusan', 'jurusan.id_jurusan = kelas.id_jurusan');
         $build->where('penempatan.status', "ditolak");
         $build->where('industri.id_industri', $id_industri);
-        $build->where('kelas.id_kelas', $id_kelas);
         $build->orderBy('penempatan.id_penempatan', "DESC");
         return $build->get();
     }
@@ -350,7 +349,7 @@ class ModelsAdmin extends Model{
         return $build->get();
     }
 
-    public function FilterPermohonanSiswaPending($id_industri, $id_kelas){
+    public function FilterPermohonanSiswaPending($id_industri){
         $build = $this->db->table('industri');
         $build->select('industri.nama_industri, industri.id_industri, penempatan.tgl_request, penempatan.id_penempatan, penempatan.status, penempatan.surat, siswa.nis, siswa.nama_siswa, kelas.nama_kelas, kelas.id_kelas, jurusan.nama_jurusan');
         $build->join('penempatan', 'industri.id_industri = penempatan.id_industri');
@@ -360,7 +359,6 @@ class ModelsAdmin extends Model{
         $build->where('penempatan.status', "pending");
         $build->where('penempatan.surat !=', "kosong");
         $build->where('industri.id_industri', $id_industri);
-        $build->where('kelas.id_kelas', $id_kelas);
         $build->orderBy('penempatan.id_penempatan', "DESC");
         return $build->get();
     }
@@ -389,25 +387,35 @@ class ModelsAdmin extends Model{
         $build->delete();
     }
 
-    public function FilterPenempatan($id_kelas, $id_industri){
+    public function FilterPenempatan($id_industri){
+        $build = $this->db->table('industri');
+        $build->select('industri.nama_industri, industri.id_industri, penempatan.id_penempatan, penempatan.status, penempatan.surat, siswa.nis, siswa.nama_siswa, kelas.nama_kelas, kelas.id_kelas');
+        $build->join('penempatan', 'penempatan.id_industri = industri.id_industri');
+        $build->join('siswa', 'siswa.id_siswa = penempatan.id_siswa');
+        $build->join('kelas', 'kelas.id_kelas = siswa.id_kelas');
+        $build->where('industri.id_industri', $id_industri);
+        $build->orderBy('penempatan.id_penempatan', "DESC");
+        return $build->get();
+    }
+
+    public function FilterPenempatanByKelas($id_kelas){
         $build = $this->db->table('industri');
         $build->select('industri.nama_industri, industri.id_industri, penempatan.id_penempatan, penempatan.status, penempatan.surat, siswa.nis, siswa.nama_siswa, kelas.nama_kelas, kelas.id_kelas');
         $build->join('penempatan', 'penempatan.id_industri = industri.id_industri');
         $build->join('siswa', 'siswa.id_siswa = penempatan.id_siswa');
         $build->join('kelas', 'kelas.id_kelas = siswa.id_kelas');
         $build->where('siswa.id_kelas', $id_kelas);
-        $build->where('industri.id_industri', $id_industri);
         $build->orderBy('penempatan.id_penempatan', "DESC");
         return $build->get();
     }
 
     //------------------------------------------------------------------------------------------------------------------
 
-    public function getPenempatanJoinSiswa($id_industri, $id_kelas){
+    public function getPenempatanJoinSiswa($id_industri){
         $build = $this->db->table('siswa');
-        $build->select('siswa.nis, siswa.nama_siswa, siswa.id_siswa, siswa.id_kelas, penempatan.id_penempatan, penempatan.id_industri');
+        $build->select('siswa.nis, siswa.nama_siswa, siswa.id_siswa, siswa.id_kelas, penempatan.id_penempatan, penempatan.id_industri, kelas.id_jurusan');
         $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
-        $build->where('siswa.id_kelas', $id_kelas);
+        $build->join('kelas', 'kelas.id_kelas = siswa.id_kelas');
         $build->where('penempatan.id_industri', $id_industri);
         $build->orderBy('siswa.nis', "ASC");
         return $build->get();
@@ -816,7 +824,7 @@ class ModelsAdmin extends Model{
 
     public function getSiswaByIndustri($id_industri){
         $build = $this->db->table('jurusan');
-        $build->select('siswa.nama_siswa, siswa.nis, siswa.jenis_kelamin, kelas.nama_kelas, jurusan.nama_jurusan');
+        $build->select('siswa.nama_siswa, siswa.nis, siswa.jenis_kelamin, kelas.nama_kelas, jurusan.nama_jurusan, siswa.id_siswa');
         $build->join('kelas', 'kelas.id_jurusan = jurusan.id_jurusan');
         $build->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
         $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
@@ -866,6 +874,93 @@ class ModelsAdmin extends Model{
         foreach ($build->get()->getResult() as $x):
             return $x->alasan;
         endforeach;
+    }
+
+    //------------------------------
+
+    public function getStatusJurnalHarian($id_penempatan, $tgl_request){
+        $build = $this->db->table('jurnal_harian');
+        $build->select('status, tgl');
+        $build->where('id_penempatan', $id_penempatan);
+        foreach ($build->get()->getResult() as $x):
+            if(date('Y-m-d', strtotime($x->tgl)) == $tgl_request){
+                return $x->status;
+            }
+        endforeach;
+    }
+
+    public function getJurnalHarianByTgl($id_penempatan, $tgl_request){
+        $build = $this->db->table('jurnal_harian');
+        $build->select('status, tgl, kegiatan');
+        $build->where('id_penempatan', $id_penempatan);
+        foreach ($build->get()->getResult() as $x):
+            if(date('Y-m-d', strtotime($x->tgl)) == $tgl_request){
+                return $x->kegiatan;
+            }
+        endforeach;
+    }
+
+    public function getIdJurnalHarian($id_penempatan, $tgl_request){
+        $build = $this->db->table('jurnal_harian');
+        $build->select('status, tgl, kegiatan, id_jurnal_harian');
+        $build->where('id_penempatan', $id_penempatan);
+        foreach ($build->get()->getResult() as $x):
+            if(date('Y-m-d', strtotime($x->tgl)) == $tgl_request){
+                return $x->id_jurnal_harian;
+            }
+        endforeach;
+    }
+
+    public function updateJurnalHarian($id_jurnal_harian, $data){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('id_jurnal_harian', $id_jurnal_harian);
+        $build->update($data);
+
+    }
+
+    public function hapusJurnalHarian($id_penempatan, $tgl){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('id_penempatan', $id_penempatan);
+        $build->where('tgl', $tgl);
+        $build->delete();
+    }
+
+    public function getTotalJurnalHarianPending($id_penempatan, $start, $finish){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('jurnal_harian.id_penempatan', $id_penempatan);
+        $build->where('jurnal_harian.status', "P");
+        $build->where("jurnal_harian.tgl BETWEEN '$start' AND '$finish'");
+        return $build->countAllResults();
+    }
+
+    public function getTotalJurnalHarianApproval($id_penempatan, $start, $finish){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('jurnal_harian.id_penempatan', $id_penempatan);
+        $build->where('jurnal_harian.status', "Y");
+        $build->where("jurnal_harian.tgl BETWEEN '$start' AND '$finish'");
+        return $build->countAllResults();
+    }
+
+    public function getTotalJurnalHarianUnapproval($id_penempatan, $start, $finish){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('jurnal_harian.id_penempatan', $id_penempatan);
+        $build->where('jurnal_harian.status', "N");
+        $build->where("jurnal_harian.tgl BETWEEN '$start' AND '$finish'");
+        return $build->countAllResults();
+    }
+
+    public function getTotalJurnalHarian($id_penempatan, $start, $finish){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('jurnal_harian.id_penempatan', $id_penempatan);
+        $build->where("jurnal_harian.tgl BETWEEN '$start' AND '$finish'");
+        return $build->countAllResults();
+    }
+
+    public function getJurnalHarianDetail($id_penempatan, $start, $finish){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('jurnal_harian.id_penempatan', $id_penempatan);
+        $build->where("jurnal_harian.tgl BETWEEN '$start' AND '$finish'");
+        return $build->get();
     }
 
 }

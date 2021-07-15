@@ -49,18 +49,18 @@
     
     <?php if(isset($_GET['industri'])): ?>
     <div class="card-body">
-    <div class="alert alert-light" role="alert">
-        Ada <b><?= $modell->getTotalAspekByJurusan($id_jurusan)?> Aspek </b> Yang Perlu Dinilai Pada Jurusan Ini.
-    </div>
-        <table class="table table-bordered" id="Table">
+
+        <table class="table table-bordered" id="DataTable">
             <thead>
                 <tr>
-                    <th scope="col">No</th>
+                    <th scope="col" width="10">No</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
-                    <th scope="col">Approval Jurnal</th>
-                    <th scope="col">Unapproval Jurnal</th>
-                    <th scope="col">Total Jurnal</th>
+                    <th scope="col">Kelas</th>
+                    <th scope="col" class="none">Approval Laporan</th>
+                    <th scope="col" class="none">Unapproval Laporan</th>
+                    <th scope="col" class="none">Total Laporan</th>
+                    <th scope="col">Aspek Perlu Dinilai</th>
                     <th scope="col">Rata - rata Nilai</th>
                     <th scope="col">Aksi</th>
                 </tr>
@@ -71,11 +71,13 @@
                     <th scope="row"><?= $i++; ?></th>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
+                    <td><?= $modell->getNamaKelas($x->id_kelas); ?></td>
                     <td class="text-bold text-success"><?= $modell->getTotalStatusJurnalApproval($x->id_penempatan); ?></td>
                     <td class="text-bold text-danger"><?= $modell->getTotalStatusJurnalUnapproval($x->id_penempatan); ?></td>
                     <td class="text-bold"><?= $modell->getTotalJurnalByIdPenempatan($x->id_penempatan); ?></td>
+                    <td class="text-bold"><?= $modell->getTotalAspekByJurusan($x->id_jurusan); ?></td>
                     <td><?= number_format($modell->getRataRataNilai($x->id_penempatan), 1); ?></td>
-                    <td><a href="<?=  base_url('guru/inputnilai/'.$x->id_penempatan.'/'.$modell->getIdJurusanByIdkelas($modell->getIdKelasByIdsiswa($x->id_siswa)).'/'.$_GET['industri'].'/'.$modell->getIdKelasByIdsiswa($x->id_siswa)) ?>" ><span class="badge badge-primary">Input Nilai</span></a></td>
+                    <td><a href="<?= base_url('guru/inputnilai/'.$x->id_penempatan.'/'.$x->id_jurusan.'/'.$_GET['industri'].'/'.$x->id_kelas) ?>" ><span class="badge badge-primary" style="padding:5px;">Input Nilai</span></a></td>
                 </tr>
 
                 <?php endforeach; ?>
@@ -95,7 +97,9 @@
 
 <script>
 $('document').ready(function(){
-
+    $('#DataTable').DataTable({
+        responsive : true
+    })
 
 });
 </script>

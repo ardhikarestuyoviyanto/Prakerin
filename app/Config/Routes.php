@@ -43,7 +43,7 @@ $routes->group('auth', function($routes){
 $routes->group('admin', function($routes){
 	$routes->get('home', 'Admin::home', ['filter'=>'IsLogin']);
 
-	$routes->get('jurusan', 'Admin:jurusan', ['filter'=>'IsLogin']);
+	$routes->get('jurusan', 'Admin::jurusan', ['filter'=>'IsLogin']);
 	$routes->get('tambahjurusan', 'Admin::tambahjurusan', ['filter'=>'IsLogin']);
 	$routes->get('editjurusan/(:any)', 'Admin::editjurusan', ['filter'=>'IsLogin']);
 
@@ -102,13 +102,15 @@ $routes->group('admin', function($routes){
 	$routes->get('kartu', 'Admin::kartu', ['filter'=>'IsLogin']);
 	$routes->get('nilaipersiswa', 'Admin::nilaipersiswa', ['filter'=>'IsLogin']);
 	$routes->get('nilaiperkelas', 'Admin::nilaiperkelas', ['filter'=>'IsLogin']);
-	$routes->get('perindustri', 'Admin::perindustri', ['filter'=>'IsLogin']);
+	$routes->get('nilaiperindustri', 'Admin::nilaiperindustri', ['filter'=>'IsLogin']);
 
 	$routes->get('badansurat', 'Admin::badansurat', ['filter'=>'IsLogin']);
 	$routes->get('cetaksurat', 'Admin::cetaksurat', ['filter'=>'IsLogin']);
 
 	$routes->get('banner', 'Admin::banner', ['filter'=>'IsLogin']);
 	$routes->get('aplikasi', 'Admin::aplikasi', ['filter'=>'IsLogin']);
+
+	$routes->get('jurnalharian', 'Admin::jurnalharian', ['filter'=>'IsLogin']);
 
 });
 
@@ -124,9 +126,14 @@ $routes->group('guru', function($routes){
 	$routes->get('jurnal', 'Guru::jurnal', ['filter'=>'IsLogin']);
 	$routes->get('penilaian', 'Guru::penilaian', ['filter'=>'IsLogin']);
 	$routes->get('chat', 'Guru::chat', ['filter'=>'IsLogin']);
+	$routes->get('chatpembimbing', 'Guru::chatpembimbing', ['filter'=>'IsLogin']);
+	$routes->get('loadchatguru', 'Guru::loadchatguru', ['filter'=>'IsLogin']);
+	$routes->get('kirimchatguru', 'Guru::kirimchatguru', ['filter'=>'IsLogin']);
 
 	$routes->get('setting', 'Guru::setting', ['filter'=>'IsLogin']);
 
+	$routes->get('approvaljurnal', 'Guru::approvaljurnal', ['filter'=>'IsLogin']);
+	$routes->get('rekapjurnal', 'Guru::rekapjurnal', ['filter'=>'IsLogin']);
 });
 
 $routes->group('/', function($routes){
@@ -152,6 +159,11 @@ $routes->group('siswa', function($routes){
 	$routes->get('jurnal', 'Siswa::jurnal', ['filter'=>'IsLogin']);
 	$routes->get('tambahjurnal_action', 'Siswa::tambahjurnal_action', ['filter'=>'IsLogin']);
 	$routes->get('hapusjurnal_action', 'Siswa::hapusjurnal_action', ['filter'=>'IsLogin']);
+
+	$routes->get('jurnalharian', 'Siswa::jurnalharian', ['filter'=>'IsLogin']);
+	$routes->get('tambahjurnalharian', 'Siswa::tambahjurnalharian', ['filter'=>'IsLogin']);
+	$routes->get('getJurnalHarian', 'Siswa::getJurnalHarian', ['filter'=>'IsLogin']);
+	$routes->get('hapusjurnalharian', 'Siswa::hapusjurnalharian', ['filter'=>'IsLogin']);
 });
 
 

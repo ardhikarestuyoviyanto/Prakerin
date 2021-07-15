@@ -51,7 +51,7 @@
 	<?= $x->badansurat; ?>
 </p>
 
-<table width="100%">
+<table width="90%" class="center">
 	<tbody>
 
 		<td align="right"></td>

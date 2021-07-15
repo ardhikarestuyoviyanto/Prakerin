@@ -22,10 +22,17 @@
                 <?php else : ?>
                 <li class="nav-item"><a class="nav-link" href="<?= base_url('siswa/presensi'); ?>">Presensi</a></li>
                 <?php endif; ?>
-                <?php if($navbar == "Jurnal"): ?>
-                <li class="nav-item"><a class="nav-link active" href="<?= base_url('siswa/jurnal'); ?>">Jurnal</a></li>
+
+                <?php if($navbar == "Jurnal Harian"): ?>
+                <li class="nav-item"><a class="nav-link active" href="<?= base_url('siswa/jurnalharian'); ?>">Jurnal</a></li>
                 <?php else : ?>
-                <li class="nav-item"><a class="nav-link" href="<?= base_url('siswa/jurnal'); ?>">Jurnal</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= base_url('siswa/jurnalharian'); ?>">Jurnal</a></li>
+                <?php endif; ?>
+
+                <?php if($navbar == "Jurnal"): ?>
+                <li class="nav-item"><a class="nav-link active" href="<?= base_url('siswa/jurnal'); ?>">Laporan</a></li>
+                <?php else : ?>
+                <li class="nav-item"><a class="nav-link" href="<?= base_url('siswa/jurnal'); ?>">Laporan</a></li>
                 <?php endif; ?>
                 <li class="nav-item"><a class="nav-link" href="<?= base_url('auth/isLogout'); ?>">Logout</a></li>
             </ul>

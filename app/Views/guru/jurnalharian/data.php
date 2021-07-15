@@ -1,4 +1,4 @@
-<?= $this->extend('admin/v_admin'); ?>
+<?= $this->extend('guru/v_guru'); ?>
 <?= $this->section('content'); ?>
 <?php use App\Models\ModelsAdmin; $modell = new ModelsAdmin();?>
 <div class="content-wrapper">
@@ -6,11 +6,11 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1 class="m-0">Input Presensi</h1>
+        <h1 class="m-0">Approval Jurnal Harian</h1>
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">Input Presensi</li>
+            <li class="breadcrumb-item">Approval Jurnal Harian</li>
         </ol>
         </div>
     </div>
@@ -21,11 +21,11 @@
     <div class="container-fluid">
     <div class="card">
     <div class="card-header">
-        Input Persensi
+        Approval Jurnal Harian
     </div>
 
     <div class="card-header bg-gray-light">
-        <form action="<?= base_url('admin/absensi'); ?>" method="get">
+        <form action="<?= base_url('guru/approvaljurnal'); ?>" method="get">
             <div class="mb-3 row">
                 <label for="nama_kelas" class="col-sm-2 col-form-label">Nama Industri</label>
                 <div class="col-sm-10">
@@ -56,52 +56,59 @@
     </form>
 
     <?php if(isset($_GET['industri'])): ?>
-    <form id="TambahRekap">
+    <form id="UpdateStatusJurnal">
     <div class="card-body">
 
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="DataTable">
             <thead>
                 <tr>
-                    <th scope="col">No</th>
+                    <th scope="col" width="10">No</th>
                     <th scope="col" style="width:50px;"><input type="checkbox" id="parent"></th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
                     <th scope="col">Kelas</th>
-                    <th scope="col">Status Absensi</th>
-                    <th scope="col" style="width:100px;">Aksi</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" width="10">Aksi</th>
+                    <th scope="col" class="none">Kegiatan : </th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i=1; foreach ($data as $x): ?>
                 <tr>
                     <th scope="row"><?= $i++; ?></th>
-                    <?php if(empty($modell->getStatusAbsensi($x->id_penempatan, $_GET['tgl']))){ ?>
-                    <td><input name="id_penempatan[]" class="child" type="checkbox" value="<?= $x->id_penempatan; ?>"></td>
-                    <?php }else{echo "<td></td>";} ?>
+                    <?php if(!empty($modell->getIdJurnalHarian($x->id_penempatan, $_GET['tgl']))): ?>
+                        <td><input name="id_jurnal_harian[]" class="child" type="checkbox" value="<?= $modell->getIdJurnalHarian($x->id_penempatan, $_GET['tgl']); ?>"></td>
+                    <?php else: ?>
+                        <td></td>
+                    <?php endif; ?>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
                     <td><?= $modell->getNamaKelas($x->id_kelas); ?></td>
-                    <td> 
-                        <?php 
-                            if(empty($modell->getStatusAbsensi($x->id_penempatan, $_GET['tgl']))){
-                                
-                                echo "BELUM ABSEN";
-                            
-                            }else{
-
-                                echo strtoupper($modell->getStatusAbsensi($x->id_penempatan, $_GET['tgl']));
-
-                            }
-                        ?>
+                    <td>
+                        <?php if($modell->getStatusJurnalHarian($x->id_penempatan, $_GET['tgl']) == "P"): ?>
+                            Pending
+                        <?php elseif($modell->getStatusJurnalHarian($x->id_penempatan, $_GET['tgl']) == "N"): ?>
+                            Unapproval
+                        <?php elseif($modell->getStatusJurnalHarian($x->id_penempatan, $_GET['tgl']) == "Y"): ?>
+                            Approval
+                        <?php else: ?>
+                            Belum Mengisi
+                        <?php endif; ?>
                     </td>
                     <td>
-                        <a href="<?= base_url('admin/editabsen/'.$x->id_penempatan); ?>">
-                            <span class="badge badge-primary"><i class="fas fa-edit"></i></span>
-                        </a>
 
-                        <a href="#" class="HapusAbsensi" data-tgl="<?= $_GET['tgl']; ?>" data-id="<?= $x->id_penempatan; ?>">
+                        <a href="#" class="hapus" data-tgl="<?= $_GET['tgl']; ?>" data-id="<?= $x->id_penempatan; ?>">
                             <span class="badge badge-danger"><i class="fas fa-trash"></i></span>
                         </a>
+                    </td>
+                    <td>
+                        <br>
+                        <?php $kegiatan = explode(",", $modell->getJurnalHarianByTgl($x->id_penempatan, $_GET['tgl']))?>
+                        <?php
+                            foreach($kegiatan as $y):
+                                echo $y."<br>";
+                            endforeach;
+                        ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -114,11 +121,9 @@
         <div class="row justify-content-center">
             <div class="col">
                 <select class="form-control form-control-sm" aria-label="Default select example" required name="status">
-                    <option selected value="">- PILIH KEHADIRAN -</option>
-                    <option value="hadir">- HADIR -</option>
-                    <option value="sakit">- SAKIT - </option>
-                    <option value="ijin">- IJIN -</option>
-                    <option value="alfa">- ALFA - </option>
+                    <option selected value="">- PILIH STATUS -</option>
+                    <option value="Y">- APPROVAL -</option>
+                    <option value="N">- UNAPPROVAL - </option>
                 </select>
             </div>
 
@@ -139,8 +144,9 @@
 
 <script>
 $('document').ready(function(){
-    $('#Permohonan').DataTable({
-        responsive : true
+    $('#DataTable').DataTable({
+        responsive : true,
+        "ordering": false
     });
     $('#parent').click(function(){
         $('.child').prop('checked', this.checked);
@@ -154,17 +160,44 @@ $('document').ready(function(){
         }
     });
 
-    $('#TambahRekap').submit(function(e){
+    $('#UpdateStatusJurnal').submit(function(e){
         e.preventDefault();
-        
-        var confirmed = confirm("Lanjutkan Proses Rekap Absensi Sesuai Data Yang Anda Checklist ?");
+
+        var confirmed = confirm('Lanjutkan Proses Approval ?');
 
         if(confirmed){
 
             $.ajax({
-            url : '<?= base_url('admin/input_rekapabsensi'); ?>',
+                url : '<?= base_url('admin/updatejurnalharian')?>',
+                type : 'POST',
+                data: $(this).serialize(),
+                success : function(data){
+                    swal(data)
+                    .then((result) => {
+                        location.reload();
+                    }).catch((err) => {
+                        
+                    });
+                },
+                error : function(err){
+                    console.log(err);
+                }
+            })
+
+        }
+    });
+
+    $('.hapus').click(function(e){
+        e.preventDefault();
+        
+        var confirmed = confirm("Hapus Data Ini ?");
+
+        if(confirmed){
+
+            $.ajax({
+            url : '<?= base_url('admin/hapusjurnalharian'); ?>',
             type : 'POST',
-            data : $(this).serialize(),
+            data : {'id':$(this).data('id'), 'tgl':$(this).data('tgl')},
             success : function(data){
                 swal(data)
                 .then((result) => {
@@ -172,37 +205,12 @@ $('document').ready(function(){
                 });
             },
             error : function(err){
-                console.log(err);
+                alert(err);
             }
         });
 
         }
 
-    });
-
-    $('.HapusAbsensi').click(function(e){
-        e.preventDefault();
-
-        var confirmed = confirm("Lanjutkan Proses Hapus ?");
-
-        if(confirmed){
-
-            $.ajax({
-                url : '<?= base_url('admin/hapusabsen_action')?>',
-                data : {'id_penempatan':$(this).data('id'), 'tgl':$(this).data('tgl')},
-                type : 'POST',
-                success : function(data){
-                    swal(data)
-                    .then((result) => {
-                        location.reload();
-                    });
-                },
-                error : function(err){
-                    console.log(err);
-                }
-            });
-
-        }
     });
 
 

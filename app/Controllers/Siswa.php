@@ -27,7 +27,9 @@ class Siswa extends BaseController{
         $data = array(
             'app' => $this->ModelsApp->getApp()->getResult(),
             'data_siswa' => $this->ModelsAdmin->getSiswaByid($_SESSION['id_siswa'])->getResult(),
-            'id_siswa' => $_SESSION['id_siswa']
+            'id_siswa' => $_SESSION['id_siswa'],
+            'total_pembimbingindustri' => $this->ModelsApp->getTotalPembimbingIndustri($this->ModelsAdmin->getIdPenempatanByidSiswa($_SESSION['id_siswa']))->getResult(), 
+            'total_pembimbingsekolah' => $this->ModelsApp->getTotalPembimbingSekolah($this->ModelsAdmin->getIdPenempatanByidSiswa($_SESSION['id_siswa']))->getResult()
         );
 
         return view('siswa/beranda', $data);
@@ -176,14 +178,13 @@ class Siswa extends BaseController{
 
     public function jurnal(){
 
-        view_cell('App\Libraries\Widgets::head_siswa', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>"Jurnal"]);
+        view_cell('App\Libraries\Widgets::head_siswa', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>"Laporan"]);
 		view_cell('App\Libraries\Widgets::navbar_siswa', ['app'=>$this->ModelsApp->getApp()->getResult(), 'navbar'=>"Jurnal"]);
 
         if(isset($_GET['industri'])):
             
             $data = array(
                 'industri' => $this->ModelsAdmin->getPenempatanByidSiswa($_SESSION['id_siswa'])->getResult(),   
-                'absensi_hari_ini' => $this->ModelsAdmin->getJurnalByIdPenempatanAndDate($this->ModelsAdmin->getIdPenempatanByidSiswa($_SESSION['id_siswa']))
             );
         
         else:
@@ -225,6 +226,53 @@ class Siswa extends BaseController{
 
     }
 
+    //------------------------------
+
+    public function jurnalharian(){
+
+        view_cell('App\Libraries\Widgets::head_siswa', ['app'=>$this->ModelsApp->getApp()->getResult(), 'title'=>"Jurnal Harian"]);
+		view_cell('App\Libraries\Widgets::navbar_siswa', ['app'=>$this->ModelsApp->getApp()->getResult(), 'navbar'=>"Jurnal Harian"]);
+
+        if(isset($_GET['industri'])):
+            
+            $data = array(
+                'industri' => $this->ModelsAdmin->getPenempatanByidSiswa($_SESSION['id_siswa'])->getResult(),  
+                'data' => $this->ModelsApp->getJurnalHarian($this->ModelsAdmin->getIdPenempatanByidSiswa($_SESSION['id_siswa']))->getResult(),
+                'cekjurnal' =>$this->ModelsApp-> cekjurnalharian($this->ModelsAdmin->getIdPenempatanByidSiswa($_SESSION['id_siswa']))
+            );
+        
+        else:
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getPenempatanByidSiswa($_SESSION['id_siswa'])->getResult()
+            );
+
+        endif;
+
+        return view('siswa/jurnalharian', $data);
+
+    }
+
+    public function tambahjurnalharian(){
+
+        $data = array(
+            'tgl' => date('Y-m-d'),
+            'kegiatan' => implode(",",$this->input->getPost('kegiatan')),
+            'id_penempatan' => $this->input->getPost('id_penempatan'),
+            'status' => 'P'
+        );
+
+        $this->ModelsApp->TambahJurnalHarian($data);
+
+        echo json_encode('Jurnal Harian Berhasil disimpan');
+    }
+
+    public function hapusjurnalharian(){
+
+        $this->ModelsApp->hapusjurnalHarian($this->input->getPost('id'));
+
+        echo json_encode('Hapus Jurnal Berhasil');
+    }
 
 }
 

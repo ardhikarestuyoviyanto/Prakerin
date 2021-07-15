@@ -200,7 +200,7 @@
             </li>
 
 
-            <?php if($sidebar == "Absensi" || $sidebar == "Jurnal" || $sidebar == "Penilaian" || $sidebar == "Aspek" || $sidebar == "Rekap Presensi"){ ?>
+            <?php if($sidebar == "Rekap Jurnal" || $sidebar == "Absensi" || $sidebar == "Jurnal" || $sidebar == "Penilaian" || $sidebar == "Aspek" || $sidebar == "Rekap Presensi" || $sidebar == "Jurnal Harian"){ ?>
             <li class="nav-item menu-open">
                 <a href="#" class="nav-link active">
             <?php }else{ ?>
@@ -255,13 +255,40 @@
 
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
+                    <?php if($sidebar == "Jurnal Harian"){ ?>
+                        <a href="<?php echo base_url('admin/jurnalharian') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/jurnalharian') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Jurnal Harian</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Rekap Jurnal"){ ?>
+                        <a href="<?php echo base_url('admin/rekapjurnalharian') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/rekapjurnalharian') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Rekap Jurnal Harian</p>
+                    </a>
+                    </li>
+                </ul>
+
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
                     <?php if($sidebar == "Jurnal"){ ?>
                         <a href="<?php echo base_url('admin/jurnal') ?>" class="nav-link active">
                     <?php }else{ ?>
                         <a href="<?php echo base_url('admin/jurnal') ?>" class="nav-link">
                     <?php } ?>
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Rekap Jurnal</p>
+                        <p>Laporan Akhir</p>
                     </a>
                     </li>
                 </ul>
@@ -322,7 +349,7 @@
                 </ul>
             </li>
 
-            <?php if($sidebar == "Penempatan Per Industri" || $sidebar == "Kartu Penempatan" || $sidebar == "Lap Data Siswa" || $sidebar == "Lap Data Pembimbing" || $sidebar == "Lap Data Penempatan" || $sidebar == "Lap Nilai Per Siswa" || $sidebar == "Lap Nilai Per Kelas"){ ?>
+            <?php if($sidebar == "Lap Nilai Per Industri" || $sidebar == "Kartu Penempatan" || $sidebar == "Lap Data Siswa" || $sidebar == "Lap Data Pembimbing" || $sidebar == "Lap Data Penempatan" || $sidebar == "Lap Nilai Per Siswa" || $sidebar == "Lap Nilai Per Kelas"){ ?>
             <li class="nav-item menu-open">
                 <a href="#" class="nav-link active">
             <?php }else{ ?>
@@ -377,19 +404,6 @@
 
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                    <?php if($sidebar == "Penempatan Per Industri"){ ?>
-                        <a href="<?php echo base_url('admin/perindustri') ?>" class="nav-link active">
-                    <?php }else{ ?>
-                        <a href="<?php echo base_url('admin/perindustri') ?>" class="nav-link">
-                    <?php } ?>
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Penempatan Per Industri</p>
-                    </a>
-                    </li>
-                </ul>
-
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
                     <?php if($sidebar == "Kartu Penempatan"){ ?>
                         <a href="<?php echo base_url('admin/kartu') ?>" class="nav-link active">
                     <?php }else{ ?>
@@ -423,6 +437,19 @@
                     <?php } ?>
                         <i class="far fa-circle nav-icon"></i>
                         <p>Lap Nilai Per Kelas</p>
+                    </a>
+                    </li>
+                </ul>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <?php if($sidebar == "Lap Nilai Per Industri"){ ?>
+                        <a href="<?php echo base_url('admin/nilaiperindustri') ?>" class="nav-link active">
+                    <?php }else{ ?>
+                        <a href="<?php echo base_url('admin/nilaiperindustri') ?>" class="nav-link">
+                    <?php } ?>
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Lap Nilai Per Industri</p>
                     </a>
                     </li>
                 </ul>

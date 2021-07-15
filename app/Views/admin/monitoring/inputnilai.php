@@ -11,7 +11,7 @@
         <div class="col-sm-6">
         <?php foreach($data_siswa as $x): ?>
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="<?= base_url('admin/penilaian?industri='.$id_industri.'&kelas='.$id_kelas); ?>">Penilaian</a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url('admin/penilaian?industri='.$id_industri); ?>">Penilaian</a></li>
             <li class="breadcrumb-item"><?= $x->nama_siswa; ?></li>
         </ol>
         </div>

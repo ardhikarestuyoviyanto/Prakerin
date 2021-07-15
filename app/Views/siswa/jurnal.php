@@ -10,7 +10,7 @@
             <nav class="navbar navbar-light bg-light mb-3">
 
                 <nav class="nav">
-                    <a class="nav-link disabled" href="#">Jurnal</a>
+                    <a class="nav-link disabled" href="#">Laporan Akhir</a>
                 </nav>
 
             </nav>
@@ -47,15 +47,9 @@
                                     <th scope="row">Tgl Sekarang</th>
                                     <td><?= date('d  M  Y');?></td>
                                 </tr>
-                                <?php if($absensi_hari_ini == 1):?>
-                                <tr>
-                                    <th scope="row">Status</th>
-                                    <td>Sudah Mengumpulkan Jurnal</td>
-                                </tr>
-                                <?php else : ?>
                                 <tr>
                                     <th scope="row">Judul</th>
-                                    <td><input type="text" name="judul" id="judul" class="form-control form-control-sm" placeholder="Judul Jurnal"></td>
+                                    <td><input type="text" name="judul" id="judul" class="form-control form-control-sm" placeholder="Judul Laporan"></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Keterangan</th>
@@ -72,7 +66,6 @@
                                         <button type="submit" class="btn btn-primary btn-sm" style="float:right;">Kumpulkan</button>
                                     </td>
                                 </tr>
-                                <?php endif; ?>
                             </tbody>
                         </table>
                         </div>
@@ -80,7 +73,7 @@
 
                 <div class="card-body">
 
-                    <table class="table table-striped">
+                    <table class="table table-bordered dt-responsive nowrap" id="DataTable" style="width:100%">
                         <thead>
                         <tr>
                             <th>No</th>
@@ -90,13 +83,17 @@
                             <th>Tgl Kumpul</th>
                             <th>Status Approval</th>
                             <th>Aksi</th>
+                            <th class="none">Catatan : </th>
                         </tr>
                         </thead>
                         <tbody>
                             <?php $k=1; foreach($modell->getJurnalByIdPenempatan($modell->getIdPenempatanByidSiswa($_SESSION['id_siswa']))->getResult() as $y): ?>
                             <tr>
                                 <td><?= $k++; ?></td>
-                                <td><a target="__BLANK" href="<?= base_url('assets/jurnal/'.$y->file); ?>"><i class="fas fa-file-download"></i></a></td>
+                                <td>
+                                    <span class="badge badge-primary text-white"><a target="__BLANK" href="<?= base_url('assets/jurnal/'.$y->file); ?>" style="color:white;"><i class="fas fa-download fa-1x"></i></a></span>
+
+                                </td>
                                 <td><?= $y->judul; ?></td>
                                 <td><?= $y->keterangan; ?></td>
                                 <td><?= date('d-m-y  /  H:i:s', strtotime($y->tgl_kumpul)); ?></td>
@@ -112,6 +109,10 @@
                                 <td>
                                     <a href="#" data-id="<?= $y->id_jurnal; ?>" class="hapusjurnal"><span class="badge badge-danger">Hapus</span></a>
                                 </td>
+                                <td>
+                                    <br>
+                                    <?php if(empty($y->catatan)){echo "Belum Ada Catatan dari Pembimbing"; }else{echo $y->catatan; } ?>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -126,11 +127,14 @@
         <?= $this->include('siswa/partisi/js.php'); ?>
         <script>
             $(document).ready(function(){
-                
+                $('#DataTable').DataTable({
+                    responsive: true
+                });
+
                 $('.hapusjurnal').click(function(e){
                     e.preventDefault();
 
-                    var confirmed = confirm("Hapus Jurnal ?");
+                    var confirmed = confirm("Hapus Laporan ?");
 
                     if(confirmed){
 
@@ -157,7 +161,7 @@
                 $('#SimpanJurnal').submit(function(e){
                     e.preventDefault();
 
-                    var confirmed = confirm("Kumpulkan Jurnal ?");
+                    var confirmed = confirm("Kumpulkan Laporan ?");
 
                     if(confirmed){
 

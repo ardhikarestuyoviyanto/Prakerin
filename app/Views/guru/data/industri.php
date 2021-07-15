@@ -45,7 +45,7 @@
                             <td><?= $x->kuota; ?></td>
                             <td><?= $modell->getTotalKuotaPenempatanByIndustri($x->id_industri) ?></td>
                             <td><?= $x->kuota - $modell->getTotalKuotaPenempatanByIndustri($x->id_industri); ?></td>
-                            <td><center><a href="<?php echo base_url(); ?>"><span class="badge badge-success"><i class="fas fa-eye"></i></span></a></center></td>
+                            <td><center><a target="__BLANK" href="<?php echo base_url('industri/'.$x->slug); ?>"><span class="badge badge-success"><i class="fas fa-eye"></i></span></a></center></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

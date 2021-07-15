@@ -42,19 +42,6 @@
                     </select>
                 </div>
 
-                <div class="col-3">
-                    <select class="form-control form-control-sm" aria-label="Default select example" required name="jurusan">
-                        <option selected value="">- Pilih Jurusan -</option>
-                        <?php foreach ($jurusan as $x): ?>
-                        <?php if($x->id_jurusan == @$_GET['jurusan']){ ?>
-                        <option value="<?= $x->id_jurusan; ?>" selected><?= $x->nama_jurusan; ?></option>
-                        <?php }else{ ?>
-                        <option value="<?= $x->id_jurusan; ?>"><?= $x->nama_jurusan; ?></option>
-                        <?php } ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
                 <div class="col">
                     <button type="submit" class="btn btn-success btn-sm">Filter</button>
                     <a href="<?= base_url('admin/pembimbing'); ?>" type="button" class="btn btn-primary btn-sm" style="margin-left:5px;">Reset</a>
@@ -68,11 +55,12 @@
             <table class="table table-bordered" id="DataTable">
                 <thead>
                     <tr>
-                        <th scope="col">No</th>
-                        <th scope="col"><input type="checkbox" id="parent"></th>
+                        <th scope="col" width="10">No</th>
+                        <th scope="col" width="10"><input type="checkbox" id="parent"></th>
                         <th scope="col">NIP</th>
                         <th scope="col">Nama Pembimbing</th>
-                        <th scope="col">Jurusan</th>
+                        <th scope="col">Tipe Pembimbing</th>
+                        <th scope="col">NoHp</th>
                         <th scope="col">Industri</th>
                         <th scope="col" style="width:10px;">Action</th>
                     </tr>
@@ -84,7 +72,14 @@
                         <td><input name="id[]" class="child" type="checkbox" value="<?= $x->id_pembimbing; ?>"></td>
                         <td><?= $x->nip; ?></td>
                         <td><?= $x->nama_pembimbing; ?></td>
-                        <td><?= $x->nama_jurusan; ?></td>
+                        <td>
+                            <?php if($x->type == "I"): ?>
+                                INDUSTRI
+                            <?php else : ?>
+                                SEKOLAH
+                            <?php endif; ?>
+                        </td>
+                        <td><?= $x->nohp; ?></td>
                         <td><?= $x->nama_industri; ?></td>
                         <td><center><a href="<?php echo base_url('admin/editpembimbing/'.$x->id_pembimbing); ?>"><span class="badge badge-success"><i class="fas fa-edit"></i></span></a></center></td>
 
@@ -121,6 +116,7 @@
               <input type="file" class="custom-file-input" id="customFile" name="excel" required accept=".xls, .xlsx">
               <label class="custom-file-label" for="customFile">Klik disini</label>
             </div>
+            <small><a href="<?= base_url('assets/file/import_pembimbing.xlsx'); ?>">Templeate Import</a></small>
           </div>
         </div>
         <div class="modal-footer">

@@ -77,7 +77,7 @@
                                     <td>
                                         <?php $i=1; foreach($modell->getguruByidIndustri($x->id_industri)->getResult() as $y): ?>
                                             <?php if($i == 1): ?>
-                                            <?= $y->nama_pembimbing; ?>
+                                            <?= $y->nama_pembimbing." ($y->nohp)"; ?>
                                             <?php endif; ?>
                                         <?php $i++; endforeach; ?>
                                     </td>
@@ -87,7 +87,7 @@
                                 <?php if(count($modell->getguruByidIndustri($x->id_industri)->getResult()) > 1 && $k > 1): ?>
                                 <tr>
                                     <td></td>
-                                    <td><?= $y->nama_pembimbing; ?></td>
+                                    <td><?= $y->nama_pembimbing." ($y->nohp)"; ?></td>
                                 </tr>
                             <?php endif; ?>
                             <?php $k++; endforeach; ?>

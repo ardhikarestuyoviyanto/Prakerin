@@ -42,7 +42,6 @@
                         </div>
                     </div>
                     
-                    <input type="hidden" name="id_jurusan" value="<?= $j->id_jurusan; ?>">
                     <input type="hidden" name="id_industri" value="<?= $j->id_industri; ?>">
                     <input type="hidden" name="id" value="<?= $_SESSION['id_pembimbing'];?>">
 

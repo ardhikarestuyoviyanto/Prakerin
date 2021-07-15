@@ -24,14 +24,15 @@
             Export Data Pembimbing
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-hover" id="DataTable">
+            <table class="table table-bordered" id="DataTable">
                 <thead>
                     <tr>
-                        <th scope="col">No</th>
+                        <th scope="col" width="10">No</th>
                         <th scope="col">NIP</th>
                         <th scope="col">Nama Pembimbing</th>
-                        <th scope="col">Membimbing Jurusan</th>
-                        <th scope="col">Membimbing Industri</th>
+                        <th scope="col">Tipe Pembimbing</th>
+                        <th scope="col">NoHp</th>
+                        <th scope="col">Industri</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +41,14 @@
                         <td><?= $i++; ?></td>
                         <td><?= $x->nip; ?></td>
                         <td><?= $x->nama_pembimbing; ?></td>
-                        <td><?= $x->nama_jurusan; ?></td>
+                        <td>
+                            <?php if($x->type == "I"): ?>
+                                INDUSTRI
+                            <?php else : ?>
+                                SEKOLAH
+                            <?php endif; ?>
+                        </td>
+                        <td><?= $x->nohp; ?></td>
                         <td><?= $x->nama_industri; ?></td>
 
                     </tr>

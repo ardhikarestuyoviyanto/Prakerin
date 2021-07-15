@@ -179,14 +179,14 @@ class Application extends Model{
 
     public function getTopSiswaJurnalTerbaik($limit){
         $build = $this->db->table('kelas');
-        $build->select('siswa.nama_siswa, kelas.nama_kelas, COUNT(jurnal.id_jurnal) AS total_jurnal');
+        $build->select('siswa.nama_siswa, kelas.nama_kelas, COUNT(jurnal_harian.id_jurnal_harian) AS total_jurnal');
         $build->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
         $build->join('penempatan', 'penempatan.id_siswa = siswa.id_siswa');
-        $build->join('jurnal', 'jurnal.id_penempatan = penempatan.id_penempatan');
-        $build->where('jurnal.status', "Y");
+        $build->join('jurnal_harian', 'jurnal_harian.id_penempatan = penempatan.id_penempatan');
+        $build->where('jurnal_harian.status', "Y");
         $build->limit($limit);
         $build->orderBy('total_jurnal', "DESC");
-        $build->groupBy('jurnal.id_penempatan');
+        $build->groupBy('jurnal_harian.id_penempatan');
         return $build->get();
     }   
 
@@ -201,10 +201,10 @@ class Application extends Model{
 
     public function getTotalJurnalByIdIndustri($id_industri){
         $build = $this->db->table('penempatan');
-        $build->select('jurnal.id_jurnal');
-        $build->join('jurnal', 'jurnal.id_penempatan = penempatan.id_penempatan');
+        $build->select('jurnal_harian.id_jurnal');
+        $build->join('jurnal_harian', 'jurnal_harian.id_penempatan = penempatan.id_penempatan');
         $build->where('penempatan.id_industri', $id_industri);
-        $build->where('jurnal.status', 'Y');
+        $build->where('jurnal_harian.status', 'Y');
         return $build->countAllResults();
     }
 
@@ -233,6 +233,58 @@ class Application extends Model{
         $build->delete();
     }
 
+    //------------------------------
+
+    public function TambahJurnalHarian($data){
+        $build = $this->db->table('jurnal_harian');
+        $build->insert($data);
+    }
+
+    public function getJurnalHarian($id_penempatan){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('id_penempatan', $id_penempatan);
+        $build->orderBy('tgl', "DESC");
+        return $build->get();
+    }
+
+    public function hapusjurnalHarian($id_jurnal_harian){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('id_jurnal_harian', $id_jurnal_harian);
+        $build->delete();
+    }
+
+    public function cekjurnalharian($id_penempatan){
+        $build = $this->db->table('jurnal_harian');
+        $build->where('id_penempatan', $id_penempatan);
+        foreach ($build->get()->getResult() as $x):
+            if(date('Y-m-d') == date('Y-m-d', strtotime($x->tgl))):
+                return 1;
+                break;
+            endif;
+        endforeach;
+    }
+
+    //--------------------------------------------------------------
+    
+    public function getTotalPembimbingIndustri($id_penempatan){
+        $build = $this->db->table('penempatan');
+        $build->select('pembimbing.nama_pembimbing, pembimbing.nohp');
+        $build->join('industri', 'industri.id_industri = penempatan.id_industri');
+        $build->join('pembimbing', 'pembimbing.id_industri = industri.id_industri');
+        $build->where('penempatan.id_penempatan', $id_penempatan);
+        $build->where('pembimbing.type', 'I');
+        return $build->get();
+    }
+
+    public function getTotalPembimbingSekolah($id_penempatan){
+        $build = $this->db->table('penempatan');
+        $build->select('pembimbing.nama_pembimbing, pembimbing.nohp');
+        $build->join('industri', 'industri.id_industri = penempatan.id_industri');
+        $build->join('pembimbing', 'pembimbing.id_industri = industri.id_industri');
+        $build->where('penempatan.id_penempatan', $id_penempatan);
+        $build->where('pembimbing.type', 'S');
+        return $build->get();
+    }
 
 }
 ?>

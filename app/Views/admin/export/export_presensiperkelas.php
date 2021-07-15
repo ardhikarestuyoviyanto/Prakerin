@@ -7,9 +7,9 @@
 <table width="100%">
 	<tbody>
     <tr>
-		<td width="200px">Kelas</td>
+		<td width="200px">Industri</td>
 		<td width="10px">:</td>
-		<td><?= $modell->getNamaKelas($_GET['kelas']); ?></td>
+		<td><?= $modell->getNamaIndustriByIdIndustri($_GET['industri']); ?></td>
 	</tr>
     <tr>
 		<td>Tanggal</td>
@@ -26,6 +26,7 @@
             <th scope="col">No</th>
             <th scope="col">NIS</th>
             <th scope="col">Nama Siswa</th>
+            <th scope="col">Kelas</th>
             <th scope="col">Hadir</th>
             <th scope="col">Sakit</th>
             <th scope="col">Izin</th>
@@ -39,6 +40,7 @@
             <th scope="row"><?= $i; ?></th>
             <td><?= $x->nis; ?></td>
             <td><?= $x->nama_siswa; ?></td>
+            <td><?= $modell->getNamaKelas($x->id_kelas); ?></td>
             <td class="text-bold"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "hadir", $_GET['start'], $_GET['finish']); ?></td>
             <td class="text-bold"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "sakit", $_GET['start'], $_GET['finish']); ?></td>
             <td class="text-bold"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "izin", $_GET['start'], $_GET['finish']); ?></td>

@@ -25,17 +25,17 @@
     </div>
 
         <div class="card-body">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="DataTable">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">#</th>
                         <th scope="col">Nama Industri</th>
                         <th scope="col">Bidang Kerja</th>
                         <th scope="col">Kuota Maksimal</th>
                         <th scope="col">Kuota Terisi</th>
                         <th scope="col">Sisa Kuota</th>
                         <th scope="col">Action</th>
+                        <th scope="col" class="none">Pembimbing : </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +45,6 @@
                     ?>
                     <tr>
                         <td><?= $i; ?></td>
-                        <td  data-toggle="collapse" id="table1" data-target=".table<?php echo $i; ?>"><a type="button" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></a></td>
                         <td><?= $x->nama_industri; ?></td>
                         <td><?= $x->bidang_kerja; ?></td>
                         <td><?= $x->kuota; ?></td>
@@ -54,28 +53,13 @@
                         <td>
                             <a data-toggle="tooltip" data-placement="top" title="Setting Penempatan" href="<?php echo base_url('admin/setmanual/'.$x->id_industri); ?>"><span class="badge badge-success">Setting Penempatan</span></a>
                         </td>
-
-                    </tr>
-
-                    <tr class="collapse table<?php echo $i; ?>">
-                        <td colspan="999">
-                            <div>
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Nama Pembimbing</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach($modell->getguruByidIndustri($x->id_industri)->getResult() as $y): ?>
-                                    <tr>
-                                        <td><?= $y->nama_pembimbing; ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                            </div>
+                        <td>
+                            <?php foreach($modell->getguruByidIndustri($x->id_industri)->getResult() as $y): ?>
+                                <br>
+                                <?= $y->nama_pembimbing; ?>
+                            <?php endforeach; ?>
                         </td>
+
                     </tr>
 
                     <?php $i++; endforeach; ?>
@@ -96,6 +80,9 @@ $('document').ready(function(){
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    $('#DataTable').DataTable({
+        responsive : true
+    });
 
 });
 </script>

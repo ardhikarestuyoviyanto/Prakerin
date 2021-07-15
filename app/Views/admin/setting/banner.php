@@ -85,6 +85,7 @@
               <label class="custom-file-label" for="customFile">Klik disini</label>
             </div>
             <input type="hidden" name="id" id="id_banner">
+            <small><i>Rekomendasi ukuran 1080 x 674</i></small>
           </div>
         </div>
         <div class="modal-footer">

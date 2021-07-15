@@ -1,12 +1,12 @@
-<?= $this->extend('admin/export/kop_surat'); ?>
-<?= $this->section('content'); ?>
+<?php
+header("Content-type: application/vnd-ms-excel");
+header("Content-Disposition: attachment; filename=Data Nilai Industri.xls");
+?>
 <?php use App\Models\ModelsAdmin; ?>
 <?php $modell = new ModelsAdmin(); ?>
-<hr>
-<h3 class="text-center text-bold">Laporan Nilai</h3>
-<h3 class="text-center text-bold">Kelas <?= $modell->getNamaKelas($_GET['kelas']); ?></h3>
-<br>
-<table class="table table-bordered table-striped" id="DataSiswa">
+<h3 class="text-center text-bold">Laporan Nilai Kelas  <?= $modell->getNamaIndustriByIdIndustri($_GET['industri']); ?></h3>
+
+<table border="1">
     <thead>
         <tr>
             <th scope="col">No</th>
@@ -34,6 +34,3 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-
-<br><br>
-<?= $this->endSection('content'); ?>

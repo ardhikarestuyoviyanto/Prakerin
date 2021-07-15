@@ -496,6 +496,56 @@ class Admin extends BaseController{
 
     }
 
+    public function importindustri(){
+
+        $spreadsheet = new Spreadsheet();
+
+        $file_mimes = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        if(isset($_FILES['excel']['name']) && in_array($_FILES['excel']['type'], $file_mimes)) {
+ 
+            $arr_file = explode('.', $_FILES['excel']['name']);
+            $extension = end($arr_file);
+         
+            if('csv' == $extension) {
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+            } else {
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            }
+         
+            $spreadsheet = $reader->load($_FILES['excel']['tmp_name']);
+             
+            $sheetData = $spreadsheet->getActiveSheet()->toArray();
+            
+            for($i = 1;$i < count($sheetData);$i++){
+                
+                $data = array(
+
+                    'nama_industri' => $sheetData[$i]['1'],
+                    'alamat_industri' => $sheetData[$i]['2'],
+                    'deskripsi' => $sheetData[$i]['3'],
+                    'kuota' => $sheetData[$i]['4'],
+                    'bidang_kerja' => $sheetData[$i]['5'],
+                    'telp' => $sheetData[$i]['6'],
+                    'email' => $sheetData[$i]['7'],
+                    'syarat' => $sheetData[$i]['8'],
+                    'slug' => url_title($sheetData[$i]['1'], '-', TRUE)
+                );
+
+                $this->ModelsAdmin->TambahIndustri($data);
+
+            }
+
+            echo json_encode('Berhasil Import Data');
+
+        }else{
+
+            echo json_encode('Ekstensi File Salah (harus .xlsx)');
+
+        }
+
+    }
+
     //------------------------------------------------------------------------------
 
     public function showadmin(){
@@ -588,12 +638,11 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Data Pembimbing', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Pembimbing', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        if(isset($_GET['industri']) && isset($_GET['jurusan'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'pembimbing' => $this->ModelsAdmin->FilterDataGuru($_GET['jurusan'], $_GET['industri'])->getResult(),
+                'pembimbing' => $this->ModelsAdmin->FilterDataGuru($_GET['industri'])->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
-                'jurusan' => $this->ModelsAdmin->getJurusan()->getResult()
             );
 
         }else{
@@ -601,7 +650,6 @@ class Admin extends BaseController{
             $data = array(
                 'pembimbing' => $this->ModelsAdmin->getGuru()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
-                'jurusan' => $this->ModelsAdmin->getJurusan()->getResult()
             );
 
         }
@@ -616,7 +664,6 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Pembimbing', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
         $data = array(
-            'jurusan' => $this->ModelsAdmin->getJurusan()->getResult(),
             'industri' => $this->ModelsAdmin->getIndustri()->getResult()
         );
 
@@ -645,9 +692,10 @@ class Admin extends BaseController{
             'nama_pembimbing' => $this->input->getPost('nama_pembimbing'),
             'nip' => $this->input->getPost('nip'),
             'id_industri' => $this->input->getPost('id_industri'),
-            'id_jurusan' => $this->input->getPost('id_jurusan'),
             'username' => $this->input->getPost('username'),
-            'password' => password_hash($this->input->getPost('password'), PASSWORD_DEFAULT)
+            'password' => password_hash($this->input->getPost('password'), PASSWORD_DEFAULT),
+            'nohp' => $this->input->getPost('nohp'),
+            'type' =>$this->input->getPost('type')
         );
 
         $this->ModelsAdmin->TambahGuru($data);
@@ -692,9 +740,11 @@ class Admin extends BaseController{
             'nama_pembimbing' => $this->input->getPost('nama_pembimbing'),
             'nip' => $this->input->getPost('nip'),
             'id_industri' => $this->input->getPost('id_industri'),
-            'id_jurusan' => $this->input->getPost('id_jurusan'),
             'username' => $this->input->getPost('username'),
-            'password' => password_hash($this->input->getPost('password'), PASSWORD_DEFAULT)
+            'password' => password_hash($this->input->getPost('password'), PASSWORD_DEFAULT),
+            'nohp' => $this->input->getPost('nohp'),
+            'type' =>$this->input->getPost('type')
+
         );
 
         $this->ModelsAdmin->UpdateGuru($this->input->getPost('id'), $data);
@@ -732,9 +782,10 @@ class Admin extends BaseController{
                     'nip' => $sheetData[$i]['1'],
                     'nama_pembimbing' => $sheetData[$i]['2'],
                     'id_industri' => $sheetData[$i]['3'],
-                    'id_jurusan' => $sheetData[$i]['4'],
+                    'nohp' => $sheetData[$i]['4'],
                     'username' => $sheetData[$i]['5'],
-                    'password' => password_hash($sheetData[$i]['6'], PASSWORD_DEFAULT)
+                    'password' => password_hash($sheetData[$i]['6'], PASSWORD_DEFAULT),
+                    'type' => $sheetData[$i]['7']
                 );
 
                 $this->ModelsAdmin->TambahGuru($data);
@@ -859,10 +910,10 @@ class Admin extends BaseController{
 
             if($_GET['type'] == "pending"){
 
-                if(isset($_GET['kelas']) && isset($_GET['industri'])){
+                if(isset($_GET['industri'])){
 
                     $data = array(
-                        'data' => $this->ModelsAdmin->FilterPermohonanSiswaPending($_GET['industri'], $_GET['kelas'])->getResult(),
+                        'data' => $this->ModelsAdmin->FilterPermohonanSiswaPending($_GET['industri'])->getResult(),
                         'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                         'industri' => $this->ModelsAdmin->getIndustri()->getResult()
                     );
@@ -871,7 +922,6 @@ class Admin extends BaseController{
 
                     $data = array(
                         'data' => $this->ModelsAdmin->getPermohonanSiswaPending()->getResult(),
-                        'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                         'industri' => $this->ModelsAdmin->getIndustri()->getResult()
                     );
 
@@ -883,11 +933,10 @@ class Admin extends BaseController{
 
             }else if($_GET['type'] == "ditolak"){
 
-                if(isset($_GET['kelas']) && isset($_GET['industri'])){
+                if(isset($_GET['industri'])){
 
                     $data = array(
-                        'data' => $this->ModelsAdmin->FilterPermohonanSiswaDitolak($_GET['industri'], $_GET['kelas'])->getResult(),
-                        'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                        'data' => $this->ModelsAdmin->FilterPermohonanSiswaDitolak($_GET['industri'])->getResult(),
                         'industri' => $this->ModelsAdmin->getIndustri()->getResult()
                     );
 
@@ -895,7 +944,6 @@ class Admin extends BaseController{
 
                     $data = array(
                         'data' => $this->ModelsAdmin->getPermohonanSiswaDitolak()->getResult(),
-                        'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                         'industri' => $this->ModelsAdmin->getIndustri()->getResult()
                     );
 
@@ -905,11 +953,10 @@ class Admin extends BaseController{
 
             }else if($_GET['type'] == "diterima"){
 
-                if(isset($_GET['kelas']) && isset($_GET['industri'])){
+                if(isset($_GET['industri'])){
 
                     $data = array(
-                        'data' => $this->ModelsAdmin->FilterPermohonanSiswaDiterima($_GET['industri'], $_GET['kelas'])->getResult(),
-                        'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                        'data' => $this->ModelsAdmin->FilterPermohonanSiswaDiterima($_GET['industri'])->getResult(),
                         'industri' => $this->ModelsAdmin->getIndustri()->getResult()
                     );
     
@@ -917,7 +964,6 @@ class Admin extends BaseController{
 
                     $data = array(
                         'data' => $this->ModelsAdmin->getPermohonanSiswaDiterima()->getResult(),
-                        'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                         'industri' => $this->ModelsAdmin->getIndustri()->getResult()
                     );
 
@@ -929,7 +975,6 @@ class Admin extends BaseController{
 
                 $data = array(
                     'data' => $this->ModelsAdmin->getPermohonanSiswaPending()->getResult(),
-                    'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                     'industri' => $this->ModelsAdmin->getIndustri()->getResult()
                 );
 
@@ -1043,18 +1088,16 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Data Penempatan', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Data Penempatan', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
-                'data' => $this->ModelsAdmin->FilterPenempatan($_GET['kelas'], $_GET['industri'])->getResult()
+                'data' => $this->ModelsAdmin->FilterPenempatan($_GET['industri'])->getResult()
             );
 
         }else{
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult()
     
             );
@@ -1073,18 +1116,16 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Absensi', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Absensi', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'], $_GET['kelas'])->getResult(),
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult()
             );
 
         }else{
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
             );
     
@@ -1172,18 +1213,16 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Rekap Presensi', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Rekap Presensi', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'], $_GET['kelas'])->getResult(),
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult()
             );
 
         }else{
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
             );
     
@@ -1199,21 +1238,19 @@ class Admin extends BaseController{
 
     public function jurnal(){
 
-        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Jurnal', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Laporan', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Jurnal', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
-                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'], $_GET['kelas'])->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
             );
 
         }else{
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
             );
 
@@ -1232,12 +1269,13 @@ class Admin extends BaseController{
         }else{
 
             $data = array(
-                'status' => $this->input->getPost('status')
+                'status' => $this->input->getPost('status'),
+                'catatan' => $this->input->getPost('catatan')
             );
     
             $this->ModelsAdmin->inputnilaiJurnal($this->input->getPost('id'), $data);
     
-            echo json_encode('Status Jurnal Berhasil Diupdate');
+            echo json_encode('Status Laporan Terupdate');
 
         }
 
@@ -1245,23 +1283,95 @@ class Admin extends BaseController{
 
     //---------------------------------------------------------------------------------------------------------------------------------------
 
-    public function penilaian(){
+    public function jurnalharian(){
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Jurnal Harian', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Jurnal Harian', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Penilaian', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
-        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Penilaian', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
-
-        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
-                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'], $_GET['kelas'])->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
             );
 
         }else{
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+            );
+
+        }
+
+        echo view('admin/jurnalharian/data', $data);
+    }
+
+    public function updatejurnalharian(){
+
+        if(empty($_POST['id_jurnal_harian'])){
+
+            echo json_encode('Checklist minimal 1 data');
+
+        }else{
+
+            foreach($_POST['id_jurnal_harian'] as $x):
+
+                $data = array(
+                    'status' => $this->input->getPost('status')
+                );
+
+                $this->ModelsAdmin->updateJurnalHarian($x, $data);
+            
+            endforeach;
+
+            echo json_encode(count($_POST['id_jurnal_harian']).' Data berhasil di update');
+
+        }
+
+    }
+
+    public function hapusjurnalharian(){
+        $this->ModelsAdmin->hapusJurnalHarian($this->input->getPost('id'), $this->input->getPost('tgl'));
+        echo json_encode('Hapus Data Berhasil');
+    }
+
+    public function rekapjurnalharian(){
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Rekap Jurnal', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Rekap Jurnal', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
+            );
+
+        }else{
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+            );
+
+        }
+
+        echo view('admin/jurnalharian/rekap', $data);
+    }
+
+    //--------------------------------------------------------------
+    public function penilaian(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Penilaian', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Penilaian', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
+            );
+
+        }else{
+
+            $data = array(
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
             );
 
@@ -1754,8 +1864,9 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Data Pembimbing', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
         $data = array(
-            'pembimbing' => $this->ModelsAdmin->getGuru()->getResult()
+            'pembimbing' => $this->ModelsAdmin->getGuru()->getResult(),
         );
+
 
         echo view('admin/laporan/lappembimbing', $data);
 
@@ -1767,12 +1878,20 @@ class Admin extends BaseController{
         view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Lap Data Penempatan', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
         view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Data Penempatan', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
-        if(isset($_GET['kelas']) && isset($_GET['industri'])){
+        if(isset($_GET['industri'])){
 
             $data = array(
-                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
-                'data' => $this->ModelsAdmin->FilterPenempatan($_GET['kelas'], $_GET['industri'])->getResult()
+                'data' => $this->ModelsAdmin->FilterPenempatan($_GET['industri'])->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
+            );
+
+        }else if(isset($_GET['kelas'])){
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'data' => $this->ModelsAdmin->FilterPenempatanByKelas($_GET['kelas'])->getResult(),
+                'kelas' => $this->ModelsAdmin->getKelas()->getResult(),
             );
 
         }else{
@@ -1867,10 +1986,10 @@ class Admin extends BaseController{
 
     }
 
-    public function perindustri(){
+    public function nilaiperindustri(){
 
-        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Penempatan Per Industri', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
-        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Penempatan Per Industri', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Lap Nilai Per Industri', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarAdmin', ['sidebar'=>'Lap Nilai Per Industri', 'permohonan_pending'=>count($this->ModelsAdmin->getPermohonanSiswaPending()->getResultArray())]);
 
         if(isset($_GET['industri'])){
 
@@ -1883,12 +2002,13 @@ class Admin extends BaseController{
 
             $data = array(
                 'industri' => $this->ModelsAdmin->getIndustri()->getResult()
+
             );
     
 
         }
 
-        echo view('admin/laporan/lapperindustri', $data);
+        echo view('admin/laporan/lapnilaiperindustri', $data);
 
     }
 

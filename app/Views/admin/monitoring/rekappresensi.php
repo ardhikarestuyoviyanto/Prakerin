@@ -1,5 +1,36 @@
 <?= $this->extend('admin/v_admin'); ?>
 <?= $this->section('content'); ?>
+<style type="text/css">
+            table{
+                background: #fff;
+            }
+.paging-nav {
+  text-align: right;
+  padding-top: 2px;
+}
+
+.paging-nav a {
+  margin: auto 1px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1px 7px;
+  background: #91b9e6;
+  color: white;
+  border-radius: 3px;
+}
+
+.paging-nav .selected-page {
+  background: #187ed5;
+  font-weight: bold;
+}
+
+.paging-nav,
+#tableData {
+  width: 400px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+</style>
 <?php use App\Models\ModelsAdmin; $modell = new ModelsAdmin();?>
 <div class="content-wrapper">
 <div class="content-header">
@@ -42,22 +73,6 @@
                 </div>
             </div>
 
-            <div class="mb-3 row">
-                <label for="nama_kelas" class="col-sm-2 col-form-label">Nama Kelas</label>
-                <div class="col-sm-10">
-                    <select class="form-control" aria-label="Default select example" required name="kelas">
-                        <option selected value="">- Kelas / Jurusan -</option>
-                        <?php foreach ($kelas as $x): ?>
-                        <?php if($x->id_kelas == @$_GET['kelas']){ ?>
-                        <option value="<?= $x->id_kelas; ?>" selected><?= $x->nama_kelas." / ".$x->nama_jurusan; ?></option>
-                        <?php }else{ ?>
-                        <option value="<?= $x->id_kelas; ?>"><?=  $x->nama_kelas." / ".$x->nama_jurusan;?></option>
-                        <?php } ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-
             <div class="row mb-3">
                 <label for="nama_kelas" class="col-sm-2 col-form-label">Dari Tanggal</label>
                 <div class="col-sm-10">
@@ -78,43 +93,43 @@
         </div>
     </form>
 
-    <?php if(isset($_GET['kelas']) && isset($_GET['industri'])): ?>
+    <?php if(isset($_GET['industri'])): ?>
     <div class="card-body">
         <h6 class="text-bold mt-3 mb-3">Tanggal : <?= date('d M Y', strtotime($_GET['start']))." - ".date('d M Y', strtotime($_GET['finish'])); ?> </h6>
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="DataTable">
             <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col" style="width:90px;">#</th>
+                    <th scope="col" width="10">#</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Siswa</th>
+                    <th scope="col">Kelas</th>
                     <th scope="col" >Hadir</th>
                     <th scope="col">Sakit</th>
                     <th scope="col">Izin</th>
                     <th scope="col">Alfa</th>
                     <th scope="col">Total Rekap</th>
+                    <th scope="col" class="none">Rekap Detail :</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i=1; foreach ($data as $x): ?>
                 <tr>
                     <th scope="row"><?= $i; ?></th>
-                    <td  data-toggle="collapse" id="table1" data-target=".table<?php echo $i; ?>">
-                        <a type="button" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></a>
+                    <td>
                         <a target="__BLANK" href="<?= base_url('export/export_presensipersiswa?id_penempatan='.$x->id_penempatan.'&id_siswa='.$x->id_siswa.'&start='.$_GET['start'].'&finish='.$_GET['finish']) ?>" type="button" class="btn btn-success btn-xs"><i class="fas fa-file-download"></i></a>
                     </td>
                     <td><?= $x->nis; ?></td>
                     <td><?= $x->nama_siswa; ?></td>
+                    <td><?= $modell->getNamaKelas($x->id_kelas); ?></td>
                     <td class="text-bold text-success"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "hadir", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold text-primary"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "sakit", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold text-info"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "izin", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold text-danger"><?= $modell->getAbsensiByIdPenempatan($x->id_penempatan, "alfa", $_GET['start'], $_GET['finish']); ?></td>
                     <td class="text-bold"><?= $modell->getTotalAbsensiByIdPenempatan($x->id_penempatan, $_GET['start'], $_GET['finish']); ?></td>
-                </tr>
-                <tr class="collapse table<?php echo $i; ?>">
-                    <td colspan="999">
-                        <div>
-                        <table class="table table-striped">
+                    <td>
+                    <br>
+                    <table class="table-bordered">
                             <thead>
                             <tr>
                                 <th>No</th>
@@ -155,7 +170,7 @@
                             <?php endforeach; ?>
                             </tbody>
                         </table>
-                        </div>
+
                     </td>
                 </tr>
                 <?php $i++; endforeach; ?>
@@ -164,13 +179,12 @@
     </div>
 
     <div class="card-footer">
-        <form action="<?= base_url('export/export_presensiperkelas'); ?>" method="GET" target="_blank">
+        <form action="<?= base_url('export/export_presensi'); ?>" method="GET" target="_blank">
             <input type="hidden" name="start" value="<?= $_GET['start']; ?>">
             <input type="hidden" name="finish" value="<?= $_GET['finish'] ?>">
             <input type="hidden" name="industri" value="<?= $_GET['industri'] ?>">
-            <input type="hidden" name="kelas" value="<?= $_GET['kelas'];?>">
 
-            <button type="submit" class="btn btn-primary btn-sm">Cetak Rekapitulasi Per Kelas</button>
+            <button type="submit" class="btn btn-primary btn-sm">Cetak Rekapitulasi Diatas</button>
         </form>
     </div>
     <?php endif; ?>
@@ -181,10 +195,12 @@
 </section>
 </div>
 
-
 <script>
 $('document').ready(function(){
 
+    $('#DataTable').DataTable({
+        responsive : true
+    })
 
 });
 </script>

@@ -41,19 +41,6 @@
                     </select>
                 </div>
 
-                <div class="col-3">
-                    <select class="form-control form-control-sm" aria-label="Default select example" required name="kelas">
-                        <option selected value="">- Pilih Kelas -</option>
-                        <?php foreach ($kelas as $x): ?>
-                        <?php if($x->id_kelas == @$_GET['kelas']){ ?>
-                        <option value="<?= $x->id_kelas; ?>" selected><?= $x->nama_kelas." / ".$x->nama_jurusan; ?></option>
-                        <?php }else{ ?>
-                        <option value="<?= $x->id_kelas; ?>"><?=  $x->nama_kelas." / ".$x->nama_jurusan;?></option>
-                        <?php } ?>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
                 <div class="col">
                     <button type="submit" class="btn btn-success btn-sm">Filter</button>
                     <a href="<?= base_url('admin/pendata'); ?>" type="button" class="btn btn-primary btn-sm" style="margin-left:5px;">Reset</a>
@@ -62,13 +49,13 @@
         </form>
     </div>
 
-        <?php if(isset($_GET['industri']) && isset($_GET['kelas'])): ?>
+        <?php if(isset($_GET['industri'])): ?>
         <form id="BatalPenempatan">
             <div class="card-body">
                 <table class="table table-bordered" id="Permohonan">
                     <thead>
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" width="10">No</th>
                             <th scope="col"><input type="checkbox" id="parent"></th>
                             <th scope="col">NIS</th>
                             <th scope="col">Nama Siswa</th>
@@ -90,15 +77,15 @@
                             <td><?= $x->nama_industri; ?></td>
                             <td>
                                 <?php if($x->surat == "kosong"){ ?>
-                                    <span class="badge badge-primary">Manual</span>
+                                    <span class="badge badge-primary" style="padding:5px;">Manual</span>
                                 <?php }else{ ?>
-                                    <span class="badge badge-success">Permohonan</span>
+                                    <span class="badge badge-success" style="padding:5px;">Permohonan</span>
                                 <?php } ?>
                             </td>
                             <td><?= ucfirst($x->status); ?></td>
                             
                             <td>
-                                <a href="<?= base_url('admin/detmohon/'.$x->id_penempatan); ?>"><span class="badge badge-primary">Lihat Detail</span></a>
+                                <a href="<?= base_url('admin/detmohon/'.$x->id_penempatan); ?>"><span class="badge badge-primary" style="padding:5px;">Lihat Detail</span></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

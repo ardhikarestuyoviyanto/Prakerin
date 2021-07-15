@@ -26,7 +26,8 @@ class Guru extends BaseController{
 
         $data = array(
             'data' => $this->ModelsApp->getApp()->getResult(),
-            'siswa' =>  $this->ModelsGuru->getDataSiswa($this->ModelsAdmin->getIdIndustriByidPembimbing($_SESSION['id_pembimbing']))->getResult()
+            'siswa' =>  $this->ModelsGuru->getDataSiswa($this->ModelsAdmin->getIdIndustriByidPembimbing($_SESSION['id_pembimbing']))->getResult(),
+            'status' => $this->ModelsGuru->getStatusGuru($_SESSION['id_pembimbing'])
         );
 
         echo view('guru/home/home', $data);
@@ -162,9 +163,8 @@ class Guru extends BaseController{
         if(isset($_GET['industri'])){
 
             $data = array(
-                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult(),
-                'data' => $this->ModelsGuru->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
-                'id_jurusan' => $this->ModelsGuru->getIdJurusanByPembimbing($_SESSION['id_pembimbing'])
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult()
             );
 
         }else{
@@ -242,6 +242,60 @@ class Guru extends BaseController{
 
     }
 
+    public function chatpembimbing(){
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Chat Pembimbing', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarGuru', ['sidebar'=>'Chat Pembimbing']);
+
+        if(isset($_GET['guru'])){
+
+            $data = array(
+                'kontak' => $this->ModelsGuru->getguruByidIndustri($this->ModelsGuru->getBimbinganGuru($_SESSION['id_pembimbing']), $_SESSION['id_pembimbing'])->getResult(),
+                'nama_guru' => $this->ModelsAdmin->getNamaGuru($_GET['guru']),
+                'id_pembimbing' => $_SESSION['id_pembimbing']
+            );
+
+        }else{
+
+            $data = array(
+                'kontak' => $this->ModelsGuru->getguruByidIndustri($this->ModelsGuru->getBimbinganGuru($_SESSION['id_pembimbing']), $_SESSION['id_pembimbing'])->getResult(),
+                'id_pembimbing' => $_SESSION['id_pembimbing']
+            );
+            
+        }
+
+        echo view('guru/chat/chatpembimbing', $data);
+    }
+
+    public function loadchatguru(){
+        echo json_encode($this->ModelsGuru->getChatGuru($this->input->getPost('id_penerima'), $this->input->getPost('id_pengirim'))->getResult());
+    }
+
+    public function kirimchatguru(){
+        if(file_exists($_FILES['lampiran']['tmp_name'])){
+
+            $lamp = $this->input->getFile('lampiran');
+            $lamp->move('assets/chat');
+            $lampiran = $lamp->getName();
+
+        }else{
+
+            $lampiran = "kosong";
+
+        }
+
+        $data = array(
+            'isi' => $this->input->getPost('isi'),
+            'lampiran' => $lampiran,
+            'id_pengirim' => $this->input->getPost('id_pengirim'),
+            'id_penerima' => $this->input->getPost('id_penerima'),
+            'tgl' => date('Y-m-d H:i:s')
+        );
+
+        $this->ModelsGuru->SimpanChatGuru($data);
+
+        echo json_encode($this->ModelsAdmin->errors());
+    }   
+
     //----------------------------------------------------------------
 
     public function setting(){
@@ -257,6 +311,51 @@ class Guru extends BaseController{
 
     }
 
+    //--------------------------------------------------------------
+
+    public function approvaljurnal(){
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Approval Jurnal Harian', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarGuru', ['sidebar'=>'Jurnal Harian']);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
+            );
+
+        }else{
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+            );
+
+        }
+
+        echo view('guru/jurnalharian/data', $data);
+    }
+
+    public function rekapjurnal(){
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Rekap Jurnal', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarGuru', ['sidebar'=>'Rekap Jurnal Harian']);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
+            );
+
+        }else{
+
+            $data = array(
+                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+            );
+
+        }
+
+        echo view('guru/jurnalharian/rekap', $data);
+    }
 
 }
 ?>
