@@ -963,6 +963,13 @@ class ModelsAdmin extends Model{
         return $build->get();
     }
 
+    public function getjurnalharianByidpenempatan($id_penempatan){
+        $build = $this->db->table('jurnal_harian');
+        $build->select('status');
+        $build->where('id_penempatan', $id_penempatan);
+        return $build->get();
+    }
+
 }
 
 

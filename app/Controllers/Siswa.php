@@ -41,7 +41,7 @@ class Siswa extends BaseController{
     }
 
     public function getJurnalPerSiswa(){
-        echo json_encode($this->ModelsAdmin->getJurnalByIdSiswa($_SESSION['id_siswa'])->getResult());
+        echo json_encode($this->ModelsAdmin->getjurnalharianByidpenempatan($this->ModelsAdmin->getIdPenempatanByidSiswa($_SESSION['id_siswa']))->getResult());
     }
 
     //--------------------------------------------------------------
