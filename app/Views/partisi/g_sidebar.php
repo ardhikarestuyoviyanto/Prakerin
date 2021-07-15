@@ -221,6 +221,19 @@
             </li>
 
             <li class="nav-item active">
+                <?php if($sidebar == "Surat"){ ?>
+                <a href="<?= base_url('guru/surat'); ?>" class="nav-link active">
+                <?php }else{ ?>
+                <a href="<?= base_url('guru/surat'); ?>" class="nav-link">
+                <?php } ?>
+                <i class="nav-icon fas fa-file-signature"></i>
+                    <p>
+                        Surat Pengantar
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item active">
                 <?php if($sidebar == "Setting"){ ?>
                 <a href="<?= base_url('guru/setting'); ?>" class="nav-link active">
                 <?php }else{ ?>

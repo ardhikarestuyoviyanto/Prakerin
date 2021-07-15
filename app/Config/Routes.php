@@ -134,6 +134,7 @@ $routes->group('guru', function($routes){
 
 	$routes->get('approvaljurnal', 'Guru::approvaljurnal', ['filter'=>'IsLogin']);
 	$routes->get('rekapjurnal', 'Guru::rekapjurnal', ['filter'=>'IsLogin']);
+	$routes->get('surat', 'Guru::surat', ['filter'=>'IsLogin']);
 });
 
 $routes->group('/', function($routes){

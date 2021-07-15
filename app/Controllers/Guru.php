@@ -320,14 +320,14 @@ class Guru extends BaseController{
         if(isset($_GET['industri'])){
 
             $data = array(
-                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult(),
                 'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
             );
 
         }else{
 
             $data = array(
-                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult()
             );
 
         }
@@ -342,19 +342,43 @@ class Guru extends BaseController{
         if(isset($_GET['industri'])){
 
             $data = array(
-                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult(),
                 'data' => $this->ModelsAdmin->getPenempatanJoinSiswa($_GET['industri'])->getResult(),
             );
 
         }else{
 
             $data = array(
-                'industri' => $this->ModelsAdmin->getIndustri()->getResult(),
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult(),
             );
 
         }
 
         echo view('guru/jurnalharian/rekap', $data);
+    }
+
+    public function surat(){
+
+        view_cell('App\Libraries\Widgets::getTitle', ['title'=>'Surat', 'appdata'=>$this->ModelsApp->getApp()->getResultArray()]);
+        view_cell('App\Libraries\Widgets::getSidebarGuru', ['sidebar'=>'Surat']);
+
+        if(isset($_GET['industri'])){
+
+            $data = array(
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult(),
+                'data' => $this->ModelsAdmin->getSiswaByIndustri($_GET['industri'])->getResult()
+            );
+
+        }else{
+
+            $data = array(
+                'industri' => $this->ModelsGuru->getIndustriDibimbing($_SESSION['id_pembimbing'])->getResult(),
+            );
+
+        }
+        
+        echo view('guru/surat/cetaksurat', $data);
+
     }
 
 }
